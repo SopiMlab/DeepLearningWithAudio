@@ -82,6 +82,9 @@ def find_purr_data_app():
 
     return None
 
+def check_purr_data(app_path):
+    return os.path.exists(os.path.join(app_path, "Contents", "MacOS", "nwjs"))
+
 def call_with_env(args, env, ok_codes=(0,)):
     env1 = os.environ.copy()
     for k in env:
@@ -110,9 +113,12 @@ if pd == None:
     sys.exit(1)
 
 pd = os.path.realpath(pd)
+is_purr_data = check_purr_data(pd)
 conda_root = os.path.dirname(os.path.dirname(sys.executable))
-    
+
 print("Pd path:", pd)
+variant = "Purr Data" if is_purr_data else "vanilla"
+print("Pd variant:", variant)
 print("Conda root:", conda_root)
 print()
 
@@ -159,7 +165,8 @@ flext_build_cmd = ("bash", os.path.join(flext_dir, "build.sh"), "pd", "gcc")
 flext_build_env = {
     "FLEXT_PD_APP": pd,
     "FLEXT_INSTALL_PATH": package_dir,
-    "FLEXT_PREFIX": flext_prefix
+    "FLEXTPREFIX": flext_prefix,
+    "FLEXT_NOATTREDIT": str(int(is_purr_data))
 }
 flext_build = lambda ok_codes=(0,), args=(): call_with_env(flext_build_cmd + args, flext_build_env, ok_codes)
 
