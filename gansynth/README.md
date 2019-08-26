@@ -40,7 +40,7 @@ Enter the newly created Magenta directory:
 $ cd magenta
 ```
 
-## Install Magenta (Mac)
+## Install Magenta
 
 If your computer has an NVIDIA GPU, you can use `magenta-gpu` instead of `magenta` to significantly speed up computations.
 
@@ -50,10 +50,15 @@ TODO
 
 ### CPU version
 
-Create a Conda environment (named "magenta" here) and activate it:
+Create a Conda environment (named "magenta" here):
 
 ```
 $ conda create -n magenta python=2.7 libopenblas=0.3
+```
+
+Activate the environment:
+
+```
 $ conda activate magenta
 ```
 
