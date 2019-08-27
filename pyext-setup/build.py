@@ -96,7 +96,7 @@ def find_purr_data_app():
 
 def check_purr_data(app_path):
     return os.path.exists(os.path.join(app_path, "Contents", "MacOS", "nwjs"))
-p
+
 def call_with_env(args, env, ok_codes=(0,)):
     env1 = os.environ.copy()
     for k in env:

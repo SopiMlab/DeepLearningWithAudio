@@ -1,5 +1,16 @@
 # GANSynth (Mac)
 
+TODO:
+
+- note that course repo needs to be cloned
+- check shell
+- note that activating an environment should update your prompt
+- other outputs
+- during magenta install, you might see errors about packages (which?)
+- what is all_instruments
+- more help for acoustic_only
+- if you ever reopen terminal, conda activate again!
+
 ## Prerequisites
 
 You should have [Purr Data](https://agraef.github.io/purr-data/) installed. Pd vanilla may work too, but the setup will be slightly different and we have not tested it.
@@ -15,6 +26,14 @@ $ xcode-select --install
 ```
 
 This will pop up a dialog to guide you through the installation.
+
+## Clone the course repository
+
+If you don't already have the course repository on your computer, clone it:
+
+```
+$ git clone https://github.com/SopiMlab/DeepLearningWithAudio2019.git
+```
 
 ## Install Conda
 
@@ -66,6 +85,7 @@ You should now see Magenta in the output of `pip list`:
 
 ```
 $ pip list
+
 Package                            Version
 ---------------------------------- -----------
 ...
@@ -119,6 +139,7 @@ Run the `build.py` script with the `--info` flag to check your environment:
 
 ```
 $ python build.py --info
+
 Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 19 2019, 18:51:18) 
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
 Python executable: /Users/miranda/miniconda3/envs/magenta/bin/python
@@ -131,6 +152,7 @@ If the script fails to find your Pd path, or finds the wrong version, you can sp
 
 ```
 $ python build.py --info --pd /Users/miranda/SomeUnusualPdFolder/Pd-l2ork.app
+
 Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 19 2019, 18:51:18) 
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
 Python executable: /Users/miranda/miniconda3/envs/magenta/bin/python
