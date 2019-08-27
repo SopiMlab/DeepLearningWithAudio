@@ -34,21 +34,15 @@ Clone our Magenta code:
 $ git clone https://github.com/SopiMlab/magenta.git
 ```
 
-Enter the newly created Magenta directory:
+## Install Magenta
+
+There are two variants of Magenta, `magenta` (runs on CPU) and `magenta-gpu` (runs on GPU). We will use the CPU variant, as it has the widest hardware compatibility. In case you have an NVIDIA graphics card, `magenta-gpu` can provide a substantial performance boost, however it is also a bit trickier to set up.
+
+Enter the previously created Magenta directory:
 
 ```
 $ cd magenta
 ```
-
-## Install Magenta
-
-If your computer has an NVIDIA GPU, you can use `magenta-gpu` instead of `magenta` to significantly speed up computations.
-
-### GPU version
-
-TODO
-
-### CPU version
 
 Create a Conda environment (named "magenta" here):
 

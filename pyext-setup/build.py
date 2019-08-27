@@ -11,6 +11,10 @@ import urllib
 import uuid
 import zipfile
 
+if sys.platform != "darwin":
+    print("platform {} is not supported".format(sys.platform))
+    sys.exit(1)
+
 flext_url = "https://github.com/ahihi/flext/archive/master.zip"
 py_url = "https://github.com/ahihi/py/archive/master.zip"
 
@@ -59,6 +63,10 @@ def download_and_unzip(name, url, path, ctx):
 
 def find_pd_app():
     apps_dir = "/Applications"
+
+    if not os.path.exists(apps_dir):
+        return None
+    
     pd_re = re.compile(r"^Pd-(\d+(?:[-.]\d+)*)\.app$")
     ver_delim_re = re.compile(r"[-.]")
         
@@ -74,6 +82,10 @@ def find_pd_app():
 
 def find_purr_data_app():
     apps_dir = "/Applications"
+
+    if not os.path.exists(apps_dir):
+        return None
+
     app_names = ("PurrData.app", "Pd-l2ork.app")
     for app_name in app_names:
         app_path = os.path.join(apps_dir, app_name)
@@ -84,7 +96,7 @@ def find_purr_data_app():
 
 def check_purr_data(app_path):
     return os.path.exists(os.path.join(app_path, "Contents", "MacOS", "nwjs"))
-
+p
 def call_with_env(args, env, ok_codes=(0,)):
     env1 = os.environ.copy()
     for k in env:
@@ -124,10 +136,6 @@ print()
 
 if "--info" in sys.argv:
     sys.exit(0)
-
-if sys.platform != "darwin":
-    print("only mac is supported currently")
-    sys.exit(1)
 
 ssl_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS)
 ssl_ctx.verify_mode = ssl.CERT_REQUIRED
