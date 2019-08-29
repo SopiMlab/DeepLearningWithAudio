@@ -1,19 +1,10 @@
-# GANSynth (Mac)
-
-TODO:
-
-- note that course repo needs to be cloned
-- check shell
-- note that activating an environment should update your prompt
-- other outputs
-- during magenta install, you might see errors about packages (which?)
-- what is all_instruments
-- more help for acoustic_only
-- if you ever reopen terminal, conda activate again!
+# GANSynth setup (macOS)
 
 ## Prerequisites
 
 You should have [Purr Data](https://agraef.github.io/purr-data/) installed. Pd vanilla may work too, but the setup will be slightly different and we have not tested it.
+
+If you've never used the command line before, it may be a good idea to have a look at a [tutorial](https://macpaw.com/how-to/use-terminal-on-mac) first to learn some of the basics.
 
 ## Install Xcode command line tools
 
@@ -29,25 +20,41 @@ This will pop up a dialog to guide you through the installation.
 
 ## Clone the course repository
 
-If you don't already have the course repository on your computer, clone it:
+If you don't already have this repository on your computer, clone it:
 
 ```
 $ git clone https://github.com/SopiMlab/DeepLearningWithAudio2019.git
 ```
 
+This will download the repository into your current working directory, which in a new terminal window is your home directory.
+
 ## Install Conda
 
 Install Miniconda, following the [official instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html).
 
+Note that if you're using a shell other than the default Bash, the Miniconda installer will probably not set up your environment correctly. If you're not sure, you can check your shell with:
+
+```
+$ echo $SHELL
+```
+
+If this reports something other than `/bin/bash`, you can revert to Bash by running
+
+```
+$ chsh -s /bin/bash
+```
+
+and opening a new terminal window.
+
 ## Download Magenta
 
-Enter the root directory of the course repository, for example:
+Enter the root directory of the course repository. For example, if you cloned it into your home directory:
 
 ```
-$ cd ~/Code/DeepLearningWithAudio2019
+$ cd ~/DeepLearningWithAudio2019
 ```
 
-Clone our Magenta code:
+Clone our Magenta repository:
 
 ```
 $ git clone https://github.com/SopiMlab/magenta.git
@@ -69,17 +76,25 @@ Create a Conda environment (named "magenta" here):
 $ conda create -n magenta python=2.7 libopenblas=0.3
 ```
 
+This will ask you for confirmation, create a Python 2.7 environment and install some packages.
+
 Activate the environment:
 
 ```
 $ conda activate magenta
 ```
 
-Install Magenta from the current directory using pip, Python's package manager:
+This should update your command line prompt to say `(magenta)` at the start.
+
+Note that activating the Conda environment only applies to your current terminal window! If you open a  new window, you'll have to run this command again.
+
+Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
 ```
 $ pip install .
 ``` 
+
+During the installation, you may see some errors about packages like `googledatastore` and `apache-beam`. These can be ignored.
 
 You should now see Magenta in the output of `pip list`:
 
@@ -101,7 +116,9 @@ Enter the `gansynth` directory:
 $ cd ../gansynth
 ```
 
-Download Google's pretrained checkpoint:
+Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints. In this example, we will use `all_instruments`, which is trained on all instruments in the NSynth dataset. There is also `acoustic_only`, trained on the acoustic instruments only. Feel free to experiment with both!
+
+To download the `all_instruments` checkpoint, run:
 
 ```
 $ curl -LO https://storage.googleapis.com/magentadata/models/gansynth/all_instruments.zip
@@ -113,8 +130,6 @@ Extract the zip:
 $ unzip all_instruments.zip
 ```
 
-(They also have an [acoustic_only](https://storage.googleapis.com/magentadata/models/gansynth/acoustic_only.zip) checkpoint)
-
 Feel free to remove the zip file at this point.
 
 ## Verify that GANSynth is working
@@ -125,7 +140,7 @@ Generate some random notes:
 $ gansynth_generate --ckpt_dir=all_instruments --output_dir=output
 ```
 
-This should produce a few wav files in the `output` subdirectory.
+This will print a bunch of warnings, but should eventually produce a few wav files in the `output` subdirectory.
 
 ## Build pyext
 
@@ -148,6 +163,8 @@ Pd variant: Purr Data
 Conda root: /Users/miranda/miniconda3/envs/magenta
 ```
 
+The output on your system will differ a bit according to your corresponding paths.
+
 If the script fails to find your Pd path, or finds the wrong version, you can specify it manually with the `--pd` option:
 
 ```
@@ -167,7 +184,7 @@ Now build pyext by running the same command without `--info` (keep the `--pd` op
 $ python build.py
 ```
 
-This creates a binary called `py.pd_darwin` in the `build/py` subdirectory.
+This creates a binary called `py.pd_darwin` in the `build/py` subdirectory. It is normal for some warnings to appear during the build.
 
 ## Install pyext
 
