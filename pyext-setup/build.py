@@ -15,8 +15,8 @@ if sys.platform != "darwin":
     print("platform {} is not supported".format(sys.platform))
     sys.exit(1)
 
-flext_url = "https://github.com/ahihi/flext/archive/master.zip"
-py_url = "https://github.com/ahihi/py/archive/master.zip"
+flext_url = "https://github.com/SopiMlab/flext/archive/master.zip"
+py_url = "https://github.com/SopiMlab/py/archive/master.zip"
 
 root_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -171,6 +171,8 @@ os.chdir(flext_dir)
 
 flext_build_cmd = ("bash", os.path.join(flext_dir, "build.sh"), "pd", "gcc")
 flext_build_env = {
+    #"BUILDMODE": "debug",
+    #"TARGETMODE": "debug",
     "FLEXT_PD_APP": pd,
     "FLEXT_INSTALL_PATH": package_dir,
     "FLEXTPREFIX": flext_prefix,
