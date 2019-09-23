@@ -119,7 +119,7 @@ args = arg_parser.parse_args()
 print("Python version:", sys.version)
 print("Python executable:", sys.executable)
 
-pd = args.pd or find_purr_data_app() or find_pd_app()
+pd = args.pd or find_pd_app()
 if pd == None:
     print("Pd not found, please specify --pd /path/to/Pd.app")
     sys.exit(1)
