@@ -1,28 +1,28 @@
-#N canvas 719 22 720 392 10;
-#X obj 365 8 cnv 15 176 72 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 720 22 720 415 10;
+#X obj 363 6 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 186 8 cnv 15 176 72 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 184 6 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 7 8 cnv 15 176 72 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 5 6 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X array \$0-sound 64000 float 0 black black;
+#X array \$0-sound 64000 float 0;
 #X coords 0 1 63999 -1 200 140 1;
-#X restore 209 266 graph;
-#X obj 162 144 pyext pd_magenta gansynth @detach 1;
-#X msg 9 61 load all_instruments;
-#X obj 9 42 loadbang;
-#X obj 423 361 dac~;
-#X obj 423 304 vline~;
-#X msg 423 285 1 \, 63998 4000;
-#X obj 423 323 tabread4~ \$0-sound;
+#X restore 207 264 graph;
+#X obj 156 155 pyext pd_magenta gansynth @detach 1;
+#X msg 7 78 load all_instruments;
+#X obj 7 59 loadbang;
+#X obj 421 359 dac~;
+#X obj 421 302 vline~;
+#X msg 421 283 1 \, 63998 4000;
+#X obj 421 321 tabread4~ \$0-sound;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X array \$0-z 256 float 2 black black;
+#X array \$0-z 256 float 2;
 #X coords 0 5 256 -5 200 140 1;
-#X restore 6 266 graph;
-#X text 9 10 1 - load GANSynth model from a saved checkpoint, f 28
+#X restore 4 264 graph;
+#X text 7 8 1 - load GANSynth model from a saved checkpoint, f 28
 ;
-#X text 367 10 3 - synthesize from the vector and a given pitch, f
+#X text 365 8 3 - synthesize from the vector and a given pitch, f
 28;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
@@ -30,28 +30,38 @@
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 224 115 pd print_input;
-#X obj 423 266 bng 15 250 50 0 empty empty play 17 7 0 10 -262144 -1
+#X restore 211 135 pd print_input;
+#X obj 421 264 bng 15 250 50 0 empty empty play 17 7 0 10 -262144 -1
 -1;
-#X msg 188 61 randomize_z \$0-z;
-#X text 188 10 2 - generate a random latent vector for timbre, f 28
+#X text 186 8 2 - generate a random latent vector for timbre, f 28
 ;
-#X obj 162 184 print gansynth output;
-#X msg 367 61 synthesize \$0-z \$0-sound 52;
-#X obj 311 184 select synthesized;
-#X obj 423 342 *~ 0.5;
-#X connect 4 0 20 0;
+#X obj 156 201 print gansynth output;
+#X obj 305 201 select synthesized;
+#X obj 421 340 *~ 0.5;
+#X obj 186 43 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 186 60 f \$0;
+#X msg 186 78 randomize_z \$1-z;
+#X obj 365 43 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 365 60 f \$0;
+#X msg 365 78 synthesize \$1-z \$1-sound 52;
 #X connect 4 0 18 0;
+#X connect 4 0 17 0;
 #X connect 5 0 14 0;
 #X connect 6 0 5 0;
 #X connect 8 0 10 0;
 #X connect 9 0 8 0;
-#X connect 10 0 21 0;
+#X connect 10 0 19 0;
 #X connect 14 0 4 1;
 #X connect 15 0 9 0;
-#X connect 16 0 14 0;
-#X connect 19 0 14 0;
-#X connect 20 0 15 0;
-#X connect 21 0 7 0;
-#X connect 21 0 7 1;
-#X coords 0 392 1 391 0 0 0;
+#X connect 18 0 15 0;
+#X connect 19 0 7 0;
+#X connect 19 0 7 1;
+#X connect 20 0 21 0;
+#X connect 21 0 22 0;
+#X connect 22 0 14 0;
+#X connect 23 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 14 0;
+#X coords 0 415 1 414 0 0 0;
