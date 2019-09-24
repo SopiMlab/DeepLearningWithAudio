@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-You should have [Purr Data](https://agraef.github.io/purr-data/) installed. Pd vanilla may work too, but the setup will be slightly different and we have not tested it.
+You should have [Pure Data](https://puredata.info/) installed. We've found Purr Data to be unreliable for this setup, so Pd Vanilla is preferred.
 
 If you've never used the command line before, it may be a good idea to have a look at a [tutorial](https://macpaw.com/how-to/use-terminal-on-mac) first to learn some of the basics.
 
@@ -104,7 +104,7 @@ $ pip list
 Package                            Version
 ---------------------------------- -----------
 ...
-magenta                            1.1.2
+magenta                            1.1.5
 ...
 ```
 
@@ -155,12 +155,12 @@ Run the `build.py` script with the `--info` flag to check your environment:
 ```
 $ python build.py --info
 
-Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 19 2019, 18:51:18) 
+Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
-Python executable: /Users/miranda/miniconda3/envs/magenta/bin/python
-Pd path: /Applications/Pd-l2ork.app
-Pd variant: Purr Data
-Conda root: /Users/miranda/miniconda3/envs/magenta
+Python executable: /usr/local/miniconda3/envs/magenta/bin/python
+Pd path: /Applications/Pd-0.50-0.app
+Pd variant: vanilla
+Conda root: /usr/local/miniconda3/envs/magenta
 ```
 
 The output on your system will differ a bit according to your corresponding paths.
@@ -168,14 +168,14 @@ The output on your system will differ a bit according to your corresponding path
 If the script fails to find your Pd path, or finds the wrong version, you can specify it manually with the `--pd` option:
 
 ```
-$ python build.py --info --pd /Users/miranda/SomeUnusualPdFolder/Pd-l2ork.app
+$ python build.py --info --pd /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
 
-Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 19 2019, 18:51:18) 
+Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
-Python executable: /Users/miranda/miniconda3/envs/magenta/bin/python
-Pd path: /Users/miranda/SomeUnusualPdFolder/Pd-l2ork.app
-Pd variant: Purr Data
-Conda root: /Users/miranda/miniconda3/envs/magenta
+Python executable: /usr/local/miniconda3/envs/magenta/bin/python
+Pd path: /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
+Pd variant: vanilla
+Conda root: /usr/local/miniconda3/envs/magenta
 ```
 
 Now build pyext by running the same command without `--info` (keep the `--pd` option if you needed to add it before):
@@ -188,10 +188,10 @@ This creates a binary called `py.pd_darwin` in the `build/py` subdirectory. It i
 
 ## Install pyext
 
-Create a directory in your Library for Purr Data externals:
+Create a directory in your Documents for Pd externals:
 
 ```
-$ mkdir -p ~/Library/Pd-l2ork
+$ mkdir -p ~/Documents/Pd/externals
 ```
 
 (In case the directory already exists, this command will do nothing, so it's safe to run either way.)
@@ -199,14 +199,18 @@ $ mkdir -p ~/Library/Pd-l2ork
 Move `py.pd_darwin` into the newly created directory:
 
 ```
-$ mv build/py/py.pd_darwin ~/Library/Pd-l2ork/
+$ mv build/py/py.pd_darwin ~/Documents/Pd/externals/
 ```
 
-Start Purr Data. Go to Edit → Preferences → Startup and add `py` to the libraries list:
+Start Pure Data. Go to Pd menu → Preferences → Path and make sure your externals directory is in the search path:
 
-![uhh](README-media/purr_data_add_py.png)
+![Pd Path window](media/pd_path.png)
 
-Save the preferences by clicking Ok and restart Purr Data. There should be a message about pyext in the main window, e.g.:
+Then go to Pd menu → Preferences → Startup and add `py` to the libraries list:
+
+![Pd Startup window](media/pd_startup.png)
+
+Click OK, save your preferences (Pd menu → Preferences → Save All Preferences) and restart Pure Data. There should now be a message about pyext in the main window, e.g.:
 
 ```
 ------------------------------------------------
@@ -222,4 +226,4 @@ Python array support enabled
 
 Congratulations, you've got it working!
 
-You should now be able to open `gansynth.pd` in Purr Data. It will take a moment to load, during which the program may appear to be idle.
+You should now be able to open `gansynth.pd` in Pure Data. It will take a moment to load, during which the program may appear to be idle.
