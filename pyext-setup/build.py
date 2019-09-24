@@ -128,6 +128,10 @@ pd = os.path.realpath(pd)
 is_purr_data = check_purr_data(pd)
 conda_root = os.path.dirname(os.path.dirname(sys.executable))
 
+if not os.path.isdir(os.path.join(conda_root, "conda-meta")):
+    print("A Conda environment does not seem to be active. Did you forget to run `conda activate`?")
+    sys.exit(1)
+
 print("Pd path:", pd)
 variant = "Purr Data" if is_purr_data else "vanilla"
 print("Pd variant:", variant)
