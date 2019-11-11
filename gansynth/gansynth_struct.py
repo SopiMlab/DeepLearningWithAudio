@@ -9,6 +9,7 @@ Z_SIZE = 256
 
 tag_struct = struct.Struct("i")
 z_struct = struct.Struct(Z_SIZE*"d")
+count_struct = struct.Struct("i")
 gen_audio_struct = struct.Struct("i" + (Z_SIZE*"d"))
 audio_size_struct = struct.Struct("i")
 
@@ -26,6 +27,8 @@ def simple_conv(msg_struct):
     return to_msg, from_msg
 
 to_tag_msg, from_tag_msg = simple_conv(tag_struct)
+
+to_count_msg, from_count_msg = simple_conv(count_struct)
 
 def to_gen_msg(pitch, z):
     return gen_audio_struct.pack(pitch, *z)

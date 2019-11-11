@@ -226,4 +226,4 @@ Python array support enabled
 
 Congratulations, you've got it working!
 
-You should now be able to open `gansynth.pd` in Pure Data. It will take a moment to load, during which the program may appear to be idle.
+You should now be able to open `gansynth.pd` and `gansynth_multi.pd` in Pure Data.
