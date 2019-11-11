@@ -30,7 +30,7 @@ except:
         def _outlet(self, *args):
             print("_outlet{}".format(args))
 
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
+script_dir = os.path.dirname(os.path.realpath(__file__))
 
 test_notes = [(0.5, 32, 100), (0.6, 33, 50), (0.7, 33, 0), (0.8, 32, 0)]
 
@@ -87,25 +87,61 @@ class melody_rnn(ext_class):
         self.play_thread = threading.Thread(target = self._keep_playing)
         self.play_thread.start()
 
+    def _make_play_note(self, pitch, vel, is_last):
+        def _play_note():
+            self._outlet(1, "note", pitch, vel)
+            if is_last:
+                self._outlet(1, "played")
+
+        return _play_note
+        
     def _keep_playing(self):
+        pending_timer = None
         while True:
+            # wait for any previous sequence to finish
+
+            if pending_timer:
+                pending_timer.join(timeout = 1.0)
+
+                if self._shouldexit:
+                    return
+
+                if pending_timer.is_alive():
+                    continue
+                else:
+                    pending_timer = None
+
+            # get notes from queue
+            
             try:
                 notes = self.queue.get(timeout = 1.0)
             except Queue.Empty:
                 notes = None
 
             if self._shouldexit:
-                break
+                return
 
-            if not notes:
+            if notes == None:
+                # queue was empty
                 continue
 
-            print(notes)
+            if not notes:
+                # got empty notes list
+                self._outlet(1, "played")
+                continue
             
+            # schedule note timers
+            
+            last_i = len(notes) - 1
             timers = []
-            for t, pitch, vel in notes:
-                play_note = (lambda p, v: lambda: self._outlet(1, "note", p, v))(pitch, vel)
-                timers.append(threading.Timer(t, play_note))
+            for i, (t, pitch, vel) in enumerate(notes):
+                is_last = i == last_i
+                play_note = self._make_play_note(pitch, vel, is_last)
+                timer = threading.Timer(t, play_note)
+                timers.append(timer)
+
+                if is_last:
+                    pending_timer = timer
 
             for timer in timers:
                 timer.start()                
@@ -113,14 +149,15 @@ class melody_rnn(ext_class):
     def load_1(self, bundle_name):
         bundle_name = str(bundle_name)
         config = magenta.models.melody_rnn.melody_rnn_model.default_configs[bundle_name]
-        bundle_file = magenta.music.read_bundle_file(os.path.abspath(bundle_name+'.mag'))
+        bundle_file = magenta.music.read_bundle_file(os.path.join(script_dir, bundle_name+'.mag'))
         steps_per_quarter = 4
 
         self.generator = melody_rnn_sequence_generator.MelodyRnnSequenceGenerator(
-            model=melody_rnn_model.MelodyRnnModel(config),
-            details=config.details,
-            steps_per_quarter=steps_per_quarter,
-            bundle=bundle_file)
+            model = melody_rnn_model.MelodyRnnModel(config),
+            details = config.details,
+            steps_per_quarter = steps_per_quarter,
+            bundle = bundle_file
+        )
 
         self._outlet(1, "loaded")
 
@@ -139,23 +176,54 @@ class melody_rnn(ext_class):
         print("notes =", self.notes)
         print("t0 =", self.t0)
         
-    def generate_1(self):
-        #import pdb; pdb.set_trace()
+    def generate_1(self, duration):        
+        # prepare the note sequence
+        
         midi = notes_to_midi(self.notes, self.t0)
         primer_seq = magenta.music.midi_io.midi_to_note_sequence(midi)
+
+        # predict the tempo
+
+        if len(primer_seq.notes) > 4:
+            estimated_tempo = midi.estimate_tempo()
+            if estimated_tempo > 240:
+                qpm = estimated_tempo / 2
+            else:
+                qpm = estimated_tempo
+        else:
+            qpm = 120
         
-        qpm = 120
         primer_seq.tempos[0].qpm = qpm
+
+        # generate
         
         gen_options = generator_pb2.GeneratorOptions()
         last_end_time = max(n.end_time for n in primer_seq.notes) if primer_seq.notes else 0
-        total_seconds = 10
-        gen_options.generate_sections.add(start_time=last_end_time + steps_to_seconds(1, qpm), end_time = total_seconds)
+        gen_start_time = last_end_time + steps_to_seconds(1, qpm)
+        gen_end_time = gen_start_time + duration
+        gen_options.generate_sections.add(start_time = gen_start_time, end_time = gen_end_time)
 
         gen_seq = self.generator.generate(primer_seq, gen_options)
         gen_midi = magenta.music.midi_io.note_sequence_to_pretty_midi(gen_seq)
+
+        # the primer sequence is included in the generated data, so strip it
+
+        new_notes = []
+        for note in gen_midi.instruments[0].notes:
+            if note.start >= gen_start_time:
+                new_note = pretty_midi.Note(
+                    note.velocity,
+                    note.pitch,
+                    note.start - gen_start_time,
+                    note.end - gen_start_time
+                )
+                new_notes.append(new_note)
+
+        gen_midi.instruments[0].notes = new_notes
         gen_notes = midi_to_notes(gen_midi)
 
+        # add the new notes to the play queue
+        
         self.queue.put(gen_notes)
         
     def _anything_1(self, *args):

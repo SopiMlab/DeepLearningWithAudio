@@ -1,45 +1,62 @@
-#N canvas 720 22 528 317 10;
-#X obj 9 -360 cnv 15 176 72 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 720 22 720 415 10;
+#X obj 2 7 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 11 -326 loadbang;
+#X obj 28 70 loadbang;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 226 -253 pd print_input;
-#X msg 11 -307 load attention_rnn;
-#X obj 164 -224 pyext ai_duet melody_rnn @detach 1;
-#X text 11 -358 1 - load a Melody RNN model when patch is opened,
-f 28;
-#X obj 217 -312 pack f f;
-#X obj 269 -345 notein 1;
-#X msg 316 -311 note \$1 \$2;
-#X obj 167 -174 print melody_rnn output;
-#X msg 424 -306 generate;
-#X msg 424 -270 state;
-#X obj 340 -122 noteout 1;
-#X msg 424 -288 clear;
-#X obj 341 -193 route list;
-#X obj 341 -175 route note;
-#X obj 341 -157 unpack f f;
+#X restore 199 179 pd print_input;
+#X msg 28 89 load attention_rnn;
+#X obj 135 203 pyext ai_duet melody_rnn @detach 1;
+#X obj 135 262 print melody_rnn output;
+#X msg 75 155 state;
+#X obj 315 296 noteout 1;
+#X obj 212 227 route list;
+#X obj 315 260 route note;
+#X obj 315 278 unpack f f;
+#X obj 181 7 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 227 66 pack f f;
+#X obj 227 48 notein 1;
+#X msg 227 84 note \$1 \$2;
+#X obj 360 7 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X msg 408 37 generate 20;
+#X msg 424 111 clear;
+#X text 4 9 1 - load a Melody RNN model from disk, f 28;
+#X text 362 9 3 - generate 20 seconds of new notes, f 28;
+#X text 362 69 melody_rnn remembers all previous note input \, but
+can be cleared, f 28;
+#X obj 236 109 s \$0-input;
+#X text 183 9 2 - send note input to melody_rnn, f 28;
+#X obj 360 151 cnv 15 176 100 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X obj 412 217 spigot;
+#X obj 455 195 tgl 15 0 empty empty passthru 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 384 195 r \$0-input;
+#X text 362 153 pass thru input notes to the output, f 28;
 #X connect 1 0 3 0;
 #X connect 2 0 4 1;
 #X connect 3 0 2 0;
-#X connect 4 0 9 0;
-#X connect 4 0 14 0;
-#X connect 6 0 8 0;
-#X connect 7 0 6 0;
-#X connect 7 0 12 0;
-#X connect 7 1 6 1;
-#X connect 7 1 12 1;
-#X connect 8 0 2 0;
-#X connect 10 0 2 0;
-#X connect 11 0 2 0;
-#X connect 13 0 2 0;
-#X connect 14 0 15 0;
-#X connect 15 0 16 0;
-#X connect 16 0 12 0;
-#X connect 16 1 12 1;
-#X coords 0 317 1 316 0 0 0;
+#X connect 4 0 5 0;
+#X connect 4 0 8 0;
+#X connect 6 0 2 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 7 0;
+#X connect 10 1 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 12 0;
+#X connect 13 1 12 1;
+#X connect 14 0 2 0;
+#X connect 14 0 21 0;
+#X connect 16 0 2 0;
+#X connect 17 0 2 0;
+#X connect 24 0 9 0;
+#X connect 25 0 24 1;
+#X connect 26 0 24 0;
+#X coords 0 415 1 414 0 0 0;
