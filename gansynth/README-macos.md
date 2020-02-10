@@ -23,7 +23,7 @@ This will pop up a dialog to guide you through the installation.
 If you don't already have this repository on your computer, clone it:
 
 ```
-$ git clone https://github.com/SopiMlab/DeepLearningWithAudio2019.git
+$ git clone https://github.com/SopiMlab/DeepLearningWithAudio2019.git
 ```
 
 This will download the repository into your current working directory, which in a new terminal window is your home directory.
@@ -43,7 +43,7 @@ $ cd ~/DeepLearningWithAudio2019
 Clone our Magenta repository:
 
 ```
-$ git clone https://github.com/SopiMlab/magenta.git
+$ git clone https://github.com/SopiMlab/magenta.git
 ```
 
 ## Install Magenta
@@ -67,7 +67,7 @@ This will ask you for confirmation, create a Python 2.7 environment and install 
 Activate the environment:
 
 ```
-$ conda activate magenta
+$ conda activate magenta
 ```
 
 This should update your command line prompt to say `(magenta)` at the start.
