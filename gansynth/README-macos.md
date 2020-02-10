@@ -23,7 +23,7 @@ This will pop up a dialog to guide you through the installation.
 If you don't already have this repository on your computer, clone it:
 
 ```
-$ git clone https://github.com/SopiMlab/DeepLearningWithAudio2019.git
+$ git clone https://github.com/SopiMlab/DeepLearningWithAudio.git
 ```
 
 This will download the repository into your current working directory, which in a new terminal window is your home directory.
@@ -37,7 +37,7 @@ Install Miniconda, following the [official instructions](https://conda.io/projec
 Enter the root directory of the course repository. For example, if you cloned it into your home directory:
 
 ```
-$ cd ~/DeepLearningWithAudio2019
+$ cd ~/DeepLearningWithAudio
 ```
 
 Clone our Magenta repository:
