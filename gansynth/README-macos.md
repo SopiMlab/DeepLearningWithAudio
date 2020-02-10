@@ -32,20 +32,6 @@ This will download the repository into your current working directory, which in 
 
 Install Miniconda, following the [official instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html).
 
-Note that if you're using a shell other than the default Bash, the Miniconda installer will probably not set up your environment correctly. If you're not sure, you can check your shell with:
-
-```
-$ echo $SHELL
-```
-
-If this reports something other than `/bin/bash`, you can revert to Bash by running
-
-```
-$ chsh -s /bin/bash
-```
-
-and opening a new terminal window.
-
 ## Download Magenta
 
 Enter the root directory of the course repository. For example, if you cloned it into your home directory:
