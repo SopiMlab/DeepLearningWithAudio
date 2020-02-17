@@ -30,7 +30,7 @@ This will download the repository into your current working directory, which in 
 
 ## Install Conda
 
-Install Miniconda, following the [official instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html).
+Install Miniconda, following the [official instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
 
 ## Download Magenta
 
@@ -90,7 +90,7 @@ $ pip list
 Package                            Version
 ---------------------------------- -----------
 ...
-magenta                            1.1.5
+magenta                            1.2.2
 ...
 ```
 
