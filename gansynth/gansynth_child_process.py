@@ -1,0 +1,42 @@
+from __future__ import print_function
+
+import os
+import random
+import struct
+import sys
+
+import numpy as np
+
+from magenta.models.gansynth.lib import flags as lib_flags
+from magenta.models.gansynth.lib import generate_util as gu
+from magenta.models.gansynth.lib import model as lib_model
+from magenta.models.gansynth.lib import util
+import tensorflow as tf
+
+import lib.communication_struct as gss
+from lib.handlers import handlers
+from lib.utils import read_msg
+
+try:
+    ckpt_dir = sys.argv[1]
+    batch_size = int(sys.argv[2])
+except IndexError:
+    print("usage: {} checkpoint_dir batch_size".format(os.path.basename(__file__)))
+    sys.exit(1)
+
+flags = lib_flags.Flags({"batch_size_schedule": [batch_size]})
+model = lib_model.Model.load_from_path(ckpt_dir, flags)
+
+stdin = os.fdopen(sys.stdin.fileno(), "rb", 0)
+stdout = os.fdopen(sys.stdout.fileno(), "wb", 0)
+stdout.write(gss.to_tag_msg(gss.OUT_TAG_INIT))
+
+
+while True:
+    in_tag_msg = read_msg(stdin, gss.tag_struct.size)
+    in_tag = gss.from_tag_msg(in_tag_msg)
+    
+    if in_tag not in handlers:
+        raise ValueError("unknown input message tag: {}".format(in_tag))
+
+    handlers[in_tag](model, stdin, stdout)
