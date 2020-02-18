@@ -13,7 +13,7 @@ Apple's Xcode command line developer tools are required for setup. If you have t
 To install the command line tools, open Terminal and run:
 
 ```
-$ xcode-select --install
+xcode-select --install
 ```
 
 This will pop up a dialog to guide you through the installation.
@@ -23,7 +23,7 @@ This will pop up a dialog to guide you through the installation.
 If you don't already have this repository on your computer, clone it:
 
 ```
-$ git clone https://github.com/SopiMlab/DeepLearningWithAudio.git
+git clone https://github.com/SopiMlab/DeepLearningWithAudio.git
 ```
 
 This will download the repository into your current working directory, which in a new terminal window is your home directory.
@@ -37,29 +37,29 @@ Install Miniconda, following the [official instructions](https://conda.io/projec
 Enter the root directory of the course repository. For example, if you cloned it into your home directory:
 
 ```
-$ cd ~/DeepLearningWithAudio
+cd ~/DeepLearningWithAudio
 ```
 
 Clone our Magenta repository:
 
 ```
-$ git clone https://github.com/SopiMlab/magenta.git
+git clone https://github.com/SopiMlab/magenta.git
 ```
 
 ## Install Magenta
 
-There are two variants of Magenta, `magenta` (runs on CPU) and `magenta-gpu` (runs on GPU). We will use the CPU variant, as it has the widest hardware compatibility. In case you have an NVIDIA graphics card, `magenta-gpu` can provide a substantial performance boost, however it is also a bit trickier to set up.
+Magenta can run either on CPU (widest hardware compatibility) or GPU (much better performance), but on macOS only the CPU variant is supported. This makes setup much simpler, but it does mean performance is limited even if you happen to have an NVIDIA graphics card available.
 
 Enter the previously created Magenta directory:
 
 ```
-$ cd magenta
+cd magenta
 ```
 
 Create a Conda environment (named "magenta" here):
 
 ```
-$ conda create -n magenta python=2.7 libopenblas=0.3
+conda create -n magenta python=2.7 libopenblas=0.3
 ```
 
 This will ask you for confirmation, create a Python 2.7 environment and install some packages.
@@ -67,7 +67,7 @@ This will ask you for confirmation, create a Python 2.7 environment and install 
 Activate the environment:
 
 ```
-$ conda activate magenta
+conda activate magenta
 ```
 
 This should update your command line prompt to say `(magenta)` at the start.
@@ -77,7 +77,7 @@ Note that activating the Conda environment only applies to your current terminal
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
 ```
-$ pip install .
+pip install .
 ``` 
 
 During the installation, you may see some errors about packages like `googledatastore` and `apache-beam`. These can be ignored.
@@ -85,8 +85,12 @@ During the installation, you may see some errors about packages like `googledata
 You should now see Magenta in the output of `pip list`:
 
 ```
-$ pip list
+pip list
+```
 
+Output:
+
+```
 Package                            Version
 ---------------------------------- -----------
 ...
@@ -99,7 +103,7 @@ magenta                            1.2.2
 Enter the `gansynth` directory:
 
 ```
-$ cd ../gansynth
+cd ../gansynth
 ```
 
 Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints. In this example, we will use `all_instruments`, which is trained on all instruments in the NSynth dataset. There is also `acoustic_only`, trained on the acoustic instruments only. Feel free to experiment with both!
@@ -107,13 +111,13 @@ Google provides two [pre-trained neural networks](https://github.com/tensorflow/
 To download the `all_instruments` checkpoint, run:
 
 ```
-$ curl -LO https://storage.googleapis.com/magentadata/models/gansynth/all_instruments.zip
+curl -LO https://storage.googleapis.com/magentadata/models/gansynth/all_instruments.zip
 ```
 
 Extract the zip:
 
 ```
-$ unzip all_instruments.zip
+unzip all_instruments.zip
 ```
 
 Feel free to remove the zip file at this point.
@@ -123,7 +127,7 @@ Feel free to remove the zip file at this point.
 Generate some random notes:
 
 ```
-$ gansynth_generate --ckpt_dir=all_instruments --output_dir=output
+gansynth_generate --ckpt_dir=all_instruments --output_dir=output
 ```
 
 This will print a bunch of warnings, but should eventually produce a few wav files in the `output` subdirectory.
@@ -133,14 +137,18 @@ This will print a bunch of warnings, but should eventually produce a few wav fil
 Enter the `pyext-setup` directory:
 
 ```
-$ cd ../pyext-setup
+cd ../pyext-setup
 ```
 
 Run the `build.py` script with the `--info` flag to check your environment:
 
 ```
-$ python build.py --info
+python build.py --info
+```
 
+Output:
+
+```
 Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
 Python executable: /usr/local/miniconda3/envs/magenta/bin/python
@@ -154,8 +162,12 @@ The output on your system will differ a bit according to your corresponding path
 If the script fails to find your Pd path, or finds the wrong version, you can specify it manually with the `--pd` option:
 
 ```
-$ python build.py --info --pd /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
+python build.py --info --pd /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
+```
 
+Output:
+
+```
 Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
 Python executable: /usr/local/miniconda3/envs/magenta/bin/python
@@ -167,7 +179,7 @@ Conda root: /usr/local/miniconda3/envs/magenta
 Now build pyext by running the same command without `--info` (keep the `--pd` option if you needed to add it before):
 
 ```
-$ python build.py
+python build.py
 ```
 
 This creates a binary called `py.pd_darwin` in the `build/py` subdirectory. It is normal for some warnings to appear during the build.
@@ -177,7 +189,7 @@ This creates a binary called `py.pd_darwin` in the `build/py` subdirectory. It i
 Create a directory in your Documents for Pd externals:
 
 ```
-$ mkdir -p ~/Documents/Pd/externals
+mkdir -p ~/Documents/Pd/externals
 ```
 
 (In case the directory already exists, this command will do nothing, so it's safe to run either way.)
@@ -185,7 +197,7 @@ $ mkdir -p ~/Documents/Pd/externals
 Move `py.pd_darwin` into the newly created directory:
 
 ```
-$ mv build/py/py.pd_darwin ~/Documents/Pd/externals/
+mv build/py/py.pd_darwin ~/Documents/Pd/externals/
 ```
 
 Start Pure Data. Go to Pd menu → Preferences → Path and make sure your externals directory is in the search path:

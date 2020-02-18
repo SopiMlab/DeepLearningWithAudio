@@ -1,0 +1,34 @@
+#!/bin/bash
+#SBATCH --time=5-00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --gres=gpu:v100:1
+
+if [ "$#" -ne 4 ]; then
+    echo 'usage: train.slrm CONDA_ENV TRAIN_DATA_PATH TRAIN_META_PATH TRAIN_ROOT_DIR' 1>&2
+    exit 1
+fi
+
+CONDA_ENV=$1
+TRAIN_DATA_PATH=$2
+TRAIN_META_PATH=$3
+TRAIN_ROOT_DIR=$4
+
+if [ -m "$SLURM_SUBMIT_DIR" ]; then
+    cd "$SLURM_SUBMIT_DIR"
+fi
+
+echo "working directory: $(pwd)" 1>&2
+echo "conda environment: $CONDA_ENV" 1>&2
+echo "train_data_path: $TRAIN_DATA_PATH" 1>&2
+echo "train_meta_path: $TRAIN_META_PATH" 1>&2
+echo "train_root_dir: $TRAIN_ROOT_DIR" 1>&2
+echo 1>&2
+
+module load anaconda2/5.1.0-gpu
+module load cuda/10.0.130
+source activate "$CONDA_ENV"
+
+srun gansynth_train \
+     --config=mel_prog_hires \
+     --hparams='{"train_data_path":"'"$TRAIN_DATA_PATH"'", "train_meta_path":"'"$TRAIN_META_PATH"'", "train_root_dir":"'"$TRAIN_ROOT_DIR"'"}'

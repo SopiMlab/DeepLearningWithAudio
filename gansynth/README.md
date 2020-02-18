@@ -1,5 +1,8 @@
 # GANSynth: adversarial neural audio synthesis
 
+- [Setup instructions (macOS)](README-macos.md)
+- [Training](training)
+
 GANSynth is an audio synthesis algorithm based on generative adversarial networks (GANs), introduced by Magenta in January 2019. Like the earlier NSynth algorithm, GANSynth is designed for generating musical notes at specified pitches, but GANSynth achieves better audio quality and also synthesizes thousands of times faster. The vastly improved speed makes the algorithm suitable for interactive purposes, potentially even near-real-time applications!
 
 TODO: what is autoregressive, what does it do with sound, black box
