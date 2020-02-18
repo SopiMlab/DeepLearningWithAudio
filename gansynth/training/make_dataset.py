@@ -59,7 +59,7 @@ for fn in os.listdir(in_dir):
     
     if instrument not in instruments:
         instruments[instrument] = {
-            "source": 2,
+            "source": 0,
             "samples": [],
             # GANSynth doesn't actually use qualities or family, so just put in
             # some mock values

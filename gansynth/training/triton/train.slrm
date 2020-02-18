@@ -14,7 +14,7 @@ TRAIN_DATA_PATH=$2
 TRAIN_META_PATH=$3
 TRAIN_ROOT_DIR=$4
 
-if [ -m "$SLURM_SUBMIT_DIR" ]; then
+if [ -n "$SLURM_SUBMIT_DIR" ]; then
     cd "$SLURM_SUBMIT_DIR"
 fi
 
