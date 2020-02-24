@@ -79,11 +79,53 @@ for stage_dir in stage_dirs:
         break
 
 if not latest_stage_dir:
-    log("no stage contains a {} file".format(ckpt_fn))
+    log("no stage found with a {} file".format(ckpt_fn))
     sys.exit(1)
 
 log("latest stage with checkpoint: {}".format(latest_stage_dir))
 
+# find the latest training iteration
+
+# build a dict mapping iteration numbers to their data, index and meta files
+training_iterations = {}
+for fn in os.listdir(latest_stage_dir):
+    m = re.match(r"^model\.ckpt-(\d+)\.(.+)$", fn)
+    if not m:
+        continue
+
+    iteration = m.group(1)
+    ext = m.group(2)
+
+    if iteration not in training_iterations:
+        training_iterations[iteration] = {
+            "data": None,
+            "index": None,
+            "meta": None
+        }
+
+    filemap = training_iterations[iteration]
+        
+    if ext.startswith("data-"):
+        filemap["data"] = fn
+    elif ext == "index":
+        filemap["index"] = fn
+    elif ext == "meta":
+        filemap["meta"] = fn
+
+# find the latest iteration that has all three required files
+latest_iteration = None
+for iteration in sorted(training_iterations.keys(), reverse=True):
+    filemap = training_iterations[iteration]
+    if filemap["data"] != None and filemap["index"] != None and filemap["meta"] != None:
+        latest_iteration = iteration
+        break
+
+if not latest_iteration:
+    log("no iteration found with data, index and meta files")
+    sys.exit(1)
+
+log("latest iteration with data, index and meta files: {}".format(latest_iteration))
+    
 # collect postprocessing operations
 
 def delete_op(path):
@@ -107,18 +149,19 @@ def copy_op(src_path, dst_path):
         _run
     )
 
-def set_meta_path_op(train_meta_path, json_path):
+def cleanup_experiment_json_op(train_meta_path, json_path):
     def _run():
         with open(json_path, "r") as fp:
             data = json.load(fp)
 
+        del data["train_root_dir"]
         data["train_meta_path"] = "./{}".format(train_meta_path)
 
         with open(json_path, "w") as fp:
             json.dump(data, fp)
 
     return (
-        "set train_meta_path = {} in {}".format(train_meta_path, json_path),
+        "clean up {}".format(json_path),
         _run
     )
 
@@ -157,13 +200,19 @@ for stage_dir in stage_dirs:
     else:
         ops.append(delete_op(stage_dir))
 
+latest_stage_files_to_keep = list(training_iterations[latest_iteration].values())
+latest_stage_files_to_keep.append("checkpoint")
+for fn in os.listdir(latest_stage_dir):
+    if fn not in latest_stage_files_to_keep:
+        ops.append(delete_op(os.path.join(latest_stage_dir, fn)))
+        
 new_meta_path = os.path.join(ckpt_dir, "meta.json")
 if os.path.exists(new_meta_path):
     ops.append(delete_op(new_meta_path))
 
 ops.append(copy_op(meta_path, new_meta_path))
 
-ops.append(set_meta_path_op(os.path.basename(new_meta_path), experiment_path))
+ops.append(cleanup_experiment_json_op(os.path.basename(new_meta_path), experiment_path))
 
 ops.append(fix_ckpt_paths_op(os.path.join(latest_stage_dir, ckpt_fn)))
 
