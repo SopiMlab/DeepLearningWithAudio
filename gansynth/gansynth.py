@@ -17,7 +17,7 @@ import time
 
 import numpy as np
 
-import gansynth_struct as gss
+import lib.communication_struct as gss
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -33,10 +33,10 @@ class gansynth(pyext._class):
             self.unload_1()
         
         python = sys.executable
-        gen_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "gansynth_gen.py")
+        gen_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "gansynth_worker.py")
         ckpt_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), str(ckpt_dir))
 
-        print("starting gansynth_gen process, this may take a while", file=sys.stderr)
+        print("starting gansynth_worker process, this may take a while", file=sys.stderr)
 
         self._proc = subprocess.Popen(
             (python, gen_script, ckpt_dir, str(batch_size)),
@@ -48,7 +48,7 @@ class gansynth(pyext._class):
         self._stderr_printer.start()
         
         self._read_tag(gss.OUT_TAG_INIT)
-        print("gansynth_gen is ready", file=sys.stderr)
+        print("gansynth_worker is ready", file=sys.stderr)
         self._outlet(1, "loaded")
 
     def unload_1(self):
@@ -57,7 +57,7 @@ class gansynth(pyext._class):
             self._proc = None
             self._stderr_printer = None
         else:
-            print("no gansynth_gen process is running", file=sys.stderr)
+            print("no gansynth_worker process is running", file=sys.stderr)
 
         self._outlet(1, "unloaded")
 
@@ -68,7 +68,7 @@ class gansynth(pyext._class):
             if not line:
                 break
 
-            sys.stderr.write("[gansynth_gen] {}".format(line))
+            sys.stderr.write("[gansynth_worker] {}".format(line))
             sys.stderr.flush()
         
     def _write_tag(self, tag):

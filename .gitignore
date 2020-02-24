@@ -1,0 +1,8 @@
+magenta
+pyext-setup/build
+pyext-setup/flext
+pyext-setup/py
+*.pyo
+*.pyc
+.DS_Store
+*.swp
