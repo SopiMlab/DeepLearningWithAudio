@@ -149,13 +149,16 @@ def copy_op(src_path, dst_path):
         _run
     )
 
-def cleanup_experiment_json_op(train_meta_path, json_path):
+def cleanup_experiment_json_op(json_path):
     def _run():
         with open(json_path, "r") as fp:
             data = json.load(fp)
 
-        del data["train_root_dir"]
-        data["train_meta_path"] = "./{}".format(train_meta_path)
+        if "train_root_dir" in data:
+            del data["train_root_dir"]
+
+        if "train_meta_path" in data:
+            del data["train_meta_path"]
 
         with open(json_path, "w") as fp:
             json.dump(data, fp)
@@ -212,7 +215,7 @@ if os.path.exists(new_meta_path):
 
 ops.append(copy_op(meta_path, new_meta_path))
 
-ops.append(cleanup_experiment_json_op(os.path.basename(new_meta_path), experiment_path))
+ops.append(cleanup_experiment_json_op(experiment_path))
 
 ops.append(fix_ckpt_paths_op(os.path.join(latest_stage_dir, ckpt_fn)))
 
