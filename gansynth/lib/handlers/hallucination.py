@@ -144,7 +144,11 @@ def handle_hallucinate(model, stdin, stdout):
     audios = synthesize(model, final_notes, final_pitches)
     final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release)
 
-    gu.save_wav(final_audio, "/Users/oskar.koli/Desktop/hallucination.wav") 
+    # TODO: Remove!
+    try:
+        gu.save_wav(final_audio, "/Users/oskar.koli/Desktop/hallucination.wav") 
+    except Exception:
+        pass
 
     final_audio = final_audio.astype('float32')
 
