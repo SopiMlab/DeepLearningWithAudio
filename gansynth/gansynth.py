@@ -17,6 +17,7 @@ import time
 
 import numpy as np
 
+from magenta.models.gansynth.lib import generate_util as gu
 import lib.communication_struct as gss
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -169,3 +170,38 @@ class gansynth(pyext._class):
             audio_buf.dirty()
         
         self._outlet(1, "synthesized")
+    
+    def hallucinate_1(self, *args):
+        if not self._proc:
+            raise Exception("can't synthesize - load a checkpoint first")
+
+        arg_count = len(args)
+        if arg_count < 3 or arg_count > 8:
+            raise ValueError("invalid number of arguments ({}), should be one: hallucinate buffer_name note_count interpolation_steps".format(arg_count))
+
+        audio_buf_name = args[0]
+        note_count = int(args[1])
+        interpolation_steps = int(args[2])
+        rest = list(map(float, args[3:len(args)]))
+
+        self._write_tag(gss.IN_TAG_HALLUCINATE)
+        self._proc.stdin.write(gss.to_hallucinate_msg(note_count, interpolation_steps, *rest))
+
+        self._read_tag(gss.OUT_TAG_AUDIO)
+
+        audio_size_msg = self._proc.stdout.read(gss.audio_size_struct.size)
+        audio_size = gss.from_audio_size_msg(audio_size_msg)
+
+        audio_msg = self._proc.stdout.read(audio_size)
+        audio_note = gss.from_audio_msg(audio_msg)
+
+        audio_buf = pyext.Buffer(audio_buf_name)
+        if len(audio_buf) != len(audio_note):
+            audio_buf.resize(len(audio_note))
+
+        gu.save_wav(audio_note, "/Users/oskar.koli/Desktop/hallucination_sent.wav") 
+
+        audio_buf[:] = audio_note
+        audio_buf.dirty()
+        
+        self._outlet(1, ["hallucinated", audio_size])

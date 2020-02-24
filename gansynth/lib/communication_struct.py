@@ -12,9 +12,11 @@ z_struct = struct.Struct(Z_SIZE*"d")
 count_struct = struct.Struct("i")
 gen_audio_struct = struct.Struct("i" + (Z_SIZE*"d"))
 audio_size_struct = struct.Struct("i")
+hallucinate_struct = struct.Struct("i" * 2 + "d" * 5)
 
 IN_TAG_RAND_Z = 0
 IN_TAG_GEN_AUDIO = 1
+IN_TAG_HALLUCINATE = 2
 
 OUT_TAG_INIT = 0
 OUT_TAG_Z = 1
@@ -52,3 +54,16 @@ def to_audio_msg(buf):
 
 def from_audio_msg(msg):
     return np.frombuffer(msg, dtype=np.float32)
+
+
+def to_hallucinate_msg(note_count, 
+                        interpolation_steps, 
+        spacing = 0.2,
+        start_trim = 0.0,
+        attack = 0.5,
+        sustain = 0.5,
+        release = 0.5):
+    return hallucinate_struct.pack(note_count, interpolation_steps, spacing, start_trim, attack, sustain, release)
+
+def from_hallucinate_msg(msg):
+    return hallucinate_struct.unpack(msg)

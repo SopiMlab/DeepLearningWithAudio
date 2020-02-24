@@ -1,33 +1,23 @@
 from __future__ import print_function
-
+import sys
 import os
 import random
 import struct
 import sys
 import math
 
+from ..utils import read_msg
+
 import numpy as np
 import scipy.io.wavfile as wavfile
 
-
-from magenta.models.gansynth.lib import flags as lib_flags
 from magenta.models.gansynth.lib import generate_util as gu
-from magenta.models.gansynth.lib import model as lib_model
-from magenta.models.gansynth.lib import util
-import tensorflow as tf
 
-try:
-    ckpt_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'all_instruments') #sys.argv[1]
-    batch_size = 1 #int(sys.argv[2])
-except IndexError:
-    print("usage: {} checkpoint_dir batch_size".format(os.path.basename(__file__)))
-    sys.exit(1)
-
-flags = lib_flags.Flags({"batch_size_schedule": [batch_size]})
-model = lib_model.Model.load_from_path(ckpt_dir, flags)
+import struct
+from .. import communication_struct as gss
 
 
-def synthesize(zs, pitches):
+def synthesize(model, zs, pitches):
     z_arr = np.array(zs)
     return model.generate_samples_from_z(z_arr, pitches)
 
@@ -140,10 +130,29 @@ def combine_notes(audio_notes,
     return audio_clip
 
 
-initial_notes = model.generate_z(10)
-initial_piches = np.floor(30 + np.random.rand(len(initial_notes)) * 30)
-final_notes, final_pitches = interpolate_notes(initial_notes, initial_piches, 5)
+def handle_hallucinate(model, stdin, stdout):
+    hallucinate_msg = read_msg(stdin, gss.hallucinate_struct.size)
+    args = gss.from_hallucinate_msg(hallucinate_msg)
+    note_count, interpolation_steps, spacing, start_trim, attack, sustain, release = args
 
-audios = synthesize(final_notes, final_pitches)
-final_audio = combine_notes(audios)
-gu.save_wav(final_audio, "hallucination2.wav") 
+    print("note_count = {} interpolation_steps = {}, spacing = {}s, start_trim = {}s, attack = {}s, sustain = {}s, release = {}s".format(*args), file=sys.stderr)
+
+    initial_notes = model.generate_z(note_count)
+    initial_piches = np.array([32] * len(initial_notes)) # np.floor(30 + np.random.rand(len(initial_notes)) * 30)
+    final_notes, final_pitches = interpolate_notes(initial_notes, initial_piches, interpolation_steps)
+
+    audios = synthesize(model, final_notes, final_pitches)
+    final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release)
+
+    gu.save_wav(final_audio, "/Users/oskar.koli/Desktop/hallucination.wav") 
+
+    final_audio = final_audio.astype('float32')
+
+    stdout.write(gss.to_tag_msg(gss.OUT_TAG_AUDIO))
+    stdout.write(gss.to_audio_size_msg(final_audio.size * final_audio.itemsize))
+    stdout.write(gss.to_audio_msg(final_audio))
+
+
+handlers = {
+    gss.IN_TAG_HALLUCINATE: handle_hallucinate
+}
