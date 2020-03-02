@@ -12,11 +12,13 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--in_dir", required=True)
 parser.add_argument("--out_dir")
+parser.add_argument("--sample_rate", type=int, default=16000)
+parser.add_argument("--length", type=int, default=64000)
 
 args = parser.parse_args()
 
-required_sample_rate = 16000
-required_audio_len = 64000
+required_sample_rate = args.sample_rate
+required_audio_len = args.length
 required_channels = 1
 
 def log(*args, **kwargs):
