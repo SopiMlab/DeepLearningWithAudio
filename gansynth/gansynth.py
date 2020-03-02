@@ -49,8 +49,12 @@ class gansynth(pyext._class):
         self._stderr_printer.start()
         
         self._read_tag(gss.OUT_TAG_INIT)
+        
+        info_msg = self._proc.stdout.read(gss.init_struct.size)
+        audio_length, sample_rate = gss.from_info_msg(info_msg)
+
         print("gansynth_worker is ready", file=sys.stderr)
-        self._outlet(1, "loaded")
+        self._outlet(1, ["loaded", audio_length, sample_rate])
 
     def unload_1(self):
         if self._proc:

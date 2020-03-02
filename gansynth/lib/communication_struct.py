@@ -4,9 +4,12 @@ import struct
 import sys
 
 import numpy as np
+import math
+
 
 Z_SIZE = 256
 
+init_struct = struct.Struct("i" * 2)
 tag_struct = struct.Struct("i")
 z_struct = struct.Struct(Z_SIZE*"d")
 count_struct = struct.Struct("i")
@@ -41,6 +44,12 @@ def from_gen_msg(msg):
     z = np.array(data[1:], dtype=np.float64)
     return pitch, z
 
+def to_info_msg(audio_length, sample_rate):
+    return init_struct.pack(audio_length, sample_rate)
+
+def from_info_msg(msg):
+    return init_struct.unpack(msg)
+
 def to_z_msg(z):
     return z_struct.pack(*z)
 
@@ -66,4 +75,10 @@ def to_hallucinate_msg(note_count,
     return hallucinate_struct.pack(note_count, interpolation_steps, spacing, start_trim, attack, sustain, release)
 
 def from_hallucinate_msg(msg):
-    return hallucinate_struct.unpack(msg)
+    note_count, interpolation_steps, spacing, start_trim, attack, sustain, release = hallucinate_struct.unpack(msg)
+    spacing = math.floor(spacing * 100)/100.0
+    start_trim = math.floor(start_trim * 100)/100.0
+    attack = math.floor(attack * 100)/100.0
+    sustain = math.floor(sustain * 100)/100.0
+    release = math.floor(release * 100)/100.0
+    return (note_count, interpolation_steps, spacing, start_trim, attack, sustain, release)

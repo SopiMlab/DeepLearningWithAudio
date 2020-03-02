@@ -31,7 +31,7 @@ def slerp(p0, p1, t):
 def lerp(v0, v1, t):
   return (1 - t) * v0 + t * v1
 
-def get_envelope(t_trim_start=0.0, t_attack=0.010, t_sustain=0.5, t_release=0.3, sr=16000):
+def get_envelope(t_trim_start=0.0, t_attack=0.010, t_sustain=0.5, t_release=0.3, max_note_length=46000, sr=16000):
     """
         Creates an attack sustain release amplitude envelope.
         Modified version of GANSynth generator utils.
@@ -46,9 +46,13 @@ def get_envelope(t_trim_start=0.0, t_attack=0.010, t_sustain=0.5, t_release=0.3,
     i_sustain = int(sr * t_sustain)
     i_release = int(sr * t_release)
     i_tot = i_trim_start + i_attack + i_sustain + i_release
-    if i_tot > MAX_NOTE_LENGTH * sr:
-        raise ValueError('Cannot generate evelope longer than ' + str(MAX_NOTE_LENGTH) + 
-                         '. Tried to generate len = ' + str(i_tot / sr))
+    
+    i_tot_sec = math.floor((i_tot / sr) * 100)/100.0
+    max_len = math.floor((max_note_length / sr) * 100)/100.0
+
+    if i_tot_sec > max_len:
+        raise ValueError('Cannot generate evelope longer than ' + str(max_len) + 
+                         '. Tried to generate len = ' + str(i_tot))
 
     envelope = np.ones(i_tot)
     # Linear attack
@@ -58,8 +62,6 @@ def get_envelope(t_trim_start=0.0, t_attack=0.010, t_sustain=0.5, t_release=0.3,
     # Linear release
     envelope[i_trim_start+i_attack+i_sustain:i_tot] = np.linspace(1.0, 0.0, i_release)
     return envelope
-
-MAX_NOTE_LENGTH = 3.0
 
 def interpolate_notes(notes, pitches, steps, use_linear = False):
     result_notes = []
@@ -93,6 +95,7 @@ def combine_notes(audio_notes,
         release = 0.5,
         start_trim = 0.1,
         spacing = 0.5,
+        max_note_length = 46000,
         sr=16000):
     """Combine audio from multiple notes into a single audio clip.
     Args:
@@ -106,14 +109,14 @@ def combine_notes(audio_notes,
     
     
 
-    clip_length = spacing * (n_notes + 1) + MAX_NOTE_LENGTH
+    clip_length = spacing * (n_notes + 1) + (max_note_length / sr)
     audio_clip = np.zeros(int(clip_length) * sr)
 
     
 
     for i in range(n_notes):
         # Generate an amplitude envelope
-        envelope = get_envelope(start_trim, attack, sustain, release)
+        envelope = get_envelope(start_trim, attack, sustain, release, max_note_length=max_note_length, sr=sr)
         length = len(envelope)
         audio_note = audio_notes[i, :length] * envelope
         # Normalize
@@ -131,6 +134,9 @@ def combine_notes(audio_notes,
 
 
 def handle_hallucinate(model, stdin, stdout):
+    max_note_length = model.config['audio_length']
+    sample_rate = model.config['sample_rate']
+
     hallucinate_msg = read_msg(stdin, gss.hallucinate_struct.size)
     args = gss.from_hallucinate_msg(hallucinate_msg)
     note_count, interpolation_steps, spacing, start_trim, attack, sustain, release = args
@@ -142,7 +148,7 @@ def handle_hallucinate(model, stdin, stdout):
     final_notes, final_pitches = interpolate_notes(initial_notes, initial_piches, interpolation_steps)
 
     audios = synthesize(model, final_notes, final_pitches)
-    final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release)
+    final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release, max_note_length=max_note_length, sr=sample_rate)
 
     # TODO: Remove!
     try:
