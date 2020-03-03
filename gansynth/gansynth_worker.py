@@ -31,6 +31,9 @@ stdin = os.fdopen(sys.stdin.fileno(), "rb", 0)
 stdout = os.fdopen(sys.stdout.fileno(), "wb", 0)
 stdout.write(gss.to_tag_msg(gss.OUT_TAG_INIT))
 
+audio_length = model.config['audio_length']
+sample_rate = model.config['sample_rate']
+stdout.write(gss.to_info_msg(audio_length=audio_length, sample_rate=sample_rate))
 
 while True:
     in_tag_msg = read_msg(stdin, gss.tag_struct.size)
