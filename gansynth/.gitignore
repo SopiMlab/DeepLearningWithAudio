@@ -1,4 +1,5 @@
 all_instruments
 pruu_train
 output
+mallgrab_model
 *.wav
