@@ -1,0 +1,54 @@
+#!/bin/bash
+#SBATCH --time=0-10:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16G
+#SBATCH --gres=gpu:1
+
+GETOPTS_RESULT=$(getopt -o '' -l conda_env:,input_tfrecord_filepattern:,output_model_dir: -n train -- "$@")
+
+eval set -- "$GETOPTS_RESULT"
+
+while true; do
+    case "$1" in
+        --conda_env )
+            CONDA_ENV="$2"
+            shift 2
+            ;;
+        --input_tfrecord_filepattern )
+            INPUT_TFRECORD_FILEPATTERN="$2"
+            shift 2
+            ;;
+        --output_model_dir )
+            OUTPUT_MODEL_DIR="$2"
+            shift 2
+            ;;
+        * )
+            break
+            ;;
+    esac
+done
+
+usage() {
+    echo "usage: $(basename $0) --conda_env CONDA_ENV --input_tfrecord_filepattern INPUT_TFRECORD_FILEPATTERN --output_model_dir OUTPUT_MODEL_DIR"
+}
+
+if [ ! -n "$CONDA_ENV" -o ! -n "$INPUT_TFRECORD_FILEPATTERN" -o ! -n "$OUTPUT_MODEL_DIR" ]; then
+    usage
+    exit 1
+fi
+
+module load anaconda2/5.1.0-gpu
+module load ffmpeg
+source activate "$CONDA_ENV"
+
+srun ddsp_run \
+    --alsologtostderr \
+    --mode train \
+    --model_dir "$OUTPUT_MODEL_DIR" \
+    --gin_file models/solo_instrument.gin \
+    --gin_file datasets/tfrecord.gin \
+    --gin_param="TFRecordProvider.file_pattern='$INPUT_TFRECORD_FILEPATTERN'" \
+    --gin_param="batch_size=16" \
+    --gin_param="train_util.train.num_steps=30000" \
+    --gin_param="train_util.train.steps_per_save=300" \
+    --gin_param="train_util.Trainer.checkpoints_to_keep=10"

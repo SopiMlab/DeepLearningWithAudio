@@ -13,7 +13,7 @@ module load cuda/10.0.130
 module load teflon
 mkdir -p "$WRKDIR/conda"
 conda create -p "$WRKDIR/conda/gansynth" python=3.7 tensorflow-gpu=1.15
-conda activate "$WRKDIR/conda/gansynth"
+source activate "$WRKDIR/conda/gansynth"
 cd magenta
 pip install -e .
 ```
