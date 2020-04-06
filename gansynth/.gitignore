@@ -2,4 +2,8 @@ all_instruments
 pruu_train
 output
 mallgrab_model
+*-dataset
+*_dataset
+*-model
+*_model
 *.wav

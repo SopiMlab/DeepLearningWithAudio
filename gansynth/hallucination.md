@@ -9,7 +9,7 @@ In machine learning, hallucination like effects have been explored mainly with i
 
 Later on, Generative Adversarial Networks (GANs) were applied to interpolate between known points in latent space to generate smooth, hallucinatory transitions between images. An example of this from the art world can be seen in [Refik Anadol's work](https://www.instagram.com/p/B0ScHswlbIe/?igshid=1i7r15rt4b2va).
 
-Here we have strived to similarly apply GANs to create auditory hallucinations.
+Here we have strived to similarly apply GANs to create auditory hallucinations. In the next section we will look at how it works.
 
 ### How it works
 
