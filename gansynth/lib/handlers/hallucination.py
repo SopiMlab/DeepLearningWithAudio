@@ -67,7 +67,7 @@ def interpolate_notes(notes, pitches, steps, use_linear = False):
     result_notes = []
     result_pitches = []
     if len(notes) >= 2:
-        for i in xrange(0, len(notes) - 1):
+        for i in range(0, len(notes) - 1):
             start_note = notes[i]
             start_pitch = pitches[i]
             end_note = notes[i + 1]
@@ -76,7 +76,7 @@ def interpolate_notes(notes, pitches, steps, use_linear = False):
             result_notes.append(start_note)
             result_pitches.append(start_pitch)
 
-            for step in xrange(1, steps + 1):
+            for step in range(1, steps + 1):
                 interp = step / float(steps)
                 if use_linear:
                     result_notes.append([lerp(note, end_note[i], interp) for (i, note) in enumerate(start_note)])
@@ -165,7 +165,7 @@ def handle_hallucinate(model, stdin, stdout):
     stdout.write(gss.to_tag_msg(gss.OUT_TAG_AUDIO))
     stdout.write(gss.to_audio_size_msg(final_audio.size * final_audio.itemsize))
     stdout.write(gss.to_audio_msg(final_audio))
-
+    stdout.flush()
 
 handlers = {
     gss.IN_TAG_HALLUCINATE: handle_hallucinate
