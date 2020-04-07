@@ -73,13 +73,17 @@ class gansynth(pyext._class):
             if not line:
                 break
 
-            sys.stderr.write("[gansynth_worker] {}".format(line))
+            sys.stderr.write("[gansynth_worker] ")
+            sys.stderr.write(line.decode("utf-8"))
             sys.stderr.flush()
         
-    def _write_tag(self, tag):
+    def _write_msg(self, tag, *msgs):
         tag_msg = gss.to_tag_msg(tag)
         self._proc.stdin.write(tag_msg)
-
+        for msg in msgs:
+            self._proc.stdin.write(msg)
+        self._proc.stdin.flush()
+        
     def _read_tag(self, expected_tag):
         tag_msg = self._proc.stdout.read(gss.tag_struct.size)
         tag = gss.from_tag_msg(tag_msg)
@@ -96,10 +100,8 @@ class gansynth(pyext._class):
         if in_count == 0:
             raise ValueError("no buffer name(s) specified")
         
-        self._write_tag(gss.IN_TAG_RAND_Z)
-
         in_count_msg = gss.to_count_msg(in_count)
-        self._proc.stdin.write(in_count_msg)
+        self._write_msg(gss.IN_TAG_RAND_Z, in_count_msg)
         
         self._read_tag(gss.OUT_TAG_Z)
 
@@ -134,7 +136,7 @@ class gansynth(pyext._class):
 
         gen_msgs = []
         audio_buf_names = []
-        for i in xrange(0, arg_count, 3):
+        for i in range(0, arg_count, 3):
             z_buf_name, audio_buf_name, pitch = args[i:i+3]
 
             z32_buf = pyext.Buffer(z_buf_name)
@@ -143,15 +145,10 @@ class gansynth(pyext._class):
             gen_msgs.append(gss.to_gen_msg(pitch, z))
             audio_buf_names.append(audio_buf_name)
             
-        self._write_tag(gss.IN_TAG_GEN_AUDIO)
-
         in_count = len(gen_msgs)
         in_count_msg = gss.to_count_msg(in_count)
-        self._proc.stdin.write(in_count_msg)
-
-        for gen_msg in gen_msgs:
-            self._proc.stdin.write(gen_msg)
-        
+        self._write_msg(gss.IN_TAG_GEN_AUDIO, in_count_msg, *gen_msgs)
+                
         self._read_tag(gss.OUT_TAG_AUDIO)
 
         out_count_msg = self._proc.stdout.read(gss.count_struct.size)
@@ -188,8 +185,7 @@ class gansynth(pyext._class):
         interpolation_steps = int(args[2])
         rest = list(map(float, args[3:len(args)]))
 
-        self._write_tag(gss.IN_TAG_HALLUCINATE)
-        self._proc.stdin.write(gss.to_hallucinate_msg(note_count, interpolation_steps, *rest))
+        self._write_msg(gss.IN_TAG_HALLUCINATE, gss.to_hallucinate_msg(note_count, interpolation_steps, *rest))
 
         self._read_tag(gss.OUT_TAG_AUDIO)
 

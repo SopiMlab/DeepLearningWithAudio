@@ -59,10 +59,10 @@ cd magenta
 Create a Conda environment (named "magenta" here):
 
 ```
-conda create -n magenta python=2.7 libopenblas=0.3
+conda create -n magenta python=3.7 libopenblas=0.3
 ```
 
-This will ask you for confirmation, create a Python 2.7 environment and install some packages.
+This will ask you for confirmation, create a Python 3.7 environment and install some packages.
 
 Activate the environment:
 
@@ -94,7 +94,7 @@ Output:
 Package                            Version
 ---------------------------------- -----------
 ...
-magenta                            1.2.2
+magenta                            1.3.0
 ...
 ```
 
@@ -149,12 +149,12 @@ python build.py --info
 Output:
 
 ```
-Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
-[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
-Python executable: /usr/local/miniconda3/envs/magenta/bin/python
-Pd path: /Applications/Pd-0.50-0.app
+Python version: 3.7.7 (default, Mar 26 2020, 10:32:53)
+[Clang 4.0.1 (tags/RELEASE_401/final)]
+Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta3/bin/python
+Pd path: /Applications/Pd-0.50-2.app
 Pd variant: vanilla
-Conda root: /usr/local/miniconda3/envs/magenta
+Conda root: /usr/local/Caskroom/miniconda/base/envs/magenta
 ```
 
 The output on your system will differ a bit according to your corresponding paths.
@@ -213,10 +213,10 @@ Click OK, save your preferences (Pd menu → Preferences → Save All Preference
 ```
 ------------------------------------------------
 py/pyext 0.2.2 - python script objects
-(C)2002-2015 Thomas Grill - http://grrrr.org/ext
+(C)2002-2019 Thomas Grill - http://grrrr.org/ext
 
-using Python 2.7.16 |Anaconda, Inc.| (default, Aug 19 2019, 18:51:18) 
-[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
+using Python 3.7.7 (default, Mar 26 2020, 10:35:24) 
+[Clang 4.0.1 (tags/RELEASE_401/final)]
 
 Python array support enabled
 ------------------------------------------------
