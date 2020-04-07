@@ -93,28 +93,29 @@ all_valid = True
 for name in sorted(instruments.keys()):
     inst = instruments[name]
     for sample in inst["samples"]:
-        with wave.open(sample["file"], "rb") as wav:
-            sample_rate = wav.getframerate()
-            audio_len = wav.getnframes()
-            channels = wav.getnchannels()
-            sample_width = wav.getsampwidth()
+        wav = wave.open(sample["file"], "rb")
+        sample_rate = wav.getframerate()
+        audio_len = wav.getnframes()
+        channels = wav.getnchannels()
+        sample_width = wav.getsampwidth()
 
-            errors = []
-            
-            if sample_rate != required_sample_rate:
-                errors.append("invalid sample rate: {}".format(sample_rate))
-            if channels != required_channels:
-                errors.append("invalid channels: {}".format(channels))
-            if audio_len != required_audio_len:
-                errors.append("invalid length: {}".format(audio_len))
-            if sample_width != 2:
-                errors.append("invalid format: {} bit".format(sample_width * 8))
+        errors = []
+        
+        if sample_rate != required_sample_rate:
+            errors.append("invalid sample rate: {}".format(sample_rate))
+        if channels != required_channels:
+            errors.append("invalid channels: {}".format(channels))
+        if audio_len != required_audio_len:
+            errors.append("invalid length: {}".format(audio_len))
+        if sample_width != 2:
+            errors.append("invalid format: {} bit".format(sample_width * 8))
 
-            if errors:
-                log(os.path.basename(sample["file"]))
-                for error in errors:
-                    log("  {}".format(error))
-                    all_valid = False
+        if errors:
+            log(os.path.basename(sample["file"]))
+            for error in errors:
+                log("  {}".format(error))
+                all_valid = False
+        wav.close()
 
 if not all_valid:
     sys.exit(1)
@@ -134,7 +135,7 @@ log()
 
 try:
     os.makedirs(out_dir)
-except FileExistsError:
+except Exception:
     pass
 
 log("writing metadata to {}...".format(out_meta_path))

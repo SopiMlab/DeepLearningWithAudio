@@ -66,25 +66,29 @@ def get_envelope(t_trim_start=0.0, t_attack=0.010, t_sustain=0.5, t_release=0.3,
 def interpolate_notes(notes, pitches, steps, use_linear = False):
     result_notes = []
     result_pitches = []
-    for i in xrange(0, len(notes) - 1):
-        start_note = notes[i]
-        start_pitch = pitches[i]
-        end_note = notes[i + 1]
-        end_pitch = pitches[i + 1]
-        
-        result_notes.append(start_note)
-        result_pitches.append(start_pitch)
+    if len(notes) >= 2:
+        for i in xrange(0, len(notes) - 1):
+            start_note = notes[i]
+            start_pitch = pitches[i]
+            end_note = notes[i + 1]
+            end_pitch = pitches[i + 1]
+            
+            result_notes.append(start_note)
+            result_pitches.append(start_pitch)
 
-        for step in xrange(1, steps + 1):
-            interp = step / float(steps)
-            if use_linear:
-                result_notes.append([lerp(note, end_note[i], interp) for (i, note) in enumerate(start_note)])
-            else:
-                result_notes.append(slerp(start_note, end_note, interp))
-            result_pitches.append(math.floor(lerp(start_pitch, end_pitch, interp)))
-    
-    result_notes.append(notes[-1])
-    result_pitches.append(result_pitches[-1])
+            for step in xrange(1, steps + 1):
+                interp = step / float(steps)
+                if use_linear:
+                    result_notes.append([lerp(note, end_note[i], interp) for (i, note) in enumerate(start_note)])
+                else:
+                    result_notes.append(slerp(start_note, end_note, interp))
+                result_pitches.append(math.floor(lerp(start_pitch, end_pitch, interp)))
+        
+        result_notes.append(notes[-1])
+        result_pitches.append(result_pitches[-1])
+    else:
+        result_notes.append(notes[0])
+        result_pitches.append(pitches[0])
 
     return (result_notes, result_pitches)
 
