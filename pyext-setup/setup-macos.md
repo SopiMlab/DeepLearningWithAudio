@@ -136,6 +136,20 @@ gansynth_generate --ckpt_dir=all_instruments --output_dir=output
 
 This will print a bunch of warnings, but should eventually produce a few wav files in the `output` subdirectory.
 
+## Install sopilib
+
+Enter the `sopilib` directory:
+
+```
+cd ../sopilib
+```
+
+Install:
+
+```
+pip install .
+```
+
 ## Build pyext
 
 Enter the `pyext-setup` directory:

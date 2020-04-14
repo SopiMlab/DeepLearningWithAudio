@@ -156,7 +156,7 @@ def handle_hallucinate(model, stdin, stdout):
 
     # TODO: Remove!
     try:
-        gu.save_wav(final_audio, "/Users/oskar.koli/Desktop/hallucination.wav") 
+        gu.save_wav(final_audio, "/Users/ahihi/Desktop/hallucination.wav") 
     except Exception:
         pass
 

@@ -18,7 +18,7 @@ import time
 import numpy as np
 
 from magenta.models.gansynth.lib import generate_util as gu
-import lib.communication_struct as gss
+import sopilib.communication_struct as gss
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -199,7 +199,7 @@ class gansynth(pyext._class):
         if len(audio_buf) != len(audio_note):
             audio_buf.resize(len(audio_note))
 
-        gu.save_wav(audio_note, "/Users/oskar.koli/Desktop/hallucination_sent.wav") 
+        gu.save_wav(audio_note, "/Users/ahihi/Desktop/hallucination_sent.wav") 
 
         audio_buf[:] = audio_note
         audio_buf.dirty()
