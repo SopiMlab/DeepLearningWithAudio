@@ -14,8 +14,9 @@ from magenta.models.gansynth.lib import util
 import tensorflow as tf
 
 import sopilib.communication_struct as gss
-from sopilib.handlers import handlers
 from sopilib.utils import print_err, read_msg
+
+from handlers import handlers
 
 try:
     ckpt_dir = sys.argv[1]

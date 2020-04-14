@@ -1,12 +1,13 @@
-from .. import communication_struct as gss
-from ..utils import read_msg
-
 import os
 import random
 import struct
 import sys
 
 import numpy as np
+
+from sopilib import communication_struct as gss
+from sopilib.utils import read_msg
+
 
 def handle_rand_z(model, stdin, stdout):
     """

@@ -52,6 +52,18 @@ Install DDSP:
 pip install .
 ```
 
+Enter the sopilib directory:
+
+```
+pip install ../../sopilib
+```
+
+Install sopilib:
+
+```
+pip install .
+```
+
 ## Magenta's checkpoints
 
 ```

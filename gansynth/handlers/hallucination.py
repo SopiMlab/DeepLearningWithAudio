@@ -2,19 +2,16 @@ from __future__ import print_function
 import sys
 import os
 import random
-import struct
 import sys
 import math
-
-from ..utils import read_msg
 
 import numpy as np
 import scipy.io.wavfile as wavfile
 
 from magenta.models.gansynth.lib import generate_util as gu
 
-import struct
-from .. import communication_struct as gss
+from sopilib import communication_struct as gss
+from sopilib.utils import read_msg
 
 
 def synthesize(model, zs, pitches):
@@ -153,12 +150,6 @@ def handle_hallucinate(model, stdin, stdout):
 
     audios = synthesize(model, final_notes, final_pitches)
     final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release, max_note_length=max_note_length, sr=sample_rate)
-
-    # TODO: Remove!
-    try:
-        gu.save_wav(final_audio, "/Users/ahihi/Desktop/hallucination.wav") 
-    except Exception:
-        pass
 
     final_audio = final_audio.astype('float32')
 

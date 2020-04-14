@@ -13,8 +13,6 @@ setuptools.setup(
     ],
     python_requires=">=3.7",
     install_requires=[
-        "magenta>=1.3",
-        "numpy>=1.18",
-        "scipy>=1.4"
+        "numpy>=1.18"
     ]
 )

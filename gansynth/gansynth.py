@@ -199,8 +199,6 @@ class gansynth(pyext._class):
         if len(audio_buf) != len(audio_note):
             audio_buf.resize(len(audio_note))
 
-        gu.save_wav(audio_note, "/Users/ahihi/Desktop/hallucination_sent.wav") 
-
         audio_buf[:] = audio_note
         audio_buf.dirty()
         
