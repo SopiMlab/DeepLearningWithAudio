@@ -18,7 +18,7 @@ import time
 import numpy as np
 
 from magenta.models.gansynth.lib import generate_util as gu
-import sopilib.communication_struct as gss
+import sopilib.gansynth_protocol as gss
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 

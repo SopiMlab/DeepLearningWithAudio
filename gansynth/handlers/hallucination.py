@@ -10,7 +10,7 @@ import scipy.io.wavfile as wavfile
 
 from magenta.models.gansynth.lib import generate_util as gu
 
-from sopilib import communication_struct as gss
+from sopilib import gansynth_protocol as gss
 from sopilib.utils import read_msg
 
 
