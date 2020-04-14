@@ -14,11 +14,42 @@ The input audio is divided into short frames, and three encoders produce latent 
 
 ## Setup
 
+DDSP requires a different version of TensorFlow than Magenta, which means we need to make a separate Conda environment for it.
+
+Create the environment:
+
 ```
-conda create -n ddsp python=3.7 tensorflow=2.1
+conda create -n ddsp python=3.7 tensorflow=2
+```
+
+Activate it:
+
+```
+conda activate ddsp
+```
+
+Enter the ddsp directory in the course repository (in this example, located in the home directory):
+
+```
+cd ~/DeepLearningWithAudio/ddsp
+```
+
+Clone the DDSP repository:
+
+```
 git clone https://github.com/magenta/ddsp.git
+```
+
+Enter the resulting directory:
+
+```
 cd ddsp
-pip install -e .
+```
+
+Install DDSP:
+
+```
+pip install .
 ```
 
 ## Magenta's checkpoints

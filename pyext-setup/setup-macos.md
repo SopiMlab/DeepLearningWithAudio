@@ -1,4 +1,4 @@
-# GANSynth setup (macOS)
+# pyext setup (macOS)
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@ If you've never used the command line before, it may be a good idea to have a lo
 
 ## Install Xcode command line tools
 
-Apple's Xcode command line developer tools are required for setup. If you have the regular Xcode installed from App Store, the command line tools should already be included.
+Apple's Xcode command line developer tools are required for setup. If you have the regular Xcode installed from App Store, the command line tools may already be included.
 
 To install the command line tools, open Terminal and run:
 
@@ -30,6 +30,8 @@ This will download the repository into your current working directory, which in 
 
 ## Install Conda
 
+We will use the Conda package/environment manager to set up a Python environment.
+
 Install Miniconda, following the [official instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
 
 ## Download Magenta
@@ -50,13 +52,7 @@ git clone https://github.com/SopiMlab/magenta.git
 
 Magenta can run either on CPU (widest hardware compatibility) or GPU (much better performance), but on macOS only the CPU variant is supported. This makes setup much simpler, but it does mean performance is limited even if you happen to have an NVIDIA graphics card available.
 
-Enter the previously created Magenta directory:
-
-```
-cd magenta
-```
-
-Create a Conda environment (named "magenta" here):
+Create a Conda environment. The `-n` argument specifies the name of the environment and can be whatever you want, but we'll use "magenta" here:
 
 ```
 conda create -n magenta python=3.7 libopenblas=0.3
@@ -73,6 +69,12 @@ conda activate magenta
 This should update your command line prompt to say `(magenta)` at the start.
 
 Note that activating the Conda environment only applies to your current terminal window! If you open a  new window, you'll have to run this command again.
+
+Enter the previously created Magenta directory:
+
+```
+cd magenta
+```
 
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
@@ -98,7 +100,7 @@ magenta                            1.3.0
 ...
 ```
 
-## Download GANSynth checkpoint
+## Download GANSynth checkpoints
 
 Enter the `gansynth` directory:
 
@@ -106,7 +108,9 @@ Enter the `gansynth` directory:
 cd ../gansynth
 ```
 
-Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints. In this example, we will use `all_instruments`, which is trained on all instruments in the NSynth dataset. There is also `acoustic_only`, trained on the acoustic instruments only. Feel free to experiment with both!
+Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints. In this example, we will use `all_instruments`, which is trained on all instruments in the NSynth dataset. There is also `acoustic_only`, trained on the acoustic instruments only.
+
+We also have some of our own checkpoints available at the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
 To download the `all_instruments` checkpoint, run:
 
@@ -151,7 +155,7 @@ Output:
 ```
 Python version: 3.7.7 (default, Mar 26 2020, 10:32:53)
 [Clang 4.0.1 (tags/RELEASE_401/final)]
-Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta3/bin/python
+Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta/bin/python
 Pd path: /Applications/Pd-0.50-2.app
 Pd variant: vanilla
 Conda root: /usr/local/Caskroom/miniconda/base/envs/magenta
