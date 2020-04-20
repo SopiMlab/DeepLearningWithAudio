@@ -14,7 +14,7 @@ The input audio is divided into short frames, and three encoders produce latent 
 
 ## Setup (macOS)
 
-First make sure you have [pyext](../pyext-setup) set up.
+First make sure you have [pyext](../pyext-setup/setup-macos.md) set up.
 
 DDSP requires a different version of TensorFlow than Magenta, which means we need to make a separate Conda environment for it.
 
@@ -78,7 +78,7 @@ Open `timbre_transfer.pd`, edit the `load` message to use your path and click th
 
 The `timbre_transfer.pd` patch provides a Pd interface for experimenting with DDSP timbre transfer.
 
-#![timbre_transfer.pd](media/pd-timbre-transfer.png)
+![timbre_transfer.pd](media/pd-timbre-transfer.png)
 
 Its adjustable parameters are:
 
