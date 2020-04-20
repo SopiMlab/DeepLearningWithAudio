@@ -32,7 +32,13 @@ This will download the repository into your current working directory, which in 
 
 We will use the Conda package/environment manager to set up a Python environment.
 
-Install Miniconda, following the [official instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
+If you use [Homebrew](https://brew.sh), you can simply run:
+
+```
+brew cask install miniconda
+```
+
+Otherwise, follow the [official Conda instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
 
 ## Download Magenta
 
@@ -42,7 +48,7 @@ Enter the root directory of the course repository. For example, if you cloned it
 cd ~/DeepLearningWithAudio
 ```
 
-Clone our Magenta repository:
+Now clone our Magenta repository:
 
 ```
 git clone https://github.com/SopiMlab/magenta.git
@@ -50,7 +56,7 @@ git clone https://github.com/SopiMlab/magenta.git
 
 ## Install Magenta
 
-Magenta can run either on CPU (widest hardware compatibility) or GPU (much better performance), but on macOS only the CPU variant is supported. This makes setup much simpler, but it does mean performance is limited even if you happen to have an NVIDIA graphics card available.
+Magenta can run either on CPU (widest hardware compatibility) or GPU (much better performance), but on macOS only the CPU variant is supported. This makes setup simpler, but it does mean performance is limited even if you happen to have an NVIDIA graphics card available.
 
 Create a Conda environment. The `-n` argument specifies the name of the environment and can be whatever you want, but we'll use "magenta" here:
 
@@ -188,10 +194,10 @@ Output:
 ```
 Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
-Python executable: /usr/local/miniconda3/envs/magenta/bin/python
+Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta/bin/python
 Pd path: /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
 Pd variant: vanilla
-Conda root: /usr/local/miniconda3/envs/magenta
+Conda root: /usr/local/Caskroom/miniconda/base/envs/magenta
 ```
 
 Now build pyext by running the same command without `--info` (keep the `--pd` option if you needed to add it before):
@@ -212,7 +218,7 @@ mkdir -p ~/Documents/Pd/externals
 
 (In case the directory already exists, this command will do nothing, so it's safe to run either way.)
 
-Move `py.pd_darwin` into the newly created directory:
+Move `py.pd_darwin` into the externals directory:
 
 ```
 mv build/py/py.pd_darwin ~/Documents/Pd/externals/

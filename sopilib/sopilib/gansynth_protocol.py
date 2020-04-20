@@ -9,12 +9,25 @@ import math
 
 Z_SIZE = 256
 
+# init: audio length, sample rate
 init_struct = struct.Struct("i" * 2)
+
+# tag: integer denoting the type of message
 tag_struct = struct.Struct("i")
+
+# z: latent vector as 256 doubles
 z_struct = struct.Struct(Z_SIZE*"d")
+
+# count: integer denoting a number of items
 count_struct = struct.Struct("i")
+
+# gen_audio: pitch, z
 gen_audio_struct = struct.Struct("i" + (Z_SIZE*"d"))
+
+# audio_size: length of audio data
 audio_size_struct = struct.Struct("i")
+
+# hallucinate: note count, interpolation steps, spacing, start trim, attack, sustain, release
 hallucinate_struct = struct.Struct("i" * 2 + "d" * 5)
 
 IN_TAG_RAND_Z = 0
