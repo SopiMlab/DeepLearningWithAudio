@@ -106,7 +106,7 @@ class gansynth(pyext._class):
 
         out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
-
+        
         assert out_count == in_count
 
         for buf_name in buf_names:
@@ -185,6 +185,9 @@ class gansynth(pyext._class):
 
         out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
+        
+        if out_count == 0:
+            return
 
         assert out_count == in_count
 

@@ -8,7 +8,7 @@ import numpy as np
 from magenta.models.gansynth.lib import generate_util as gu
 
 from sopilib import gansynth_protocol as protocol
-from sopilib.utils import read_msg
+from sopilib.utils import print_err, read_msg
 
 
 def handle_rand_z(model, stdin, stdout):
@@ -55,8 +55,12 @@ def handle_gen_audio(model, stdin, stdout):
         zs.append(z)
 
     z_arr = np.array(zs)
-    audios = model.generate_samples_from_z(z_arr, pitches)
-    
+    try:
+        audios = model.generate_samples_from_z(z_arr, pitches)
+    except KeyError as e:
+        print_err("can't synthesize - model was not trained on pitch {}".format(e.args[0]))
+        audios = []
+        
     stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_AUDIO))
     stdout.write(protocol.to_count_msg(len(audios)))
 
