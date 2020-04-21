@@ -1,4 +1,4 @@
-#N canvas 537 22 903 753 10;
+#N canvas 537 23 903 753 10;
 #X obj 7 249 cnv 15 600 120 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 7 126 cnv 15 600 120 empty empty empty 20 12 0 14 -233017 -66577
@@ -10,8 +10,6 @@
 #X coords 0 1 63999 -1 200 140 1;
 #X restore 7 545 graph;
 #X obj 18 55 loadbang;
-#X obj 709 351 dac~;
-#X obj 735 288 vline~;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z1 256 float 2;
 #X coords 0 5 256 -5 200 140 1;
@@ -23,30 +21,14 @@
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
 #X restore 695 48 pd print_input;
-#X obj 628 116 print gansynth output;
-#X obj 709 332 *~ 0.5;
-#X obj 19 161 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 746 117 print gansynth output;
+#X obj 19 156 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
 #X obj 19 178 f \$0;
-#X obj 19 284 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 19 279 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
 #X obj 19 301 f \$0;
-#N canvas 261 142 450 300 loaded 0;
-#X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-1 1;
-#X obj 99 19 inlet;
-#X obj 103 68 f 1;
-#X obj 101 43 route loaded unloaded;
-#X obj 127 68 f 0;
-#X connect 1 0 3 0;
-#X connect 2 0 0 0;
-#X connect 3 0 2 0;
-#X connect 3 1 4 0;
-#X connect 4 0 0 0;
-#X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 806 145 pd loaded;
-#X obj 760 94 list trim;
-#X obj 760 116 route synthesized;
+#X obj 715 93 list trim;
 #X obj 638 72 pyext gansynth gansynth @detach 1;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound2 64000 float 0;
@@ -67,25 +49,12 @@
 #X obj 693 13 r \$0-gansynth_in;
 #X obj 18 93 s \$0-gansynth_in;
 #X msg 18 74 load all_instruments 4;
-#X text 9 5 1 - load GANSynth model from a saved checkpoint \, specifying
-a batch size as the second argument. when synthesizing a lot of notes
-in one go \, a larger batch size makes the process faster \, but also
-uses more memory. probably should be a power of two., f 98;
 #X obj 19 216 s \$0-gansynth_in;
-#X text 9 128 2 - generate random latent vectors for timbre, f 98
+#X text 9 128 2 - generate random latent vectors for timbre, f 48
 ;
 #X obj 19 339 s \$0-gansynth_in;
-#X msg 724 190 2;
-#X obj 693 243 makefilename \$0-sound%d;
-#X msg 693 190 1;
-#X msg 755 190 3;
-#X msg 684 270 set \$1;
-#X msg 735 270 1 \, 63998 4000;
-#X obj 709 313 tabread4~;
-#X text 691 169 4 - play;
 #X text 9 251 3 - synthesize from the vectors and the given pitches
 , f 98;
-#X msg 786 190 4;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound4 64000 float 0;
 #X coords 0 1 63999 -1 200 140 1 0 0;
@@ -97,30 +66,75 @@ uses more memory. probably should be a power of two., f 98;
 #X msg 19 197 randomize_z \$1-z1 \$1-z2 \$1-z3 \$1-z4;
 #X msg 19 320 synthesize \$1-z1 \$1-sound1 52 \$1-z2 \$1-sound2 55
 \$1-z3 \$1-sound3 59 \$1-z4 \$1-sound4 62, f 87;
-#X connect 4 0 25 0;
-#X connect 6 0 36 0;
-#X connect 8 0 18 1;
-#X connect 10 0 5 0;
-#X connect 10 0 5 1;
-#X connect 11 0 12 0;
-#X connect 12 0 42 0;
-#X connect 13 0 14 0;
-#X connect 14 0 43 0;
-#X connect 16 0 9 0;
-#X connect 16 0 17 0;
-#X connect 17 1 15 0;
-#X connect 18 0 16 0;
-#X connect 23 0 8 0;
-#X connect 25 0 24 0;
-#X connect 30 0 31 0;
-#X connect 31 0 34 0;
-#X connect 31 0 35 0;
-#X connect 32 0 31 0;
+#X obj 315 224 s \$0-gansynth_in;
+#X obj 318 152 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -232576
+-1 -1 6800 1;
+#X obj 315 187 pack f f;
+#X msg 315 205 slerp_z \$1-z1 \$1-z2 \$1-z3 \$2;
+#X obj 315 169 expr \$0;
+#X text 313 128 2b - interpolate between two latent vectors!, f 47
+;
+#N canvas 261 142 450 300 loaded 0;
+#X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
+64000 1;
+#X obj 103 68 f 1;
+#X obj 101 43 route loaded unloaded;
+#X obj 127 68 f 0;
+#X obj 102 21 r \$0-gansynth_out;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 2 1 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 2 0;
+#X coords 0 -1 1 1 60 20 2 100 100;
+#X restore 313 72 pd loaded;
+#X obj 635 117 s \$0-gansynth_out;
+#X obj 686 183 cnv 15 130 30 empty empty empty 30 20 0 14 -232576 -66577
+0;
+#X obj 709 351 dac~;
+#X obj 735 288 vline~;
+#X obj 709 332 *~ 0.5;
+#X msg 724 190 2;
+#X obj 693 243 makefilename \$0-sound%d;
+#X msg 693 190 1;
+#X msg 755 190 3;
+#X msg 684 270 set \$1;
+#X msg 735 270 1 \, 63998 4000;
+#X obj 709 313 tabread4~;
+#X text 691 169 4 - play;
+#X msg 786 190 4;
+#X text 9 5 1 - load GANSynth model from a saved checkpoint \, specifying
+a batch size as the second argument. when synthesizing a lot of notes
+in one go \, a larger batch size makes the process faster \, but also
+uses more memory. probably should be a power of 2, f 98;
+#X connect 4 0 20 0;
+#X connect 6 0 13 1;
+#X connect 8 0 9 0;
+#X connect 9 0 27 0;
+#X connect 10 0 11 0;
+#X connect 11 0 28 0;
+#X connect 12 0 7 0;
+#X connect 12 0 36 0;
+#X connect 13 0 12 0;
+#X connect 18 0 6 0;
+#X connect 20 0 19 0;
+#X connect 27 0 21 0;
+#X connect 28 0 23 0;
+#X connect 30 0 31 1;
+#X connect 30 0 33 0;
+#X connect 31 0 32 0;
+#X connect 32 0 29 0;
 #X connect 33 0 31 0;
-#X connect 34 0 36 0;
-#X connect 35 0 6 0;
-#X connect 36 0 10 0;
-#X connect 39 0 31 0;
-#X connect 42 0 27 0;
-#X connect 43 0 29 0;
+#X connect 39 0 47 0;
+#X connect 40 0 38 0;
+#X connect 40 0 38 1;
+#X connect 41 0 42 0;
+#X connect 42 0 45 0;
+#X connect 42 0 46 0;
+#X connect 43 0 42 0;
+#X connect 44 0 42 0;
+#X connect 45 0 47 0;
+#X connect 46 0 39 0;
+#X connect 47 0 40 0;
+#X connect 49 0 42 0;
 #X coords 0 753 1 752 0 0 0;
