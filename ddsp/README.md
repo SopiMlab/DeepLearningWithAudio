@@ -85,7 +85,7 @@ The `timbre_transfer.pd` patch provides a Pd interface for experimenting with DD
 Its adjustable parameters are:
 
 - Input audio file — Can be any sample rate. It will be converted to match the output sample rate.
-- Checkpoint — A [trained](training.md) timbre transfer model
+- Checkpoint — A trained timbre transfer model
 - Output sample rate — 16000 or 32000 Hz (seems like it needs to be a multiple of 16000). Pitch detection will have some issues when the training and generation sample rates don't match, but the results can be interesting.
 - f₀ octave shift — Shifts the input audio's fundamental frequency by the given number of octaves
 - f₀ confidence threshold — Silences input audio whenever the pitch detector's confidence is below the given number
@@ -103,11 +103,15 @@ A few example checkpoints are provided by the DDSP authors:
 
 We have some more in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
+## Training
+
+See [DDSP training](training.md).
+
 ## Exercises
 
 1. Try a few different combinations of input audio and checkpoint. What kind of observations can you make about how the inputs' characteristics affect the output?
 2. Experiment with the f₀ octave shift, f₀ confidence threshold and loudness dB shift parameters. How does the algorithm respond to extreme values of these?
-3. TODO: Group generation? We could train a few checkpoints overnight with students' audio (takes ~5 hours per checkpoint)
+3. Group training? We could train a few checkpoints overnight with students' audio (takes ~5 hours per checkpoint)
 
 ## Links
 

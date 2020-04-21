@@ -106,42 +106,6 @@ magenta                            1.3.0
 ...
 ```
 
-## Download GANSynth checkpoints
-
-Enter the `gansynth` directory:
-
-```
-cd ../gansynth
-```
-
-Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints. In this example, we will use `all_instruments`, which is trained on all instruments in the NSynth dataset. There is also `acoustic_only`, trained on the acoustic instruments only.
-
-We also have some of our own checkpoints available at the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
-
-To download the `all_instruments` checkpoint, run:
-
-```
-curl -LO https://storage.googleapis.com/magentadata/models/gansynth/all_instruments.zip
-```
-
-Extract the zip:
-
-```
-unzip all_instruments.zip
-```
-
-Feel free to remove the zip file at this point.
-
-## Verify that GANSynth is working
-
-Generate some random notes:
-
-```
-gansynth_generate --ckpt_dir=all_instruments --output_dir=output
-```
-
-This will print a bunch of warnings, but should eventually produce a few wav files in the `output` subdirectory.
-
 ## Install sopilib
 
 Enter the `sopilib` directory:
@@ -246,6 +210,4 @@ Python array support enabled
 ------------------------------------------------
 ```
 
-Congratulations, you've got it working!
-
-You should now be able to open `gansynth.pd` and `gansynth_multi.pd` in Pure Data.
+Congratulations, you've got it working! You're now ready to run our Pd patches.
