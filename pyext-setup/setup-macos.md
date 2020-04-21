@@ -85,7 +85,7 @@ cd magenta
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
 ```
-pip install .
+pip install -e .
 ``` 
 
 During the installation, you may see some errors about packages like `googledatastore` and `apache-beam`. These can be ignored.
@@ -117,7 +117,7 @@ cd ../sopilib
 Install:
 
 ```
-pip install .
+pip install -e .
 ```
 
 ## Build pyext

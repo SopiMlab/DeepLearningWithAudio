@@ -4,10 +4,12 @@
 #SBATCH --mem=16G
 #SBATCH --gres=gpu:1
 
-GETOPTS_RESULT=$(getopt -o '' -l conda_env:,input_tfrecord_filepattern:,output_model_dir: -n train -- "$@")
+GETOPTS_RESULT=$(getopt -o '' -l conda_env:,input_tfrecord_filepattern:,output_model_dir:,model_gin:,sample_rate: -n train -- "$@")
 
 eval set -- "$GETOPTS_RESULT"
 
+MODEL_GIN=models/solo_instrument.gin
+SAMPLE_RATE=16000
 while true; do
     case "$1" in
         --conda_env )
@@ -22,6 +24,14 @@ while true; do
             OUTPUT_MODEL_DIR="$2"
             shift 2
             ;;
+        --model_gin )
+            MODEL_GIN="$2"
+            shift 2
+            ;;
+        --sample_rate )
+            SAMPLE_RATE="$2"
+            shift 2
+            ;;
         * )
             break
             ;;
@@ -29,7 +39,7 @@ while true; do
 done
 
 usage() {
-    echo "usage: $(basename $0) --conda_env CONDA_ENV --input_tfrecord_filepattern INPUT_TFRECORD_FILEPATTERN --output_model_dir OUTPUT_MODEL_DIR"
+    echo "usage: $(basename $0) --conda_env CONDA_ENV --input_tfrecord_filepattern INPUT_TFRECORD_FILEPATTERN --output_model_dir OUTPUT_MODEL_DIR [--model_gin MODEL_GIN --sample_rate SAMPLE_RATE]"
 }
 
 if [ ! -n "$CONDA_ENV" -o ! -n "$INPUT_TFRECORD_FILEPATTERN" -o ! -n "$OUTPUT_MODEL_DIR" ]; then
@@ -45,9 +55,10 @@ srun ddsp_run \
     --alsologtostderr \
     --mode train \
     --model_dir "$OUTPUT_MODEL_DIR" \
-    --gin_file models/solo_instrument.gin \
+    --gin_file "$MODEL_GIN" \
     --gin_file datasets/tfrecord.gin \
     --gin_param="TFRecordProvider.file_pattern='$INPUT_TFRECORD_FILEPATTERN'" \
+    --gin_param="TFRecordProvider.sample_rate=$SAMPLE_RATE" \
     --gin_param="batch_size=16" \
     --gin_param="train_util.train.num_steps=30000" \
     --gin_param="train_util.train.steps_per_save=300" \

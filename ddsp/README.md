@@ -53,13 +53,13 @@ cd ddsp
 Install DDSP:
 
 ```
-pip install .
+pip install -e .
 ```
 
 Install the sopilib support library from the course repository's root:
 
 ```
-pip install ../../sopilib
+pip install -e ../../sopilib
 ```
 
 Find out the path of your Python interpreter:
