@@ -6,17 +6,15 @@ print("loading ai_duet")
 import sys    
 
 import os
-import Queue
+import queue
 import random
 import threading
 import time
 
 import magenta
-from magenta.models.melody_rnn import melody_rnn_config_flags
-from magenta.models.melody_rnn import melody_rnn_model
-from magenta.models.melody_rnn import melody_rnn_sequence_generator
-from magenta.protobuf import generator_pb2
-from magenta.protobuf import music_pb2
+from magenta.models.melody_rnn import melody_rnn_config_flags, melody_rnn_model, melody_rnn_sequence_generator
+from magenta.models.shared.sequence_generator_bundle import read_bundle_file
+from magenta.music.protobuf import generator_pb2, music_pb2
 import monotonic
 import pretty_midi
 
@@ -83,7 +81,7 @@ class melody_rnn(ext_class):
         self.notes = []
         self.t0 = 0
 
-        self.queue = Queue.Queue()
+        self.queue = queue.Queue()
         self.play_thread = threading.Thread(target = self._keep_playing)
         self.play_thread.start()
 
@@ -115,7 +113,7 @@ class melody_rnn(ext_class):
             
             try:
                 notes = self.queue.get(timeout = 1.0)
-            except Queue.Empty:
+            except queue.Empty:
                 notes = None
 
             if self._shouldexit:
@@ -149,7 +147,7 @@ class melody_rnn(ext_class):
     def load_1(self, bundle_name):
         bundle_name = str(bundle_name)
         config = magenta.models.melody_rnn.melody_rnn_model.default_configs[bundle_name]
-        bundle_file = magenta.music.read_bundle_file(os.path.join(script_dir, bundle_name+'.mag'))
+        bundle_file = read_bundle_file(os.path.join(script_dir, bundle_name+'.mag'))
         steps_per_quarter = 4
 
         self.generator = melody_rnn_sequence_generator.MelodyRnnSequenceGenerator(

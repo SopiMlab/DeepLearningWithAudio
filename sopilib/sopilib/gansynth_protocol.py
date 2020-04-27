@@ -9,17 +9,37 @@ import math
 
 Z_SIZE = 256
 
+# init: audio length, sample rate
 init_struct = struct.Struct("i" * 2)
+
+# tag: integer denoting the type of message
 tag_struct = struct.Struct("i")
+
+# z: latent vector as 256 doubles
 z_struct = struct.Struct(Z_SIZE*"d")
+
+# f64: double-precision float
+f64_struct = struct.Struct("d")
+
+# slerp_z: source 0, source 1, interpolation amount
+slerp_z_struct = struct.Struct(z_struct.format + z_struct.format + f64_struct.format)
+
+# count: integer denoting a number of items
 count_struct = struct.Struct("i")
+
+# gen_audio: pitch, z
 gen_audio_struct = struct.Struct("i" + (Z_SIZE*"d"))
+
+# audio_size: length of audio data
 audio_size_struct = struct.Struct("i")
+
+# hallucinate: note count, interpolation steps, spacing, start trim, attack, sustain, release
 hallucinate_struct = struct.Struct("i" * 2 + "d" * 5)
 
 IN_TAG_RAND_Z = 0
-IN_TAG_GEN_AUDIO = 1
-IN_TAG_HALLUCINATE = 2
+IN_TAG_SLERP_Z = 1
+IN_TAG_GEN_AUDIO = 2
+IN_TAG_HALLUCINATE = 3
 
 OUT_TAG_INIT = 0
 OUT_TAG_Z = 1
@@ -57,6 +77,20 @@ def from_z_msg(msg):
     return np.array(z_struct.unpack(msg), dtype=np.float64)
 
 to_audio_size_msg, from_audio_size_msg = simple_conv(audio_size_struct)
+
+to_f64_msg, from_f64_msg = simple_conv(f64_struct)
+
+def to_slerp_z_msg(z0, z1, amount):
+    return to_z_msg(z0) + to_z_msg(z1) + to_f64_msg(amount)
+
+def from_slerp_z_msg(msg):
+    z_size = z_struct.size
+    f64_size = f64_struct.size
+    assert len(msg) == 2 * z_size + f64_size
+    z0 = from_z_msg(msg[ : z_size])
+    z1 = from_z_msg(msg[z_size : 2*z_size])
+    amount = from_f64_msg(msg[2*z_size : ])
+    return z0, z1, amount
 
 def to_audio_msg(buf):
     return buf.tobytes()

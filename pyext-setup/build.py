@@ -7,7 +7,10 @@ import shutil
 import ssl
 import subprocess
 import sys
-import urllib
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
 import uuid
 import zipfile
 
@@ -46,6 +49,13 @@ def flatten_dir(path):
 
     os.rmdir(item_path)
 
+def download(url, path, ctx):
+    try:
+        urlretrieve(url, path, context = ctx)
+    except TypeError:
+        # no context support in python 3
+        urlretrieve(url, path)
+    
 def download_and_unzip(name, url, path, ctx):
     if os.path.exists(path):
         print(name, "already downloaded")
@@ -53,7 +63,7 @@ def download_and_unzip(name, url, path, ctx):
     
     print("downloading", name)
     the_zip = os.path.join(root_dir, "{}.zip".format(name))
-    urllib.urlretrieve(url, the_zip, context = ctx)
+    download(url, the_zip, ctx)
     print("unzipping", name)
     os.mkdir(path)
     with zipfile.ZipFile(the_zip, "r") as zf:
@@ -76,8 +86,8 @@ def find_pd_app():
 
     if len(pd_apps) == 0:
         return None
-        
-    max_app = max(pd_apps, key = lambda x: x[1])[0]
+
+    max_app = max(pd_apps, key = lambda x: x[0])[0]
     return os.path.join(apps_dir, max_app)
 
 def find_purr_data_app():

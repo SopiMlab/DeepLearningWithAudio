@@ -1,4 +1,4 @@
-# GANSynth setup (macOS)
+# pyext setup (macOS)
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@ If you've never used the command line before, it may be a good idea to have a lo
 
 ## Install Xcode command line tools
 
-Apple's Xcode command line developer tools are required for setup. If you have the regular Xcode installed from App Store, the command line tools should already be included.
+Apple's Xcode command line developer tools are required for setup. If you have the regular Xcode installed from App Store, the command line tools may already be included.
 
 To install the command line tools, open Terminal and run:
 
@@ -30,7 +30,15 @@ This will download the repository into your current working directory, which in 
 
 ## Install Conda
 
-Install Miniconda, following the [official instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
+We will use the Conda package/environment manager to set up a Python environment.
+
+If you use [Homebrew](https://brew.sh), you can simply run:
+
+```
+brew cask install miniconda
+```
+
+Otherwise, follow the [official Conda instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
 
 ## Download Magenta
 
@@ -40,7 +48,7 @@ Enter the root directory of the course repository. For example, if you cloned it
 cd ~/DeepLearningWithAudio
 ```
 
-Clone our Magenta repository:
+Now clone our Magenta repository:
 
 ```
 git clone https://github.com/SopiMlab/magenta.git
@@ -48,21 +56,15 @@ git clone https://github.com/SopiMlab/magenta.git
 
 ## Install Magenta
 
-Magenta can run either on CPU (widest hardware compatibility) or GPU (much better performance), but on macOS only the CPU variant is supported. This makes setup much simpler, but it does mean performance is limited even if you happen to have an NVIDIA graphics card available.
+Magenta can run either on CPU (widest hardware compatibility) or GPU (much better performance), but on macOS only the CPU variant is supported. This makes setup simpler, but it does mean performance is limited even if you happen to have an NVIDIA graphics card available.
 
-Enter the previously created Magenta directory:
-
-```
-cd magenta
-```
-
-Create a Conda environment (named "magenta" here):
+Create a Conda environment. The `-n` argument specifies the name of the environment and can be whatever you want, but we'll use "magenta" here:
 
 ```
-conda create -n magenta python=2.7 libopenblas=0.3
+conda create -n magenta python=3.7 libopenblas=0.3
 ```
 
-This will ask you for confirmation, create a Python 2.7 environment and install some packages.
+This will ask you for confirmation, create a Python 3.7 environment and install some packages.
 
 Activate the environment:
 
@@ -73,6 +75,12 @@ conda activate magenta
 This should update your command line prompt to say `(magenta)` at the start.
 
 Note that activating the Conda environment only applies to your current terminal window! If you open a  new window, you'll have to run this command again.
+
+Enter the previously created Magenta directory:
+
+```
+cd magenta
+```
 
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
@@ -94,43 +102,23 @@ Output:
 Package                            Version
 ---------------------------------- -----------
 ...
-magenta                            1.2.2
+magenta                            1.3.0
 ...
 ```
 
-## Download GANSynth checkpoint
+## Install sopilib
 
-Enter the `gansynth` directory:
-
-```
-cd ../gansynth
-```
-
-Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints. In this example, we will use `all_instruments`, which is trained on all instruments in the NSynth dataset. There is also `acoustic_only`, trained on the acoustic instruments only. Feel free to experiment with both!
-
-To download the `all_instruments` checkpoint, run:
+Enter the `sopilib` directory:
 
 ```
-curl -LO https://storage.googleapis.com/magentadata/models/gansynth/all_instruments.zip
+cd ../sopilib
 ```
 
-Extract the zip:
+Install:
 
 ```
-unzip all_instruments.zip
+pip install .
 ```
-
-Feel free to remove the zip file at this point.
-
-## Verify that GANSynth is working
-
-Generate some random notes:
-
-```
-gansynth_generate --ckpt_dir=all_instruments --output_dir=output
-```
-
-This will print a bunch of warnings, but should eventually produce a few wav files in the `output` subdirectory.
 
 ## Build pyext
 
@@ -149,12 +137,12 @@ python build.py --info
 Output:
 
 ```
-Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
-[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
-Python executable: /usr/local/miniconda3/envs/magenta/bin/python
-Pd path: /Applications/Pd-0.50-0.app
+Python version: 3.7.7 (default, Mar 26 2020, 10:32:53)
+[Clang 4.0.1 (tags/RELEASE_401/final)]
+Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta/bin/python
+Pd path: /Applications/Pd-0.50-2.app
 Pd variant: vanilla
-Conda root: /usr/local/miniconda3/envs/magenta
+Conda root: /usr/local/Caskroom/miniconda/base/envs/magenta
 ```
 
 The output on your system will differ a bit according to your corresponding paths.
@@ -170,10 +158,10 @@ Output:
 ```
 Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
 [GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
-Python executable: /usr/local/miniconda3/envs/magenta/bin/python
+Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta/bin/python
 Pd path: /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
 Pd variant: vanilla
-Conda root: /usr/local/miniconda3/envs/magenta
+Conda root: /usr/local/Caskroom/miniconda/base/envs/magenta
 ```
 
 Now build pyext by running the same command without `--info` (keep the `--pd` option if you needed to add it before):
@@ -194,7 +182,7 @@ mkdir -p ~/Documents/Pd/externals
 
 (In case the directory already exists, this command will do nothing, so it's safe to run either way.)
 
-Move `py.pd_darwin` into the newly created directory:
+Move `py.pd_darwin` into the externals directory:
 
 ```
 mv build/py/py.pd_darwin ~/Documents/Pd/externals/
@@ -213,15 +201,13 @@ Click OK, save your preferences (Pd menu → Preferences → Save All Preference
 ```
 ------------------------------------------------
 py/pyext 0.2.2 - python script objects
-(C)2002-2015 Thomas Grill - http://grrrr.org/ext
+(C)2002-2019 Thomas Grill - http://grrrr.org/ext
 
-using Python 2.7.16 |Anaconda, Inc.| (default, Aug 19 2019, 18:51:18) 
-[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
+using Python 3.7.7 (default, Mar 26 2020, 10:35:24) 
+[Clang 4.0.1 (tags/RELEASE_401/final)]
 
 Python array support enabled
 ------------------------------------------------
 ```
 
-Congratulations, you've got it working!
-
-You should now be able to open `gansynth.pd` and `gansynth_multi.pd` in Pure Data.
+Congratulations, you've got it working! You're now ready to run our Pd patches.

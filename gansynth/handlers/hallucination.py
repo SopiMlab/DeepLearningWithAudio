@@ -2,19 +2,16 @@ from __future__ import print_function
 import sys
 import os
 import random
-import struct
 import sys
 import math
-
-from ..utils import read_msg
 
 import numpy as np
 import scipy.io.wavfile as wavfile
 
 from magenta.models.gansynth.lib import generate_util as gu
 
-import struct
-from .. import communication_struct as gss
+from sopilib import gansynth_protocol as gss
+from sopilib.utils import read_msg
 
 
 def synthesize(model, zs, pitches):
@@ -67,7 +64,7 @@ def interpolate_notes(notes, pitches, steps, use_linear = False):
     result_notes = []
     result_pitches = []
     if len(notes) >= 2:
-        for i in xrange(0, len(notes) - 1):
+        for i in range(0, len(notes) - 1):
             start_note = notes[i]
             start_pitch = pitches[i]
             end_note = notes[i + 1]
@@ -76,7 +73,7 @@ def interpolate_notes(notes, pitches, steps, use_linear = False):
             result_notes.append(start_note)
             result_pitches.append(start_pitch)
 
-            for step in xrange(1, steps + 1):
+            for step in range(1, steps + 1):
                 interp = step / float(steps)
                 if use_linear:
                     result_notes.append([lerp(note, end_note[i], interp) for (i, note) in enumerate(start_note)])
@@ -154,18 +151,12 @@ def handle_hallucinate(model, stdin, stdout):
     audios = synthesize(model, final_notes, final_pitches)
     final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release, max_note_length=max_note_length, sr=sample_rate)
 
-    # TODO: Remove!
-    try:
-        gu.save_wav(final_audio, "/Users/oskar.koli/Desktop/hallucination.wav") 
-    except Exception:
-        pass
-
     final_audio = final_audio.astype('float32')
 
     stdout.write(gss.to_tag_msg(gss.OUT_TAG_AUDIO))
     stdout.write(gss.to_audio_size_msg(final_audio.size * final_audio.itemsize))
     stdout.write(gss.to_audio_msg(final_audio))
-
+    stdout.flush()
 
 handlers = {
     gss.IN_TAG_HALLUCINATE: handle_hallucinate
