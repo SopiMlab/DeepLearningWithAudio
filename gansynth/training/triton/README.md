@@ -1,6 +1,6 @@
 # Training GANSynth on Triton
 
-This guide is supplemental to the [main training guide](../README.md). It is assumed you have access to the [Triton](https://scicomp.aalto.fi/triton/) computing cluster and basic familiarity with how to run batch jobs there.
+This guide supplements the [main training guide](../README.md). It is assumed you have access to the [Triton](https://scicomp.aalto.fi/triton/) computing cluster and basic familiarity with how to run batch jobs there.
 
 ## Set up the Conda environment
 
@@ -24,18 +24,44 @@ If the last command complains about `oauth2client`, install a compatible version
 pip install 'oauth2client<4,>=2.0.1'
 ```
 
+Likewise for `gym`:
+
+```
+pip install 'gym==0.14.0'
+```
+
 ## Train
 
-Prepare your dataset and copy the files to Triton, then submit a batch job using our `train.slrm` script. The script takes the following arguments:
+Prepare your dataset and copy the files to Triton, then submit a batch job using our `train2.slrm` script. The script requires the following arguments:
 
-1. Path to the Conda environment
-2. Path to your training data file (`data.tfrecord`)
-3. Path to your training metadata file (`meta.json`)
-4. Path to the directory in which to save the trained model
+- Path to the Conda environment
+- Path to your training data file (`data.tfrecord`)
+- Path to your training metadata file (`meta.json`)
+- Path to the directory in which to save the trained model
 
-It is best to submit the job from a fresh shell with no modules loaded and no Conda environment active, as an active environment may mess up some Python paths.
+It is best to submit the job from a fresh shell with no modules loaded and no Conda environment active, as an active environment may [mess up](https://version.aalto.fi/gitlab/AaltoScienceIT/triton/issues/612) some Python paths.
 
 ```
 cd "$WRKDIR/DeepLearningWithAudio/gansynth/training/triton"
-sbatch train.slrm "$WRKDIR/conda/gansynth" "$WRKDIR/mydataset/data.tfrecord" "$WRKDIR/mydataset/meta.json" "$WRKDIR/mymodel"
+```
+
+For vanilla gansynth:
+
+```
+sbatch train2.slrm \
+    --conda_env "$WRKDIR/conda/gansynth" \
+    --train_data_path "$WRKDIR/mydataset/data.tfrecord" \
+    --train_meta_path "$WRKDIR/mydataset/meta.json" \
+    --train_root_dir "$WRKDIR/mymodel"
+```
+
+For models/datasets with extra labels (here `nsynth_qualities_tfrecord`):
+
+```
+sbatch train2.slrm \
+    --conda_env "$WRKDIR/conda/gansynth" \
+    --train_data_path "$WRKDIR/mydataset/data.tfrecord" \
+    --train_meta_path "$WRKDIR/mydataset/meta.json" \
+    --train_root_dir "$WRKDIR/mymodel" \ 
+    --dataset_name nsynth_qualities_tfrecord
 ```
