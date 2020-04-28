@@ -1,12 +1,10 @@
 #!/bin/bash
-#SBATCH --time=0-01
-#not SBATCH --time=5-00
+#SBATCH --time=5-00
 #SBATCH --cpus-per-task=12
 #SBATCH --mem=32G
-#not SBATCH --gres=gpu:v100:1
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:v100:1
 
-GETOPTS_RESULT=$(getopt -o '' -l conda_env:,train_data_path:,train_meta_path:,train_root_dir:dataset_name:,sample_rate: -n train_extra_labels -- "$@")
+GETOPTS_RESULT=$(getopt -o '' -l conda_env:,train_data_path:,train_meta_path:,train_root_dir:,dataset_name:,sample_rate: -n train_extra_labels -- "$@")
 
 eval set -- "$GETOPTS_RESULT"
 
@@ -45,7 +43,7 @@ while true; do
 done
 
 usage() {
-    echo 'usage: train_extra_labels.slrm --conda_env CONDA_ENV --train_data_path TRAIN_DATA_PATH --train_meta_path TRAIN_META_PATH --train_root_dir TRAIN_ROOT_DIR [--dataset_name DATASET_NAME]' 1>&2
+    echo 'usage: train_extra_labels.slrm --conda_env CONDA_ENV --train_data_path TRAIN_DATA_PATH --train_meta_path TRAIN_META_PATH --train_root_dir TRAIN_ROOT_DIR [--dataset_name DATASET_NAME] [--sample_rate SAMPLE_RATE]' 1>&2
 }
 
 if [ ! -n "$CONDA_ENV" -o ! -n "$TRAIN_DATA_PATH" -o ! -n "$TRAIN_META_PATH" -o ! -n "$TRAIN_ROOT_DIR" ]; then
@@ -72,4 +70,4 @@ source activate "$CONDA_ENV"
 
 srun gansynth_train \
      --config=mel_prog_hires \
-     --hparams='{"train_data_path":"'"$TRAIN_DATA_PATH"'", "train_meta_path":"'"$TRAIN_META_PATH"'", "train_root_dir":"'"$TRAIN_ROOT_DIR"'", "dataset_name":"'"$DATASET_NAME"'", "sample_rate":"'"$SAMPLE_RATE"'", "audio_length": 64000}'
+     --hparams='{"train_data_path":"'"$TRAIN_DATA_PATH"'", "train_meta_path":"'"$TRAIN_META_PATH"'", "train_root_dir":"'"$TRAIN_ROOT_DIR"'", "dataset_name":"'"$DATASET_NAME"'", "sample_rate": '"$SAMPLE_RATE"', "audio_length": 64000}'
