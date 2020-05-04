@@ -32,7 +32,7 @@ pip install 'gym==0.14.0'
 
 ## Train
 
-Prepare your dataset and copy the files to Triton, then submit a batch job using our `train2.slrm` script. The script requires the following arguments:
+Prepare your dataset and copy the files to Triton, then submit a batch job using our `train.slrm` script. The script requires the following arguments:
 
 - Path to the Conda environment
 - Path to your training data file (`data.tfrecord`)
@@ -48,7 +48,7 @@ cd "$WRKDIR/DeepLearningWithAudio/gansynth/training/triton"
 For vanilla gansynth:
 
 ```
-sbatch train2.slrm \
+sbatch train.slrm \
     --conda_env "$WRKDIR/conda/gansynth" \
     --train_data_path "$WRKDIR/mydataset/data.tfrecord" \
     --train_meta_path "$WRKDIR/mydataset/meta.json" \
@@ -58,7 +58,7 @@ sbatch train2.slrm \
 For models/datasets with extra labels (here `nsynth_qualities_tfrecord`):
 
 ```
-sbatch train2.slrm \
+sbatch train.slrm \
     --conda_env "$WRKDIR/conda/gansynth" \
     --train_data_path "$WRKDIR/mydataset/data.tfrecord" \
     --train_meta_path "$WRKDIR/mydataset/meta.json" \
