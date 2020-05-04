@@ -1,18 +1,55 @@
 #!/bin/bash
 #SBATCH --time=5-00
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=12
+#SBATCH --mem=32G
 #SBATCH --gres=gpu:v100:1
 
-if [ "$#" -ne 4 ]; then
-    echo 'usage: train.slrm CONDA_ENV TRAIN_DATA_PATH TRAIN_META_PATH TRAIN_ROOT_DIR' 1>&2
+GETOPTS_RESULT=$(getopt -o '' -l conda_env:,train_data_path:,train_meta_path:,train_root_dir:,dataset_name:,sample_rate: -n train_extra_labels -- "$@")
+
+eval set -- "$GETOPTS_RESULT"
+
+DATASET_NAME=nsynth_tfrecord
+SAMPLE_RATE=16000
+while true; do
+    case "$1" in
+        --conda_env )
+            CONDA_ENV="$2"
+            shift 2
+            ;;
+        --train_data_path )
+            TRAIN_DATA_PATH="$2"
+            shift 2
+            ;;
+        --train_meta_path )
+            TRAIN_META_PATH="$2"
+            shift 2
+            ;;
+        --train_root_dir )
+            TRAIN_ROOT_DIR="$2"
+            shift 2
+            ;;
+        --dataset_name )
+            DATASET_NAME="$2"
+            shift 2
+            ;;
+        --sample_rate )
+            SAMPLE_RATE="$2"
+            shift 2
+            ;;
+        * )
+            break
+            ;;
+    esac
+done
+
+usage() {
+    echo 'usage: train_extra_labels.slrm --conda_env CONDA_ENV --train_data_path TRAIN_DATA_PATH --train_meta_path TRAIN_META_PATH --train_root_dir TRAIN_ROOT_DIR [--dataset_name DATASET_NAME] [--sample_rate SAMPLE_RATE]' 1>&2
+}
+
+if [ ! -n "$CONDA_ENV" -o ! -n "$TRAIN_DATA_PATH" -o ! -n "$TRAIN_META_PATH" -o ! -n "$TRAIN_ROOT_DIR" ]; then
+    usage
     exit 1
 fi
-
-CONDA_ENV=$1
-TRAIN_DATA_PATH=$2
-TRAIN_META_PATH=$3
-TRAIN_ROOT_DIR=$4
 
 if [ -n "$SLURM_SUBMIT_DIR" ]; then
     cd "$SLURM_SUBMIT_DIR"
@@ -23,6 +60,8 @@ echo "conda environment: $CONDA_ENV" 1>&2
 echo "train_data_path: $TRAIN_DATA_PATH" 1>&2
 echo "train_meta_path: $TRAIN_META_PATH" 1>&2
 echo "train_root_dir: $TRAIN_ROOT_DIR" 1>&2
+echo "dataset_name: $DATASET_NAME" 1>&2
+echo "sample_rate: $SAMPLE_RATE" 1>&2
 echo 1>&2
 
 module load anaconda2/5.1.0-gpu
@@ -31,4 +70,4 @@ source activate "$CONDA_ENV"
 
 srun gansynth_train \
      --config=mel_prog_hires \
-     --hparams='{"train_data_path":"'"$TRAIN_DATA_PATH"'", "train_meta_path":"'"$TRAIN_META_PATH"'", "train_root_dir":"'"$TRAIN_ROOT_DIR"'"}'
+     --hparams='{"train_data_path":"'"$TRAIN_DATA_PATH"'", "train_meta_path":"'"$TRAIN_META_PATH"'", "train_root_dir":"'"$TRAIN_ROOT_DIR"'", "dataset_name":"'"$DATASET_NAME"'", "sample_rate": '"$SAMPLE_RATE"', "audio_length": 64000}'
