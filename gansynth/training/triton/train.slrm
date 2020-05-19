@@ -4,7 +4,7 @@
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:v100:1
 
-GETOPTS_RESULT=$(getopt -o '' -l conda_env:,train_data_path:,train_meta_path:,train_root_dir:,dataset_name:,sample_rate: -n train_extra_labels -- "$@")
+GETOPTS_RESULT=$(getopt -o '' -l conda_env:,train_data_path:,train_meta_path:,train_root_dir:,dataset_name:,sample_rate: -n train -- "$@")
 
 eval set -- "$GETOPTS_RESULT"
 
@@ -70,4 +70,4 @@ source activate "$CONDA_ENV"
 
 srun gansynth_train \
      --config=mel_prog_hires \
-     --hparams='{"train_data_path":"'"$TRAIN_DATA_PATH"'", "train_meta_path":"'"$TRAIN_META_PATH"'", "train_root_dir":"'"$TRAIN_ROOT_DIR"'", "dataset_name":"'"$DATASET_NAME"'", "sample_rate": '"$SAMPLE_RATE"', "audio_length": 64000}'
+     --hparams='{"train_data_path":"'"$TRAIN_DATA_PATH"'", "train_meta_path":"'"$TRAIN_META_PATH"'", "train_root_dir":"'"$TRAIN_ROOT_DIR"'", "dataset_name":"'"$DATASET_NAME"'", "sample_rate": '"$SAMPLE_RATE"', "audio_length": 64000, "train_instrument_sources": [0,1,2]}'
