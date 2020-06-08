@@ -27,11 +27,13 @@ class gansynth(pyext._class):
         self._outlets = 1
         self._proc = None
         self._stderr_printer = None
+        self.ganspace_components_amplitudes_buffer_name = None
 
-    def load_1(self, ckpt_dir, batch_size=1):
+    def load_1(self, ckpt_dir):
         if self._proc != None:
             self.unload_1()
-        
+
+        batch_size = 1
         python = sys.executable
         gen_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "gansynth_worker.py")
         ckpt_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), str(ckpt_dir))
@@ -54,6 +56,7 @@ class gansynth(pyext._class):
 
         print("gansynth_worker is ready", file=sys.stderr)
         self._outlet(1, ["loaded", audio_length, sample_rate])
+
 
     def unload_1(self):
         if self._proc:
@@ -89,7 +92,26 @@ class gansynth(pyext._class):
 
         if tag != expected_tag:
             raise ValueError("expected tag {}, got {}".format(expected_tag, tag))
-        
+
+    def load_ganspace_components_1(self, ganspace_components_file, component_amplitudes_buff_name):
+        ganspace_components_file = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                                str(ganspace_components_file))
+
+        print("Loading GANSpace components...", file=sys.stderr)
+        components_msg = protocol.to_load_ganspace_components_msg(ganspace_components_file)
+        self._write_msg(protocol.IN_TAG_LOAD_COMPONENTS, components_msg)
+        self._read_tag(protocol.OUT_TAG_LOAD_COMPONENTS)
+        count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        component_count = protocol.from_count_msg(count_msg)
+
+        self.ganspace_components_amplitudes_buffer_name = component_amplitudes_buff_name
+
+        buf = pyext.Buffer(component_amplitudes_buff_name)
+        buf.resize(component_count)
+        buf.dirty()
+
+        print("GANSpace components loaded!", file=sys.stderr)
+
     def randomize_z_1(self, *buf_names):
         if not self._proc:
             raise Exception("can't randomize z - no gansynth_worker process is running")
@@ -165,6 +187,15 @@ class gansynth(pyext._class):
         
         if arg_count == 0 or arg_count % 3 != 0:
             raise ValueError("invalid number of arguments ({}), should be a multiple of 3: synthesize z1 audio1 pitch1 [z2 audio2 pitch2 ...]".format(arg_count))
+
+        if self.ganspace_components_amplitudes_buffer_name:
+            component_buff = pyext.Buffer(self.ganspace_components_amplitudes_buffer_name)
+            components = np.array(component_buff, dtype=np.float64)
+            component_msgs = []
+            for value in components:
+                component_msgs.append(protocol.to_float_msg(value))
+            self._write_msg(protocol.IN_TAG_SET_COMPONENT_AMPLITUDES, *component_msgs)
+
 
         gen_msgs = []
         audio_buf_names = []

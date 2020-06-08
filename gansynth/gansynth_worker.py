@@ -38,6 +38,8 @@ info_msg = gss.to_info_msg(audio_length=audio_length, sample_rate=sample_rate)
 stdout.write(info_msg)
 stdout.flush()
 
+state = {}
+
 while True:
     in_tag_msg = read_msg(stdin, gss.tag_struct.size)
     in_tag = gss.from_tag_msg(in_tag_msg)
@@ -45,4 +47,4 @@ while True:
     if in_tag not in handlers:
         raise ValueError("unknown input message tag: {}".format(in_tag))
 
-    handlers[in_tag](model, stdin, stdout)
+    handlers[in_tag](model, stdin, stdout, state)

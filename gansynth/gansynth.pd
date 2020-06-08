@@ -46,7 +46,7 @@
 #X msg 365 78 synthesize \$1-z \$1-sound 52;
 #N canvas 501 282 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-64000 1;
+0 1;
 #X obj 103 68 f 1;
 #X obj 101 43 route loaded unloaded;
 #X obj 127 68 f 0;

@@ -12,6 +12,8 @@ Z_SIZE = 256
 # init: audio length, sample rate
 init_struct = struct.Struct("i" * 2)
 
+load_ganspace_components_struct = struct.Struct("255s")
+
 # tag: integer denoting the type of message
 tag_struct = struct.Struct("i")
 
@@ -40,10 +42,13 @@ IN_TAG_RAND_Z = 0
 IN_TAG_SLERP_Z = 1
 IN_TAG_GEN_AUDIO = 2
 IN_TAG_HALLUCINATE = 3
+IN_TAG_LOAD_COMPONENTS = 4
+IN_TAG_SET_COMPONENT_AMPLITUDES = 5
 
 OUT_TAG_INIT = 0
 OUT_TAG_Z = 1
 OUT_TAG_AUDIO = 2
+OUT_TAG_LOAD_COMPONENTS = 3
 
 def simple_conv(msg_struct):
     to_msg = lambda *args: msg_struct.pack(*args)
@@ -55,6 +60,12 @@ to_tag_msg, from_tag_msg = simple_conv(tag_struct)
 
 to_count_msg, from_count_msg = simple_conv(count_struct)
 
+def to_float_msg(f):
+    return f64_struct.pack(f)
+
+def from_float_msg(msg):
+    return f64_struct.unpack(msg)[0]
+
 def to_gen_msg(pitch, z):
     return gen_audio_struct.pack(pitch, *z)
 
@@ -63,6 +74,12 @@ def from_gen_msg(msg):
     pitch = data[0]
     z = np.array(data[1:], dtype=np.float64)
     return pitch, z
+
+def to_load_ganspace_components_msg(components_file):
+    return load_ganspace_components_struct.pack(components_file.encode('utf-8'))
+
+def from_load_ganspace_components_msg(msg):
+    return load_ganspace_components_struct.unpack(msg)[0].decode('utf-8').strip()
 
 def to_info_msg(audio_length, sample_rate):
     return init_struct.pack(audio_length, sample_rate)

@@ -134,7 +134,7 @@ def combine_notes(audio_notes,
     return audio_clip
 
 
-def handle_hallucinate(model, stdin, stdout):
+def handle_hallucinate(model, stdin, stdout, state):
     max_note_length = model.config['audio_length']
     sample_rate = model.config['sample_rate']
 
