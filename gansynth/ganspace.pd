@@ -1,24 +1,24 @@
-#N canvas 574 77 999 604 10;
-#X obj 668 13 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 507 75 1134 617 10;
+#X obj 668 26 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 489 13 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 489 26 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 10 11 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 10 24 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound 64000 float 0;
 #X coords 0 1 63999 -1 200 140 1;
-#X restore 426 269 graph;
-#X obj 12 65 loadbang;
-#X obj 703 416 dac~;
-#X obj 703 359 vline~;
-#X msg 703 340 1 \, 63998 4000;
-#X obj 703 378 tabread4~ \$0-sound;
+#X restore 426 282 graph;
+#X obj 12 78 loadbang;
+#X obj 703 429 dac~;
+#X obj 703 372 vline~;
+#X msg 703 353 1 \, 63998 4000;
+#X obj 703 391 tabread4~ \$0-sound;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z 256 float 2;
 #X coords 0 5 256 -5 200 140 1;
-#X restore 9 269 graph;
-#X text 12 13 1 - load GANSynth model from a saved checkpoint, f 28
+#X restore 9 282 graph;
+#X text 12 26 1 - load GANSynth model from a saved checkpoint, f 28
 ;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
@@ -26,19 +26,18 @@
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 216 138 pd print_input;
-#X obj 703 318 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
+#X restore 216 151 pd print_input;
+#X obj 703 331 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
 -1 -1;
-#X obj 262 201 print gansynth output;
-#X obj 703 397 *~ 0.5;
-#X obj 491 45 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 262 214 print gansynth output;
+#X obj 703 410 *~ 0.5;
+#X obj 491 58 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 491 67 f \$0;
-#X msg 491 85 randomize_z \$1-z;
-#X obj 670 45 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 491 80 f \$0;
+#X msg 520 101 randomize_z \$1-z;
+#X obj 670 58 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 670 67 f \$0;
-#X msg 670 85 synthesize \$1-z \$1-sound 52;
+#X obj 670 80 f \$0;
 #N canvas 501 282 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
 64000 1;
@@ -52,44 +51,46 @@
 #X connect 3 0 0 0;
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 114 51 pd loaded;
-#X obj 234 179 list trim;
-#X obj 703 289 route synthesized;
-#X obj 161 158 pyext gansynth gansynth @detach 1;
-#X obj 154 201 s \$0-gansynth_out;
-#X obj 703 271 r \$0-gansynth_out;
-#X obj 195 12 cnv 15 280 90 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 114 64 pd loaded;
+#X obj 234 192 list trim;
+#X obj 703 302 route synthesized;
+#X obj 161 171 pyext gansynth gansynth @detach 1;
+#X obj 154 214 s \$0-gansynth_out;
+#X obj 703 284 r \$0-gansynth_out;
+#X obj 195 25 cnv 15 280 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 197 44 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 197 57 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 197 66 f \$0;
-#X msg 12 83 load all_instruments;
-#X text 198 13 2 - load ganspace components from file, f 45;
+#X obj 197 79 f \$0;
+#X text 198 26 2 - load ganspace components from file, f 45;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X array \$0-amplitudes 1 float 2;
-#X coords 0 5 1 -5 200 140 1 0 0;
-#X restore 215 267 graph;
-#X text 491 15 3 - generate a random latent vector for timbre, f 28
+#X array \$0-amplitudes 8192 float 2;
+#X coords 0 -10 8192 10 200 140 1 0 0;
+#X restore 215 280 graph;
+#X text 491 28 3 - generate a random latent vector for timbre, f 28
 ;
-#X text 669 14 4 - synthesize from the vector and a given pitch, f
+#X text 669 27 4 - synthesize from the vector and a given pitch, f
 28;
-#X msg 198 84 load_ganspace_components tesssst \$1-amplitudes;
-#X obj 21 420 array-slider \$0-amplitudes 0;
-#X obj 21 462 array-slider \$0-amplitudes 1;
-#X obj 21 504 array-slider \$0-amplitudes 2;
-#X obj 21 546 array-slider \$0-amplitudes 3;
-#X obj 227 421 array-slider \$0-amplitudes 4;
-#X obj 227 463 array-slider \$0-amplitudes 5;
-#X obj 227 505 array-slider \$0-amplitudes 6;
-#X obj 227 547 array-slider \$0-amplitudes 7;
-#X obj 432 421 array-slider \$0-amplitudes 8;
-#X obj 432 463 array-slider \$0-amplitudes 9;
-#X obj 432 505 array-slider \$0-amplitudes 10;
-#X connect 4 0 30 0;
+#X obj 21 433 array-slider \$0-amplitudes 0;
+#X obj 21 475 array-slider \$0-amplitudes 1;
+#X obj 21 517 array-slider \$0-amplitudes 2;
+#X obj 21 559 array-slider \$0-amplitudes 3;
+#X obj 227 434 array-slider \$0-amplitudes 4;
+#X obj 227 476 array-slider \$0-amplitudes 5;
+#X obj 227 518 array-slider \$0-amplitudes 6;
+#X obj 227 560 array-slider \$0-amplitudes 7;
+#X obj 432 434 array-slider \$0-amplitudes 8;
+#X obj 432 476 array-slider \$0-amplitudes 9;
+#X obj 432 518 array-slider \$0-amplitudes 10;
+#X msg 670 98 synthesize \$1-z \$1-sound 32;
+#X msg 11 96 load all_instruments;
+#X msg 198 97 load_ganspace_components all_instruments_edits/all_instrument_conv0.pickle
+\$1-amplitudes;
+#X connect 4 0 45 0;
 #X connect 6 0 8 0;
 #X connect 7 0 6 0;
 #X connect 8 0 14 0;
-#X connect 11 0 24 1;
+#X connect 11 0 23 1;
 #X connect 12 0 7 0;
 #X connect 14 0 5 0;
 #X connect 14 0 5 1;
@@ -97,15 +98,15 @@
 #X connect 16 0 17 0;
 #X connect 17 0 11 0;
 #X connect 18 0 19 0;
-#X connect 19 0 20 0;
-#X connect 20 0 11 0;
-#X connect 22 0 13 0;
-#X connect 22 0 25 0;
-#X connect 23 0 12 0;
-#X connect 24 0 22 0;
-#X connect 26 0 23 0;
-#X connect 28 0 29 0;
-#X connect 29 0 35 0;
-#X connect 30 0 11 0;
-#X connect 35 0 11 0;
-#X coords 0 604 1 603 0 0 0;
+#X connect 19 0 44 0;
+#X connect 21 0 13 0;
+#X connect 21 0 24 0;
+#X connect 22 0 12 0;
+#X connect 23 0 21 0;
+#X connect 25 0 22 0;
+#X connect 27 0 28 0;
+#X connect 28 0 46 0;
+#X connect 44 0 11 0;
+#X connect 45 0 11 0;
+#X connect 46 0 11 0;
+#X coords 0 617 1 616 0 0 0;

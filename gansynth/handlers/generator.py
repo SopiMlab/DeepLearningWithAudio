@@ -30,17 +30,15 @@ def handle_rand_z(model, stdin, stdout, state):
     stdout.flush()
 
 def handle_load_ganspace_components(model, stdin, stdout, state):
-    msg = read_msg(stdin, protocol.load_ganspace_components_struct.size)
-    file = protocol.from_load_ganspace_components_msg(msg)
-    #with open(file, "r") as fp:
-    #    state['ganspace_components'] = pickle.load(fp)
-    l = 'conv1_2'
-    state['ganspace_components'] = {
-        "comp": [np.zeros(model.fake_offsets[l].shape.as_list(), np.float32)],
-        "stdev": [np.zeros(model.fake_offsets[l].shape.as_list(), np.float32)],
-        "var_ratio": [],
-        "layer": l
-    }
+    size_msg = read_msg(stdin, protocol.int_struct.size)
+    size = protocol.from_int_msg(size_msg)
+    msg = read_msg(stdin, size)
+    file = msg.decode('utf-8')
+    print_err("Opening components file '{}'".format(file))
+    with open(file, "rb") as fp:
+        state['ganspace_components'] = pickle.load(fp)
+    print_err("Components file loaded.")
+
     component_count = len(state['ganspace_components']["comp"])
     state['ganspace_component_count'] = component_count
     stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_LOAD_COMPONENTS))
@@ -85,12 +83,22 @@ def handle_gen_audio(model, stdin, stdout, state):
     if 'ganspace_component_amplitudes' in state:
         components = state['ganspace_components']['comp']
         std_devs = state['ganspace_components']['stdev']
-        offsets = np.zeros(np.shape(components[0]), np.float32)
-        for i, v in enumerate(state['ganspace_component_amplitudes']):
-            c = np.array(components[i])
-            std_dev = np.array(std_devs[i])
-            offsets += c * v * std_dev
-        layer_offsets[state['ganspace_components']['layer']] = offsets
+        edits = state['ganspace_component_amplitudes']
+
+        amounts = np.zeros(components.shape[:1], dtype=np.float32)
+        amounts[:len(list(map(float, edits)))] = edits * std_devs
+
+        scaled_directions = amounts.reshape(-1, 1, 1, 1) * components
+
+        linear_combination = np.sum(scaled_directions, axis=0)
+        linear_combination_batch = np.repeat(
+            linear_combination.reshape(1, *linear_combination.shape),
+            8,
+            axis=0
+        )
+
+
+        layer_offsets[state['ganspace_components']['layer']] = linear_combination_batch
 
     z_arr = np.array(zs)
     try:

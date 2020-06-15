@@ -23,6 +23,8 @@ z_struct = struct.Struct(Z_SIZE*"d")
 # f64: double-precision float
 f64_struct = struct.Struct("d")
 
+int_struct = struct.Struct("i")
+
 # slerp_z: source 0, source 1, interpolation amount
 slerp_z_struct = struct.Struct(z_struct.format + z_struct.format + f64_struct.format)
 
@@ -66,6 +68,12 @@ def to_float_msg(f):
 def from_float_msg(msg):
     return f64_struct.unpack(msg)[0]
 
+def to_int_msg(f):
+    return int_struct.pack(f)
+
+def from_int_msg(msg):
+    return int_struct.unpack(msg)[0]
+
 def to_gen_msg(pitch, z):
     return gen_audio_struct.pack(pitch, *z)
 
@@ -79,7 +87,7 @@ def to_load_ganspace_components_msg(components_file):
     return load_ganspace_components_struct.pack(components_file.encode('utf-8'))
 
 def from_load_ganspace_components_msg(msg):
-    return load_ganspace_components_struct.unpack(msg)[0].decode('utf-8').strip()
+    return load_ganspace_components_struct.unpack(msg)[0].decode('utf-8').strip().rstrip('\r\n').rstrip('\n')
 
 def to_info_msg(audio_length, sample_rate):
     return init_struct.pack(audio_length, sample_rate)

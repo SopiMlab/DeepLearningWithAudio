@@ -98,8 +98,11 @@ class gansynth(pyext._class):
                                                 str(ganspace_components_file))
 
         print("Loading GANSpace components...", file=sys.stderr)
-        components_msg = protocol.to_load_ganspace_components_msg(ganspace_components_file)
-        self._write_msg(protocol.IN_TAG_LOAD_COMPONENTS, components_msg)
+
+        size_msg = protocol.to_int_msg(len(ganspace_components_file))
+        components_msg = ganspace_components_file.encode('utf-8')
+
+        self._write_msg(protocol.IN_TAG_LOAD_COMPONENTS, size_msg, components_msg)
         self._read_tag(protocol.OUT_TAG_LOAD_COMPONENTS)
         count_msg = self._proc.stdout.read(protocol.count_struct.size)
         component_count = protocol.from_count_msg(count_msg)
