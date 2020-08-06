@@ -19,7 +19,7 @@ if sys.platform != "darwin":
     sys.exit(1)
 
 flext_url = "https://github.com/SopiMlab/flext/archive/master.zip"
-py_url = "https://github.com/SopiMlab/py/archive/master.zip"
+py_url = "https://github.com/SopiMlab/py/archive/python3.zip"
 
 root_dir = os.path.dirname(os.path.realpath(__file__))
 
