@@ -116,10 +116,77 @@ def handle_gen_audio(model, stdin, stdout, state):
 
     stdout.flush()
 
+def make_layer(pca, edits):
+    amounts = np.zeros(pca["comp"].shape[:1], dtype=np.float32)
+    edits_len = edits.shape[0]
+    stdevs = pca["stdev"]
+    stdevs_len = stdevs.shape[0]
+    if edits_len > stdevs_len:
+        raise ValueError("too many edits ({}) - PCA size is {}".format(edits_len, stdevs_len))
+  
+    padding = stdevs_len - edits_len
+    edits_padded = edits
+    
+    if padding > 0:
+        edits_padded = np.concatenate([edits, np.zeros(padding, dtype=edits.dtype)])
+    
+    amounts[:len(list(edits_padded))] = edits_padded * stdevs
+    
+    scaled_directions = amounts.reshape(-1, 1, 1, 1) * pca["comp"]
+  
+    layer = pca["global_mean"] + np.sum(scaled_directions, axis=0)
+
+    return layer
+    
+def handle_synthesize_noz(model, stdin, stdout, state):
+    count_msg = read_msg(stdin, protocol.count_struct.size)
+    count = protocol.from_count_msg(count_msg)
+    
+    pitches = []
+    for i in range(count):
+        gen_msg = read_msg(stdin, protocol.synthesize_noz_struct.size)
+        
+        pitch = protocol.from_synthesize_noz_msg(gen_msg)
+        
+        pitches.append(pitch)
+
+    print_err("pitches =", pitches)
+        
+    pca = state["ganspace_components"]
+    stdevs = pca["stdev"]
+    layer_dtype = stdevs.dtype
+    edits = np.array(state["ganspace_component_amplitudes"], dtype=layer_dtype)
+
+    print_err("stdevs.shape =", stdevs.shape)
+    print_err("layer_dtype =", layer_dtype)
+    print_err("edits.shape =", edits.shape)
+    
+    layer = make_layer(pca, edits)
+    layers = np.repeat([layer], len(pitches), axis=0)
+
+    print_err("layer.shape =", layer.shape)
+    print_err("layers.shape =", layers.shape)
+    
+    try:
+        audios = model.generate_samples_from_layers({pca["layer"]: layers}, pitches)
+    except KeyError as e:
+        print_err("can't synthesize - model was not trained on pitch {}".format(e.args[0]))
+        audios = []
+        
+    stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_AUDIO))
+    stdout.write(protocol.to_count_msg(len(audios)))
+
+    for audio in audios:
+        stdout.write(protocol.to_audio_size_msg(audio.size * audio.itemsize))
+        stdout.write(protocol.to_audio_msg(audio))
+
+    stdout.flush()
+        
 handlers = {
     protocol.IN_TAG_RAND_Z: handle_rand_z,
     protocol.IN_TAG_SLERP_Z: handle_slerp_z,
     protocol.IN_TAG_GEN_AUDIO: handle_gen_audio,
     protocol.IN_TAG_LOAD_COMPONENTS: handle_load_ganspace_components,
-    protocol.IN_TAG_SET_COMPONENT_AMPLITUDES: handle_set_component_amplitudes
+    protocol.IN_TAG_SET_COMPONENT_AMPLITUDES: handle_set_component_amplitudes,
+    protocol.IN_TAG_SYNTHESIZE_NOZ: handle_synthesize_noz
 }

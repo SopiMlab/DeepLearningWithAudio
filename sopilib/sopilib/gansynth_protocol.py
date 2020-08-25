@@ -40,12 +40,16 @@ audio_size_struct = struct.Struct("i")
 # hallucinate: note count, interpolation steps, spacing, start trim, attack, sustain, release
 hallucinate_struct = struct.Struct("i" * 2 + "d" * 5)
 
+# synthesize_noz: pitch
+synthesize_noz_struct = struct.Struct("i")
+
 IN_TAG_RAND_Z = 0
 IN_TAG_SLERP_Z = 1
 IN_TAG_GEN_AUDIO = 2
 IN_TAG_HALLUCINATE = 3
 IN_TAG_LOAD_COMPONENTS = 4
 IN_TAG_SET_COMPONENT_AMPLITUDES = 5
+IN_TAG_SYNTHESIZE_NOZ = 6
 
 OUT_TAG_INIT = 0
 OUT_TAG_Z = 1
@@ -141,3 +145,11 @@ def from_hallucinate_msg(msg):
     sustain = math.floor(sustain * 100)/100.0
     release = math.floor(release * 100)/100.0
     return (note_count, interpolation_steps, spacing, start_trim, attack, sustain, release)
+
+def to_synthesize_noz_msg(pitch):
+    return synthesize_noz_struct.pack(pitch)
+
+def from_synthesize_noz_msg(msg):
+    data = synthesize_noz_struct.unpack(msg)
+    pitch = data[0]
+    return pitch

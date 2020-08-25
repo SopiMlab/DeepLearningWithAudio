@@ -240,7 +240,63 @@ class gansynth(pyext._class):
             audio_buf.dirty()
         
         self._outlet(1, "synthesized")
-    
+
+    def synthesize_noz_1(self, *args):
+        if not self._proc:
+            raise Exception("can't synthesize - no gansynth_worker process is running")
+        
+        arg_count = len(args)
+        
+        if arg_count == 0 or arg_count % 2 != 0:
+            raise ValueError("invalid number of arguments ({}), should be a multiple of 2: synthesize_noz audio1 pitch1 [audio2 pitch2 ...]".format(arg_count))
+
+        if self.ganspace_components_amplitudes_buffer_name:
+            component_buff = pyext.Buffer(self.ganspace_components_amplitudes_buffer_name)
+            components = np.array(component_buff, dtype=np.float64)
+            component_msgs = []
+            for value in components:
+                component_msgs.append(protocol.to_float_msg(value))
+            self._write_msg(protocol.IN_TAG_SET_COMPONENT_AMPLITUDES, *component_msgs)
+
+        gen_msgs = []
+        audio_buf_names = []
+        for i in range(0, arg_count, 2):
+            audio_buf_name, pitch = args[i:i+2]
+            
+            gen_msgs.append(protocol.to_synthesize_noz_msg(pitch))
+            audio_buf_names.append(audio_buf_name)
+            
+        in_count = len(gen_msgs)
+        in_count_msg = protocol.to_count_msg(in_count)
+        self._write_msg(protocol.IN_TAG_SYNTHESIZE_NOZ, in_count_msg, *gen_msgs)
+                
+        self._read_tag(protocol.OUT_TAG_AUDIO)
+
+        out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        out_count = protocol.from_count_msg(out_count_msg)
+        
+        if out_count == 0:
+            return
+
+        assert out_count == in_count
+
+        for audio_buf_name in audio_buf_names:
+            audio_size_msg = self._proc.stdout.read(protocol.audio_size_struct.size)
+            audio_size = protocol.from_audio_size_msg(audio_size_msg)
+
+            audio_msg = self._proc.stdout.read(audio_size)
+            audio_note = protocol.from_audio_msg(audio_msg)
+
+            audio_buf = pyext.Buffer(audio_buf_name)
+            if len(audio_buf) != len(audio_note):
+                audio_buf.resize(len(audio_note))
+
+            audio_buf[:] = audio_note
+            audio_buf.dirty()
+        
+        self._outlet(1, "synthesized")
+        
+        
     def hallucinate_1(self, *args):
         if not self._proc:
             raise Exception("can't synthesize - load a checkpoint first")
