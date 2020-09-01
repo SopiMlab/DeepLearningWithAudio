@@ -76,8 +76,8 @@
 #X array \$0-edits 16 float 2;
 #X coords 0 1 16 -1 200 100 1 0 0;
 #X restore 791 264 graph;
-#X obj 576 132 ganspace_halluseq/numberslider2way 0 32;
-#X obj 125 337 ganspace_halluseq/edit_sliders \$0-edits;
+#X obj 576 132 ganspacesynth_halluseq/numberslider2way 0 32;
+#X obj 125 337 ganspacesynth_halluseq/edit_sliders \$0-edits;
 #X obj 169 -33 bang;
 #X msg -130 484 synthesize_noz \$1-preview_audio 32;
 #X obj 111 204 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
@@ -115,11 +115,11 @@
 release;
 #X msg -98 710 hallucinate_noz \$1-out_audio;
 #X msg 605 823 write -wave -rate 16000 -bytes 3 \$1 \$2-out_audio;
-#X obj 576 180 ganspace_halluseq/numberslider2way 0 4;
-#X obj 576 228 ganspace_halluseq/numberslider2way 0 4;
-#X obj 576 276 ganspace_halluseq/numberslider2way 0 4;
-#X obj 576 324 ganspace_halluseq/numberslider2way 0 4;
-#X obj 576 373 ganspace_halluseq/numberslider2way 0 4;
+#X obj 576 180 ganspacesynth_halluseq/numberslider2way 0 4;
+#X obj 576 228 ganspacesynth_halluseq/numberslider2way 0 4;
+#X obj 576 276 ganspacesynth_halluseq/numberslider2way 0 4;
+#X obj 576 324 ganspacesynth_halluseq/numberslider2way 0 4;
+#X obj 576 373 ganspacesynth_halluseq/numberslider2way 0 4;
 #X obj 170 -74 route step settings worker updated synthesized hallucinated
 ;
 #X obj 898 -66 expr $f1-2 \; $f1/16000*1000;
@@ -146,7 +146,7 @@ release;
 #X obj 373 842 list trim;
 #X obj 351 762 r \$0-gansynth_in;
 #X obj 293 866 s \$0-gansynth_out;
-#X obj 270 822 pyext ganspace_halluseq halluseq \$0-edits @detach 1
+#X obj 270 822 pyext ganspacesynth_halluseq halluseq \$0-edits @detach 1
 ;
 #X obj 928 858 outlet~;
 #X msg 830 11 1 \, \$1 \$2;

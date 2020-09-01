@@ -68,10 +68,10 @@ conda activate magenta
 Enter the `gansynth` directory in the course repository. Assuming you downloaded the repository to your home directory:
 
 ```
-cd ~/DeepLearningWithAudio/gansynth
+cd ~/DeepLearningWithAudio/03_nsynth_and_gansynth/gansynth
 ```
 
-Download the `all_instruments` checkpoint:
+Download a checkpoint (in this example, `all_instruments`):
 
 ```
 curl -LO https://storage.googleapis.com/magentadata/models/gansynth/all_instruments.zip

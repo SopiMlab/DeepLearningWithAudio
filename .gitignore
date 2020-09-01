@@ -1,7 +1,9 @@
+01_ai_duet/*.mag
 magenta
-pyext-setup/build
-pyext-setup/flext
-pyext-setup/py
+utilities/pyext-setup/build
+utilities/pyext-setup/flext
+utilities/pyext-setup/py
+utilities/sopilib/sopilib.egg-info
 *.pyo
 *.pyc
 .DS_Store

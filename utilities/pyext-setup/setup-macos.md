@@ -111,7 +111,7 @@ magenta                            1.3.0
 Enter the `sopilib` directory:
 
 ```
-cd ../sopilib
+cd ../utilities/sopilib
 ```
 
 Install:
