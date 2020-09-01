@@ -1,44 +1,70 @@
-#N canvas 720 22 720 415 10;
-#X obj 2 7 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 720 23 720 551 10;
+#X obj 2 2 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 28 70 loadbang;
+#X obj 28 65 loadbang;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
-#X obj 201 65 print gansynth input;
+#X obj 201 65 print melody_rnn input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 199 179 pd print_input;
-#X msg 28 89 load attention_rnn;
-#X obj 135 203 pyext ai_duet melody_rnn @detach 1;
-#X obj 135 262 print melody_rnn output;
-#X msg 75 155 state;
-#X obj 315 296 noteout 1;
-#X obj 212 227 route list;
-#X obj 315 260 route note;
-#X obj 315 278 unpack f f;
-#X obj 181 7 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 199 174 pd print_input;
+#X msg 28 84 load attention_rnn;
+#X obj 135 198 pyext ai_duet melody_rnn @detach 1;
+#X obj 135 257 print melody_rnn output;
+#X msg 75 150 state;
+#X obj 414 401 noteout 1;
+#X obj 212 222 route list;
+#X obj 315 255 route note;
+#X obj 414 379 unpack f f;
+#X obj 181 2 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 227 66 pack f f;
-#X obj 227 48 notein 1;
-#X msg 227 84 note \$1 \$2;
-#X obj 360 7 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 227 61 pack f f;
+#X obj 227 43 notein 1;
+#X msg 227 79 note \$1 \$2;
+#X obj 360 2 cnv 15 176 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X msg 408 37 generate 20;
-#X msg 424 111 clear;
-#X text 4 9 1 - load a Melody RNN model from disk, f 28;
-#X text 362 9 3 - generate 20 seconds of new notes, f 28;
-#X text 362 69 melody_rnn remembers all previous note input \, but
+#X msg 408 32 generate 20;
+#X msg 424 106 clear;
+#X text 4 4 1 - load a Melody RNN model from disk, f 28;
+#X text 362 4 3 - generate 20 seconds of new notes, f 28;
+#X text 362 64 melody_rnn remembers all previous note input \, but
 can be cleared, f 28;
-#X obj 236 109 s \$0-input;
-#X text 183 9 2 - send note input to melody_rnn, f 28;
-#X obj 360 151 cnv 15 176 100 empty empty empty 20 12 0 14 -233017
+#X obj 236 104 s \$0-input;
+#X text 183 4 2 - send note input to melody_rnn, f 28;
+#X obj 360 146 cnv 15 176 100 empty empty empty 20 12 0 14 -233017
 -66577 0;
-#X obj 412 217 spigot;
-#X obj 455 195 tgl 15 0 empty empty passthru 17 7 0 10 -262144 -1 -1
-0 1;
-#X obj 384 195 r \$0-input;
-#X text 362 153 pass thru input notes to the output, f 28;
+#X obj 412 212 spigot;
+#X obj 455 190 tgl 15 0 empty empty passthru 17 7 0 10 -262144 -1 -1
+1 1;
+#X obj 384 190 r \$0-input;
+#X text 362 148 pass thru input notes to the output, f 28;
+#X obj 207 426 osc~;
+#X obj 207 406 mtof;
+#X obj 224 384 unpack f f;
+#X obj 188 449 expr~ $v1*($f2/127)*0.5;
+#X obj 175 471 dac~;
+#N canvas 196 536 450 300 select_output 0;
+#X obj 215 28 inlet;
+#X obj 204 252 outlet;
+#X obj 252 252 outlet;
+#X obj 103 118 hradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 203 172 list prepend;
+#X msg 107 47 0;
+#X obj 107 27 loadbang;
+#X obj 203 193 route 0 1;
+#X connect 0 0 4 0;
+#X connect 3 0 4 1;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
+#X connect 7 1 2 0;
+#X coords 0 -1 1 1 85 40 1 100 100;
+#X restore 315 303 pd select_output;
+#X text 300 400 sine example;
+#X text 486 399 external midi instrument;
 #X connect 1 0 3 0;
 #X connect 2 0 4 1;
 #X connect 3 0 2 0;
@@ -46,7 +72,7 @@ can be cleared, f 28;
 #X connect 4 0 8 0;
 #X connect 6 0 2 0;
 #X connect 8 0 9 0;
-#X connect 9 0 10 0;
+#X connect 9 0 33 0;
 #X connect 10 0 7 0;
 #X connect 10 1 7 1;
 #X connect 12 0 14 0;
@@ -59,4 +85,12 @@ can be cleared, f 28;
 #X connect 24 0 9 0;
 #X connect 25 0 24 1;
 #X connect 26 0 24 0;
-#X coords 0 415 1 414 0 0 0;
+#X connect 28 0 31 0;
+#X connect 29 0 28 0;
+#X connect 30 0 29 0;
+#X connect 30 1 31 1;
+#X connect 31 0 32 0;
+#X connect 31 0 32 1;
+#X connect 33 0 30 0;
+#X connect 33 1 10 0;
+#X coords 0 551 1 550 0 0 0;
