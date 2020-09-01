@@ -50,6 +50,7 @@ IN_TAG_HALLUCINATE = 3
 IN_TAG_LOAD_COMPONENTS = 4
 IN_TAG_SET_COMPONENT_AMPLITUDES = 5
 IN_TAG_SYNTHESIZE_NOZ = 6
+IN_TAG_HALLUCINATE_NOZ = 7
 
 OUT_TAG_INIT = 0
 OUT_TAG_Z = 1
@@ -128,13 +129,15 @@ def from_audio_msg(msg):
     return np.frombuffer(msg, dtype=np.float32)
 
 
-def to_hallucinate_msg(note_count, 
-                        interpolation_steps, 
-        spacing = 0.2,
-        start_trim = 0.0,
-        attack = 0.5,
-        sustain = 0.5,
-        release = 0.5):
+def to_hallucinate_msg(
+    note_count, 
+    interpolation_steps, 
+    spacing = 0.2,
+    start_trim = 0.0,
+    attack = 0.5,
+    sustain = 0.5,
+    release = 0.5
+):
     return hallucinate_struct.pack(note_count, interpolation_steps, spacing, start_trim, attack, sustain, release)
 
 def from_hallucinate_msg(msg):

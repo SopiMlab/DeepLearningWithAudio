@@ -1,0 +1,72 @@
+#!/bin/bash
+#SBATCH --time=1-00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=32G
+
+GETOPTS_RESULT=$(getopt -o '' -l conda_env:,ckpt_dir:,layer:,estimator:,random_z_count: -n train -- "$@")
+
+eval set -- "$GETOPTS_RESULT"
+
+LAYER=conv0
+ESTIMATOR=ipca
+RANDOM_Z_COUNT=$((8192*512))
+while true; do
+    case "$1" in
+        --conda_env )
+            CONDA_ENV="$2"
+            shift 2
+            ;;
+        --ckpt_dir )
+            CKPT_DIR="$2"
+            shift 2
+            ;;
+        --layer )
+            LAYER="$2"
+            shift 2
+            ;;
+        --estimator )
+            ESTIMATOR="$2"
+            shift 2
+            ;;
+        --random_z_count )
+            RANDOM_Z_COUNT="$2"
+            shift 2
+            ;;
+        * )
+            break
+            ;;
+    esac
+done
+
+usage() {
+    echo 'usage: ganspace.slrm --conda_env CONDA_ENV --ckpt_dir CKPT_DIR [--layer LAYER] [--estimator ESTIMATOR] [--random_z_count RANDOM_Z_COUNT]' 1>&2
+}
+
+if [ ! -n "$CONDA_ENV" -o ! -n "$CKPT_DIR" -o ! -n "$LAYER" -o ! -n "$ESTIMATOR" -o ! "$RANDOM_Z_COUNT" ]; then
+    usage
+    exit 1
+fi
+
+if [ -n "$SLURM_SUBMIT_DIR" ]; then
+    cd "$SLURM_SUBMIT_DIR"
+fi
+
+echo "conda environment: $CONDA_ENV" 1>&2
+echo "ckpt dir: $CKPT_DIR" 1>&2
+echo "layer: $LAYER" 1>&2
+echo "random_z_count: $RANDOM_Z_COUNT" 1>&2
+echo "estimator: $ESTIMATOR" 1>&2
+echo 1>&2
+
+module load anaconda2/5.1.0-gpu
+module load cuda/10.0.130
+source activate "$CONDA_ENV"
+
+# TODO: install gansynth_ganspace.py as part of our magenta & remove hardcoding here
+srun python "/scratch/other/sopi/magenta/magenta/models/gansynth/gansynth_ganspace.py" \
+    --ckpt_dir "$CKPT_DIR" \
+    --seed 0 \
+    --layer "$LAYER" \
+    --random_z_count "$RANDOM_Z_COUNT" \
+    --estimator "$ESTIMATOR" \
+    --pca_out_file "${CKPT_DIR}_${LAYER}_${ESTIMATOR}_${RANDOM_Z_COUNT}.pickle" # TODO: allow specifying this

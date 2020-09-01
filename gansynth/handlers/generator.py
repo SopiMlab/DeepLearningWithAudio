@@ -11,6 +11,7 @@ from magenta.models.gansynth.lib import generate_util as gu
 from sopilib import gansynth_protocol as protocol
 from sopilib.utils import print_err, read_msg
 
+from .utils import make_layer
 
 def handle_rand_z(model, stdin, stdout, state):
     """
@@ -115,30 +116,10 @@ def handle_gen_audio(model, stdin, stdout, state):
         stdout.write(protocol.to_audio_msg(audio))
 
     stdout.flush()
-
-def make_layer(pca, edits):
-    amounts = np.zeros(pca["comp"].shape[:1], dtype=np.float32)
-    edits_len = edits.shape[0]
-    stdevs = pca["stdev"]
-    stdevs_len = stdevs.shape[0]
-    if edits_len > stdevs_len:
-        raise ValueError("too many edits ({}) - PCA size is {}".format(edits_len, stdevs_len))
-  
-    padding = stdevs_len - edits_len
-    edits_padded = edits
-    
-    if padding > 0:
-        edits_padded = np.concatenate([edits, np.zeros(padding, dtype=edits.dtype)])
-    
-    amounts[:len(list(edits_padded))] = edits_padded * stdevs
-    
-    scaled_directions = amounts.reshape(-1, 1, 1, 1) * pca["comp"]
-  
-    layer = pca["global_mean"] + np.sum(scaled_directions, axis=0)
-
-    return layer
     
 def handle_synthesize_noz(model, stdin, stdout, state):
+    print_err("handle_synthesize_noz")
+    
     count_msg = read_msg(stdin, protocol.count_struct.size)
     count = protocol.from_count_msg(count_msg)
     
@@ -149,23 +130,14 @@ def handle_synthesize_noz(model, stdin, stdout, state):
         pitch = protocol.from_synthesize_noz_msg(gen_msg)
         
         pitches.append(pitch)
-
-    print_err("pitches =", pitches)
         
     pca = state["ganspace_components"]
     stdevs = pca["stdev"]
     layer_dtype = stdevs.dtype
     edits = np.array(state["ganspace_component_amplitudes"], dtype=layer_dtype)
-
-    print_err("stdevs.shape =", stdevs.shape)
-    print_err("layer_dtype =", layer_dtype)
-    print_err("edits.shape =", edits.shape)
     
     layer = make_layer(pca, edits)
     layers = np.repeat([layer], len(pitches), axis=0)
-
-    print_err("layer.shape =", layer.shape)
-    print_err("layers.shape =", layers.shape)
     
     try:
         audios = model.generate_samples_from_layers({pca["layer"]: layers}, pitches)

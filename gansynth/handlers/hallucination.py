@@ -10,9 +10,10 @@ import scipy.io.wavfile as wavfile
 
 from magenta.models.gansynth.lib import generate_util as gu
 
-from sopilib import gansynth_protocol as gss
-from sopilib.utils import read_msg
+from sopilib import gansynth_protocol as protocol
+from sopilib.utils import print_err, read_msg
 
+from .utils import make_layer
 
 def synthesize(model, zs, pitches):
     z_arr = np.array(zs)
@@ -108,8 +109,6 @@ def combine_notes(audio_notes,
     MAX_VELOCITY = 127.0
     n_notes = len(audio_notes)
     
-    
-
     clip_length = spacing * (n_notes + 1) + (max_note_length / sr)
     audio_clip = np.zeros(int(clip_length) * sr)
 
@@ -138,11 +137,11 @@ def handle_hallucinate(model, stdin, stdout, state):
     max_note_length = model.config['audio_length']
     sample_rate = model.config['sample_rate']
 
-    hallucinate_msg = read_msg(stdin, gss.hallucinate_struct.size)
-    args = gss.from_hallucinate_msg(hallucinate_msg)
+    hallucinate_msg = read_msg(stdin, protocol.hallucinate_struct.size)
+    args = protocol.from_hallucinate_msg(hallucinate_msg)
     note_count, interpolation_steps, spacing, start_trim, attack, sustain, release = args
 
-    print("note_count = {} interpolation_steps = {}, spacing = {}s, start_trim = {}s, attack = {}s, sustain = {}s, release = {}s".format(*args), file=sys.stderr)
+    print_err("note_count = {} interpolation_steps = {}, spacing = {}s, start_trim = {}s, attack = {}s, sustain = {}s, release = {}s".format(*args))
 
     initial_notes = model.generate_z(note_count)
     initial_piches = np.array([32] * len(initial_notes)) # np.floor(30 + np.random.rand(len(initial_notes)) * 30)
@@ -153,11 +152,73 @@ def handle_hallucinate(model, stdin, stdout, state):
 
     final_audio = final_audio.astype('float32')
 
-    stdout.write(gss.to_tag_msg(gss.OUT_TAG_AUDIO))
-    stdout.write(gss.to_audio_size_msg(final_audio.size * final_audio.itemsize))
-    stdout.write(gss.to_audio_msg(final_audio))
+    stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_AUDIO))
+    stdout.write(protocol.to_audio_size_msg(final_audio.size * final_audio.itemsize))
+    stdout.write(protocol.to_audio_msg(final_audio))
     stdout.flush()
 
+def interpolate_edits(seq, step_count):
+    last_i = len(seq) - 1
+    for i, edits0 in enumerate(seq):
+        yield edits0
+        if i < last_i:
+            edits1 = seq[i+1]
+            for j in range(1, step_count):
+                x = j/step_count
+                yield lerp(edits0, edits1, x)
+
+def handle_hallucinate_noz(model, stdin, stdout, state):
+    print_err("handle_hallucinate_noz")
+
+    max_note_length = model.config['audio_length']
+    sample_rate = model.config['sample_rate']
+
+    pca = state["ganspace_components"]
+    stdevs = pca["stdev"]
+    layer_dtype = stdevs.dtype
+
+    hallucinate_msg = read_msg(stdin, protocol.hallucinate_struct.size)
+    step_count, interpolation_steps, spacing, start_trim, attack, sustain, release = protocol.from_hallucinate_msg(hallucinate_msg)
+    
+    print_err("step_count =", step_count)
+
+    edit_count_msg = read_msg(stdin, protocol.count_struct.size)
+    edit_count = protocol.from_count_msg(edit_count_msg)
+    print_err("edit_count =", edit_count)
+
+    pitch = min(model.pitch_counts.keys())
+    print_err("pitch =", pitch)
+    
+    steps = []
+    for i in range(step_count):
+        edits = []
+        for j in range(edit_count):
+            edit_msg = read_msg(stdin, protocol.f64_struct.size)
+            edit = protocol.from_f64_msg(edit_msg)
+            
+            edits.append(edit)
+
+        steps.append(np.array(edits, dtype=layer_dtype))
+
+    print_err("steps =", steps)
+    
+    steps = list(interpolate_edits(steps, interpolation_steps))
+
+    layer_steps = np.array(list(map(lambda edits: make_layer(pca, edits), steps)), dtype=layer_dtype)
+    pitch_steps = np.repeat([pitch], len(steps))
+
+    audios = model.generate_samples_from_layers({pca["layer"]: layer_steps}, pitch_steps)
+
+    final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release, max_note_length=max_note_length, sr=sample_rate)
+    final_audio = final_audio.astype("float32")
+        
+    stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_AUDIO))
+    stdout.write(protocol.to_audio_size_msg(final_audio.size * final_audio.itemsize))
+    stdout.write(protocol.to_audio_msg(final_audio))
+    stdout.flush()
+
+    
 handlers = {
-    gss.IN_TAG_HALLUCINATE: handle_hallucinate
+    protocol.IN_TAG_HALLUCINATE: handle_hallucinate,
+    protocol.IN_TAG_HALLUCINATE_NOZ: handle_hallucinate_noz
 }
