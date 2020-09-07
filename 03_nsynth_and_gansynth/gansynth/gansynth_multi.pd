@@ -1,4 +1,4 @@
-#N canvas 537 23 903 753 10;
+#N canvas 490 23 963 753 10;
 #X obj 7 249 cnv 15 600 120 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 7 126 cnv 15 600 120 empty empty empty 20 12 0 14 -233017 -66577
@@ -29,7 +29,6 @@
 -1;
 #X obj 19 301 f \$0;
 #X obj 715 93 list trim;
-#X obj 638 72 pyext gansynth gansynth @detach 1;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound2 64000 float 0;
 #X coords 0 1 63999 -1 200 140 1;
@@ -68,7 +67,7 @@
 \$1-z3 \$1-sound3 59 \$1-z4 \$1-sound4 62, f 87;
 #X obj 315 224 s \$0-gansynth_in;
 #X obj 318 152 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -232576
--1 -1 6800 1;
+-1 -1 0 1;
 #X obj 315 187 pack f f;
 #X msg 315 205 slerp_z \$1-z1 \$1-z2 \$1-z3 \$2;
 #X obj 315 169 expr \$0;
@@ -76,7 +75,7 @@
 ;
 #N canvas 261 142 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-64000 1;
+0 1;
 #X obj 103 68 f 1;
 #X obj 101 43 route loaded unloaded;
 #X obj 127 68 f 0;
@@ -107,34 +106,36 @@
 a batch size as the second argument. when synthesizing a lot of notes
 in one go \, a larger batch size makes the process faster \, but also
 uses more memory. probably should be a power of 2, f 98;
-#X connect 4 0 20 0;
-#X connect 6 0 13 1;
+#X obj 615 72 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+;
+#X connect 4 0 19 0;
+#X connect 6 0 50 1;
 #X connect 8 0 9 0;
-#X connect 9 0 27 0;
+#X connect 9 0 26 0;
 #X connect 10 0 11 0;
-#X connect 11 0 28 0;
+#X connect 11 0 27 0;
 #X connect 12 0 7 0;
-#X connect 12 0 36 0;
-#X connect 13 0 12 0;
-#X connect 18 0 6 0;
-#X connect 20 0 19 0;
-#X connect 27 0 21 0;
-#X connect 28 0 23 0;
-#X connect 30 0 31 1;
-#X connect 30 0 33 0;
-#X connect 31 0 32 0;
-#X connect 32 0 29 0;
-#X connect 33 0 31 0;
-#X connect 39 0 47 0;
-#X connect 40 0 38 0;
-#X connect 40 0 38 1;
-#X connect 41 0 42 0;
-#X connect 42 0 45 0;
-#X connect 42 0 46 0;
-#X connect 43 0 42 0;
-#X connect 44 0 42 0;
-#X connect 45 0 47 0;
+#X connect 12 0 35 0;
+#X connect 17 0 6 0;
+#X connect 19 0 18 0;
+#X connect 26 0 20 0;
+#X connect 27 0 22 0;
+#X connect 29 0 30 1;
+#X connect 29 0 32 0;
+#X connect 30 0 31 0;
+#X connect 31 0 28 0;
+#X connect 32 0 30 0;
+#X connect 38 0 46 0;
+#X connect 39 0 37 0;
+#X connect 39 0 37 1;
+#X connect 40 0 41 0;
+#X connect 41 0 44 0;
+#X connect 41 0 45 0;
+#X connect 42 0 41 0;
+#X connect 43 0 41 0;
+#X connect 44 0 46 0;
+#X connect 45 0 38 0;
 #X connect 46 0 39 0;
-#X connect 47 0 40 0;
-#X connect 49 0 42 0;
+#X connect 48 0 41 0;
+#X connect 50 0 12 0;
 #X coords 0 753 1 752 0 0 0;

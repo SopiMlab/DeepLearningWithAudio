@@ -1,3 +1,4 @@
+import os.path
 import sys
 
 def print_err(*args, **kwargs):
@@ -11,3 +12,13 @@ def read_msg(stdin, size):
         raise EOFError("stdin")
 
     return msg
+
+def sopimagenta_path(fn):
+    # TODO: a less fragile solution
+    diry = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sopimagenta/sopimagenta")
+    path = lambda suf: os.path.join(diry, suf)
+    d = {
+        "gansynth_worker": path("gansynth/worker.py")
+    }
+    
+    return d[fn]

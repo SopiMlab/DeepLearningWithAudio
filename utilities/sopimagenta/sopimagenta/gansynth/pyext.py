@@ -18,8 +18,7 @@ import time
 import numpy as np
 
 import sopilib.gansynth_protocol as protocol
-
-script_dir = os.path.dirname(os.path.realpath(__file__))
+from sopilib.utils import sopimagenta_path
 
 class gansynth(pyext._class):
     def __init__(self, *args):
@@ -35,8 +34,8 @@ class gansynth(pyext._class):
 
         batch_size = 1
         python = sys.executable
-        gen_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "gansynth_worker.py")
-        ckpt_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), str(ckpt_dir))
+        gen_script = sopimagenta_path("gansynth_worker")
+        ckpt_dir = os.path.join(self._canvas_dir, str(ckpt_dir))
 
         print("starting gansynth_worker process, this may take a while", file=sys.stderr)
 
@@ -94,8 +93,10 @@ class gansynth(pyext._class):
             raise ValueError("expected tag {}, got {}".format(expected_tag, tag))
 
     def load_ganspace_components_1(self, ganspace_components_file, component_amplitudes_buff_name):
-        ganspace_components_file = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                                str(ganspace_components_file))
+        ganspace_components_file = os.path.join(
+            self._canvas_dir,
+            str(ganspace_components_file)
+        )
 
         print("Loading GANSpace components...", file=sys.stderr)
 

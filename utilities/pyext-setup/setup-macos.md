@@ -120,6 +120,20 @@ Install:
 pip install -e .
 ```
 
+## Install sopimagenta
+
+Enter the `sopimagenta` directory:
+
+```
+cd ../sopimagenta
+```
+
+Install:
+
+```
+pip install -e .
+```
+
 ## Build pyext
 
 Enter the `pyext-setup` directory:

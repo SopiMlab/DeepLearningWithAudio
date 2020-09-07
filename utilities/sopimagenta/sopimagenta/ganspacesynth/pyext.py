@@ -1,8 +1,5 @@
 from __future__ import print_function
 
-print("loading gansynth")
-import sys
-
 try:
     import pyext
 except:
@@ -18,30 +15,58 @@ import time
 import numpy as np
 
 import sopilib.gansynth_protocol as protocol
+from sopilib.utils import print_err, sopimagenta_path
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
-class gansynth(pyext._class):
-    def __init__(self, *args):
+def to_z32(z):
+    return z.astype(np.float32)
+
+def from_z32(z32):
+    return z.astype(np.float64)
+
+def save_z_buf(z_name, path):
+    z_buf = pyext.Buffer(z_name)
+    z = from_z32(z_buf)
+
+    base, ext = os.path.splitext(path)
+    if not ext:
+        ext = ".npy"
+    path_fixed = base + ext
+
+    print_err("save: " + path_fixed)
+        
+    #np.save(z, path_fixed)
+
+class halluseq(pyext._class):
+    def __init__(self, edits_buf_name, *args):
         self._inlets = 1
         self._outlets = 1
+        self._edits_buf_name = edits_buf_name
+        self._component_count = None
         self._proc = None
         self._stderr_printer = None
-        self.ganspace_components_amplitudes_buffer_name = None
-
-    def load_1(self, ckpt_dir):
+        self._steps = []
+        self._step_ix = -1
+        self._interp_steps = 1
+        self._sample_spacing = 0.2
+        self._start_trim = 0.0
+        self._attack = 0.5
+        self._sustain = 0.5
+        self._release = 0.5
+        
+    def load_1(self, ckpt_dir, batch_size=1):
         if self._proc != None:
             self.unload_1()
-
-        batch_size = 1
+            
         python = sys.executable
-        gen_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "gansynth_worker.py")
-        ckpt_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), str(ckpt_dir))
+        worker_script = sopimagenta_path("gansynth_worker")
+        ckpt_dir = os.path.join(self._canvas_dir, str(ckpt_dir))
 
-        print("starting gansynth_worker process, this may take a while", file=sys.stderr)
+        print_err("starting gansynth_worker process, this may take a while")
 
         self._proc = subprocess.Popen(
-            (python, gen_script, ckpt_dir, str(batch_size)),
+            (python, worker_script, ckpt_dir, str(batch_size)),
             stdin = subprocess.PIPE,
             stdout = subprocess.PIPE,
             stderr = subprocess.PIPE
@@ -54,9 +79,8 @@ class gansynth(pyext._class):
         info_msg = self._proc.stdout.read(protocol.init_struct.size)
         audio_length, sample_rate = protocol.from_info_msg(info_msg)
 
-        print("gansynth_worker is ready", file=sys.stderr)
-        self._outlet(1, ["loaded", audio_length, sample_rate])
-
+        print_err("gansynth_worker is ready")
+        self._outlet(1, ["worker", "on", audio_length, sample_rate])
 
     def unload_1(self):
         if self._proc:
@@ -64,10 +88,106 @@ class gansynth(pyext._class):
             self._proc = None
             self._stderr_printer = None
         else:
-            print("no gansynth_worker process is running", file=sys.stderr)
+            print_err("no gansynth_worker process is running")
 
-        self._outlet(1, "unloaded")
+        self._outlet(1, ["worker", "off"])
+        
+    def load_ganspace_components_1(self, ganspace_components_file):
+        ganspace_components_file = os.path.join(
+            self._canvas_dir,
+            str(ganspace_components_file)
+        )
 
+        print("Loading GANSpace components...", file=sys.stderr)
+
+        size_msg = protocol.to_int_msg(len(ganspace_components_file))
+        components_msg = ganspace_components_file.encode('utf-8')
+
+        self._write_msg(protocol.IN_TAG_LOAD_COMPONENTS, size_msg, components_msg)
+        self._read_tag(protocol.OUT_TAG_LOAD_COMPONENTS)
+        count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        self._component_count = protocol.from_count_msg(count_msg)
+        print_err("_component_count =", self._component_count)
+        
+        buf = pyext.Buffer(self._edits_buf_name)
+        #buf.resize(component_count)
+        #buf.dirty()
+
+        print_err("GANSpace components loaded!")
+        
+    def next_step_1(self):
+        self._read_edits()
+        self._step_ix = (self._step_ix + 1) % len(self._steps) if self._steps else -1
+        self._write_edits()
+        self.updated()
+
+    def prev_step_1(self):
+        self._read_edits()
+        self._step_ix = (self._step_ix - 1) % len(self._steps) if self._steps else -1
+        self._write_edits()
+        self.updated()
+
+    def add_step_1(self):
+        self._steps.append({
+            "edits": np.zeros(len(pyext.Buffer(self._edits_buf_name)), dtype=np.float32)
+        })
+        self._step_ix += 1
+        self._read_edits()
+        self._write_edits()
+        self.updated()
+        
+    def remove_step_1(self):
+        self._read_edits()
+        if len(self._steps) > 0:
+            del self._steps[self._step_ix]
+
+            self._step_ix = min(self._step_ix, len(self._steps)-1)
+            self._write_edits()
+
+        self.updated()
+
+    def interp_steps_1(self, interp_steps):
+        self._interp_steps = max(0, interp_steps)
+        self.updated()
+
+    def sample_spacing_1(self, sample_spacing):
+        self._sample_spacing = sample_spacing
+        self.updated()
+
+    def start_trim_1(self, start_trim):
+        self._start_trim = start_trim
+        self.updated()
+
+    def attack_1(self, attack):
+        self._attack = attack
+        self.updated()
+
+    def sustain_1(self, sustain):
+        self._sustain = sustain
+        self.updated()
+
+    def release_1(self, release):
+        self._release = release
+        self.updated()
+
+    def send_state_1(self):
+        state = [
+            (("step", "index"), self._step_ix),
+            (("step", "count"), len(self._steps)),
+            (("settings", "interp_steps"), self._interp_steps),
+            (("settings", "sample_spacing"), self._sample_spacing),
+            (("settings", "start_trim"), self._start_trim),
+            (("settings", "attack"), self._attack),
+            (("settings", "sustain"), self._sustain),
+            (("settings", "release"), self._release)
+        ]
+
+        for k, v in state:
+            self._outlet(1, [*k, v])        
+            
+    def updated(self):
+        self._outlet(1, "updated")
+            
     def _keep_printing_stderr(self):
         while True:
             line = self._proc.stderr.readline()
@@ -93,28 +213,20 @@ class gansynth(pyext._class):
         if tag != expected_tag:
             raise ValueError("expected tag {}, got {}".format(expected_tag, tag))
 
-    def load_ganspace_components_1(self, ganspace_components_file, component_amplitudes_buff_name):
-        ganspace_components_file = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                                str(ganspace_components_file))
+    def _read_edits(self):
+        if not self._steps:
+            return
 
-        print("Loading GANSpace components...", file=sys.stderr)
+        self._steps[self._step_ix]["edits"][:] = pyext.Buffer(self._edits_buf_name)
+        
+    def _write_edits(self):
+        if not self._steps:
+            return
 
-        size_msg = protocol.to_int_msg(len(ganspace_components_file))
-        components_msg = ganspace_components_file.encode('utf-8')
-
-        self._write_msg(protocol.IN_TAG_LOAD_COMPONENTS, size_msg, components_msg)
-        self._read_tag(protocol.OUT_TAG_LOAD_COMPONENTS)
-        count_msg = self._proc.stdout.read(protocol.count_struct.size)
-        component_count = protocol.from_count_msg(count_msg)
-
-        self.ganspace_components_amplitudes_buffer_name = component_amplitudes_buff_name
-
-        buf = pyext.Buffer(component_amplitudes_buff_name)
-        buf.resize(component_count)
+        buf = pyext.Buffer(self._edits_buf_name)
+        buf[:] = self._steps[self._step_ix]["edits"]
         buf.dirty()
-
-        print("GANSpace components loaded!", file=sys.stderr)
-
+        
     def randomize_z_1(self, *buf_names):
         if not self._proc:
             raise Exception("can't randomize z - no gansynth_worker process is running")
@@ -149,6 +261,10 @@ class gansynth(pyext._class):
 
         self._outlet(1, "randomized")
 
+    def save_z_1(self, z_name, path):
+        save_z_buf(z_name, path)
+        #np.save(z, path_fixed)
+                
     def slerp_z_1(self, z0_name, z1_name, z_dst_name, amount):
         if not self._proc:
             raise Exception("can't slerp - no gansynth_worker process is running")
@@ -191,16 +307,7 @@ class gansynth(pyext._class):
         if arg_count == 0 or arg_count % 3 != 0:
             raise ValueError("invalid number of arguments ({}), should be a multiple of 3: synthesize z1 audio1 pitch1 [z2 audio2 pitch2 ...]".format(arg_count))
 
-        if self.ganspace_components_amplitudes_buffer_name:
-            component_buff = pyext.Buffer(self.ganspace_components_amplitudes_buffer_name)
-            components = np.array(component_buff, dtype=np.float64)
-            component_msgs = []
-            for value in components:
-                component_msgs.append(protocol.to_float_msg(value))
-            self._write_msg(protocol.IN_TAG_SET_COMPONENT_AMPLITUDES, *component_msgs)
-
-
-        gen_msgs = []
+        gen_audio_msgs = []
         audio_buf_names = []
         for i in range(0, arg_count, 3):
             z_buf_name, audio_buf_name, pitch = args[i:i+3]
@@ -208,12 +315,12 @@ class gansynth(pyext._class):
             z32_buf = pyext.Buffer(z_buf_name)
             z = np.array(z32_buf, dtype=np.float64)
             
-            gen_msgs.append(protocol.to_gen_msg(pitch, z))
+            gen_audio_msgs.append(protocol.to_gen_audio_msg(pitch, z))
             audio_buf_names.append(audio_buf_name)
             
-        in_count = len(gen_msgs)
+        in_count = len(gen_audio_msgs)
         in_count_msg = protocol.to_count_msg(in_count)
-        self._write_msg(protocol.IN_TAG_GEN_AUDIO, in_count_msg, *gen_msgs)
+        self._write_msg(protocol.IN_TAG_GEN_AUDIO, in_count_msg, *gen_audio_msgs)
                 
         self._read_tag(protocol.OUT_TAG_AUDIO)
 
@@ -241,7 +348,7 @@ class gansynth(pyext._class):
         
         self._outlet(1, "synthesized")
 
-    def synthesize_noz_1(self, *args):
+    def synthesize_noz_1(self, *args):        
         if not self._proc:
             raise Exception("can't synthesize - no gansynth_worker process is running")
         
@@ -250,13 +357,17 @@ class gansynth(pyext._class):
         if arg_count == 0 or arg_count % 2 != 0:
             raise ValueError("invalid number of arguments ({}), should be a multiple of 2: synthesize_noz audio1 pitch1 [audio2 pitch2 ...]".format(arg_count))
 
-        if self.ganspace_components_amplitudes_buffer_name:
-            component_buff = pyext.Buffer(self.ganspace_components_amplitudes_buffer_name)
-            components = np.array(component_buff, dtype=np.float64)
-            component_msgs = []
-            for value in components:
-                component_msgs.append(protocol.to_float_msg(value))
-            self._write_msg(protocol.IN_TAG_SET_COMPONENT_AMPLITUDES, *component_msgs)
+        component_buff = pyext.Buffer(self._edits_buf_name)
+        components = np.array(component_buff, dtype=np.float64)
+        component_msgs = []
+
+        for value in components:
+            component_msgs.append(protocol.to_float_msg(value))
+            
+        for i in range(self._component_count - len(components)):
+            component_msgs.append(protocol.to_float_msg(0.0))
+                  
+        self._write_msg(protocol.IN_TAG_SET_COMPONENT_AMPLITUDES, *component_msgs)
 
         gen_msgs = []
         audio_buf_names = []
@@ -269,13 +380,16 @@ class gansynth(pyext._class):
         in_count = len(gen_msgs)
         in_count_msg = protocol.to_count_msg(in_count)
         self._write_msg(protocol.IN_TAG_SYNTHESIZE_NOZ, in_count_msg, *gen_msgs)
-                
+                  
         self._read_tag(protocol.OUT_TAG_AUDIO)
 
         out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
+
+        print_err("out_count =", out_count)
         
         if out_count == 0:
+            print_err("no audio was synthesized!")
             return
 
         assert out_count == in_count
@@ -293,38 +407,60 @@ class gansynth(pyext._class):
 
             audio_buf[:] = audio_note
             audio_buf.dirty()
-        
+            
         self._outlet(1, "synthesized")
         
-        
-    def hallucinate_1(self, *args):
+    def hallucinate_noz_1(self, audio_buf_name):
         if not self._proc:
-            raise Exception("can't synthesize - load a checkpoint first")
+            raise Exception("can't hallucinate - load a checkpoint first")
 
-        arg_count = len(args)
-        if arg_count < 3 or arg_count > 8:
-            raise ValueError("invalid number of arguments ({}), should be one: hallucinate buffer_name note_count interpolation_steps".format(arg_count))
+        if not self._steps:
+            raise Exception("can't hallucinate - no steps added")
 
-        audio_buf_name = args[0]
-        note_count = int(args[1])
-        interpolation_steps = int(args[2])
-        rest = list(map(float, args[3:len(args)]))
+        self._read_edits()
+        
+        step_count = len(self._steps)
+        print_err("step_count =", step_count)
 
-        self._write_msg(protocol.IN_TAG_HALLUCINATE, protocol.to_hallucinate_msg(note_count, interpolation_steps, *rest))
+        print_err("steps =", self._steps)
 
+        edit_count = len(self._steps[0]["edits"])
+        
+        edit_list = []
+        for step in self._steps:
+            for edit in step["edits"]:
+                edit_list.append(edit)
+
+        print_err("len(edit_list) =", len(edit_list))
+        
+        self._write_msg(
+            protocol.IN_TAG_HALLUCINATE_NOZ,
+            protocol.to_hallucinate_msg(
+                step_count,
+                self._interp_steps,
+                self._sample_spacing,
+                self._start_trim,
+                self._attack,
+                self._sustain,
+                self._release
+            ),
+            protocol.to_count_msg(edit_count),
+            *map(protocol.to_f64_msg, edit_list)
+        )
+        
         self._read_tag(protocol.OUT_TAG_AUDIO)
-
+        
         audio_size_msg = self._proc.stdout.read(protocol.audio_size_struct.size)
         audio_size = protocol.from_audio_size_msg(audio_size_msg)
 
         audio_msg = self._proc.stdout.read(audio_size)
-        audio_note = protocol.from_audio_msg(audio_msg)
+        audio = protocol.from_audio_msg(audio_msg)
 
         audio_buf = pyext.Buffer(audio_buf_name)
-        if len(audio_buf) != len(audio_note):
-            audio_buf.resize(len(audio_note))
+        if len(audio_buf) != len(audio):
+            audio_buf.resize(len(audio))
 
-        audio_buf[:] = audio_note
+        audio_buf[:] = audio
         audio_buf.dirty()
         
-        self._outlet(1, ["hallucinated", audio_size])
+        self._outlet(1, ["hallucinated", len(audio)])

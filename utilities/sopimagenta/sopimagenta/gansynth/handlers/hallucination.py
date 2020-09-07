@@ -168,8 +168,6 @@ def interpolate_edits(seq, step_count):
                 yield lerp(edits0, edits1, x)
 
 def handle_hallucinate_noz(model, stdin, stdout, state):
-    print_err("handle_hallucinate_noz")
-
     max_note_length = model.config['audio_length']
     sample_rate = model.config['sample_rate']
 
@@ -180,14 +178,10 @@ def handle_hallucinate_noz(model, stdin, stdout, state):
     hallucinate_msg = read_msg(stdin, protocol.hallucinate_struct.size)
     step_count, interpolation_steps, spacing, start_trim, attack, sustain, release = protocol.from_hallucinate_msg(hallucinate_msg)
     
-    print_err("step_count =", step_count)
-
     edit_count_msg = read_msg(stdin, protocol.count_struct.size)
     edit_count = protocol.from_count_msg(edit_count_msg)
-    print_err("edit_count =", edit_count)
 
     pitch = min(model.pitch_counts.keys())
-    print_err("pitch =", pitch)
     
     steps = []
     for i in range(step_count):
@@ -199,8 +193,6 @@ def handle_hallucinate_noz(model, stdin, stdout, state):
             edits.append(edit)
 
         steps.append(np.array(edits, dtype=layer_dtype))
-
-    print_err("steps =", steps)
     
     steps = list(interpolate_edits(steps, interpolation_steps))
 

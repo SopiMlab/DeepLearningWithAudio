@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="sopilib",
+    name="sopimagenta",
     version="0.1.0",
     author="sopi.aalto.fi",
     description="A small example package",
@@ -13,6 +13,6 @@ setuptools.setup(
     ],
     python_requires=">=3.7",
     install_requires=[
-        "numpy>=1.18"
+        "magenta>=1.3"
     ]
 )

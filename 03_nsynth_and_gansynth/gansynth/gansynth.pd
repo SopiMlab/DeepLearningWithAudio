@@ -46,7 +46,7 @@
 #X msg 365 78 synthesize \$1-z \$1-sound 52;
 #N canvas 501 282 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-0 1;
+64000 1;
 #X obj 103 68 f 1;
 #X obj 101 43 route loaded unloaded;
 #X obj 127 68 f 0;
@@ -60,15 +60,16 @@
 #X restore 109 46 pd loaded;
 #X obj 229 174 list trim;
 #X obj 421 232 route synthesized;
-#X obj 156 153 pyext gansynth gansynth @detach 1;
 #X obj 149 196 s \$0-gansynth_out;
 #X obj 421 214 r \$0-gansynth_out;
+#X obj 128 153 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+;
 #X connect 4 0 13 0;
 #X connect 5 0 4 0;
 #X connect 7 0 9 0;
 #X connect 8 0 7 0;
 #X connect 9 0 17 0;
-#X connect 13 0 27 1;
+#X connect 13 0 29 1;
 #X connect 14 0 8 0;
 #X connect 17 0 6 0;
 #X connect 17 0 6 1;
@@ -79,8 +80,8 @@
 #X connect 22 0 23 0;
 #X connect 23 0 13 0;
 #X connect 25 0 16 0;
-#X connect 25 0 28 0;
+#X connect 25 0 27 0;
 #X connect 26 0 14 0;
-#X connect 27 0 25 0;
-#X connect 29 0 26 0;
+#X connect 28 0 26 0;
+#X connect 29 0 25 0;
 #X coords 0 415 1 414 0 0 0;
