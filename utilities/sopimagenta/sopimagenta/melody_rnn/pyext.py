@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-print("loading ai_duet")
+print("loading melody_rnn")
 import sys    
 
 import os
@@ -18,17 +18,17 @@ from magenta.music.protobuf import generator_pb2, music_pb2
 import monotonic
 import pretty_midi
 
+from sopilib.utils import print_err
+
 try:
     import pyext
     ext_class = pyext._class
 except:
-    print("failed to load pyext module")
+    print_err("failed to load pyext module")
     
     class ext_class(object):
         def _outlet(self, *args):
-            print("_outlet{}".format(args))
-
-script_dir = os.path.dirname(os.path.realpath(__file__))
+            print_err("_outlet{}".format(args))
 
 test_notes = [(0.5, 32, 100), (0.6, 33, 50), (0.7, 33, 0), (0.8, 32, 0)]
 
@@ -147,7 +147,7 @@ class melody_rnn(ext_class):
     def load_1(self, bundle_name):
         bundle_name = str(bundle_name)
         config = magenta.models.melody_rnn.melody_rnn_model.default_configs[bundle_name]
-        bundle_file = read_bundle_file(os.path.join(script_dir, bundle_name+'.mag'))
+        bundle_file = read_bundle_file(os.path.join(self._canvas_dir, bundle_name+'.mag'))
         steps_per_quarter = 4
 
         self.generator = melody_rnn_sequence_generator.MelodyRnnSequenceGenerator(
@@ -171,8 +171,8 @@ class melody_rnn(ext_class):
         del self.notes[:]
 
     def state_1(self):
-        print("notes =", self.notes)
-        print("t0 =", self.t0)
+        print_err("notes =", self.notes)
+        print_err("t0 =", self.t0)
         
     def generate_1(self, duration):        
         # prepare the note sequence
@@ -225,21 +225,4 @@ class melody_rnn(ext_class):
         self.queue.put(gen_notes)
         
     def _anything_1(self, *args):
-        print("unhandled input:", args)
-
-"""
-mrnn = melody_rnn()
-mrnn.load_1("attention_rnn")
-mrnn.note_1(32, 100)
-time.sleep(0.1)
-mrnn.note_1(35, 100)
-time.sleep(0.1)
-mrnn.note_1(37, 100)
-time.sleep(0.1)
-mrnn.note_1(32, 0)
-time.sleep(0.1)
-mrnn.note_1(35, 0)
-time.sleep(0.1)
-mrnn.note_1(37, 0)
-mrnn.generate_1()
-"""
+        print_err("unhandled input:", args)
