@@ -27,8 +27,6 @@ except:
     # don't care
     pass
             
-script_dir = os.path.dirname(os.path.realpath(__file__))
-
 def load_settings(settings_path):
     with open(settings_path, "r") as f:
         return json.load(f)
@@ -69,14 +67,14 @@ def extract_samples_from_file(audio_path, settings):
 def offset(dims, indices):
     return sum(j*reduce(lambda x, y: x*y, dims[i+1:], 1) for i, j in enumerate(indices))
 
-class loader(ext_class):
+class nsynth_loader(ext_class):
     def __init__(self, *args):
         self._inlets = 1
         self._outlets = 1
 
     def load_1(self, audio_path, settings_path, buf_name):
-        settings_path1 = os.path.join(script_dir, str(settings_path))
-        audio_path1 = os.path.join(script_dir, str(audio_path))
+        settings_path1 = os.path.join(self._canvas_dir, str(settings_path))
+        audio_path1 = os.path.join(self._canvas_dir, str(audio_path))
         
         settings = load_settings(settings_path1)
         audio = load_audio(audio_path1)
@@ -97,7 +95,7 @@ class loader(ext_class):
         
         self._outlet(1, "loaded", [rows, cols, length, sample_rate] + pitches)
 
-class controller(ext_class):
+class nsynth_controller(ext_class):
     def __init__(self, *args):
         self._inlets = 1
         self._outlets = 1
