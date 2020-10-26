@@ -85,7 +85,7 @@ cd magenta
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
 ```
-pip install -e .
+pip install --use-feature=2020-resolver -e .
 ``` 
 
 During the installation, you may see some errors about packages like `googledatastore` and `apache-beam`. These can be ignored.
@@ -96,7 +96,7 @@ You should now see Magenta in the output of `pip list`:
 pip list
 ```
 
-Output:
+Output (the version number may differ):
 
 ```
 Package                            Version
@@ -117,7 +117,7 @@ cd ../utilities/sopilib
 Install:
 
 ```
-pip install -e .
+pip install --use-feature=2020-resolver -e .
 ```
 
 ## Install sopimagenta
@@ -131,7 +131,7 @@ cd ../sopimagenta
 Install:
 
 ```
-pip install -e .
+pip install --use-feature=2020-resolver -e .
 ```
 
 ## Build pyext
