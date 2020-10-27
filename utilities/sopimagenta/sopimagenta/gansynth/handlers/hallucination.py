@@ -13,8 +13,6 @@ from magenta.models.gansynth.lib import generate_util as gu
 from sopilib import gansynth_protocol as protocol
 from sopilib.utils import print_err, read_msg
 
-from .utils import make_layer
-
 def synthesize(model, zs, pitches):
     z_arr = np.array(zs)
     return model.generate_samples_from_z(z_arr, pitches)
@@ -196,7 +194,7 @@ def handle_hallucinate_noz(model, stdin, stdout, state):
     
     steps = list(interpolate_edits(steps, interpolation_steps))
 
-    layer_steps = np.array(list(map(lambda edits: make_layer(pca, edits), steps)), dtype=layer_dtype)
+    layer_steps = np.array(list(map(lambda edits: model.make_edits_layer(pca, edits), steps)), dtype=layer_dtype)
     pitch_steps = np.repeat([pitch], len(steps))
 
     audios = model.generate_samples_from_layers({pca["layer"]: layer_steps}, pitch_steps)

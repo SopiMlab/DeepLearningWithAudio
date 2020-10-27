@@ -11,8 +11,6 @@ from magenta.models.gansynth.lib import generate_util as gu
 from sopilib import gansynth_protocol as protocol
 from sopilib.utils import print_err, read_msg
 
-from .utils import make_layer
-
 def handle_rand_z(model, stdin, stdout, state):
     """
         Generates a given number of new Z coordinates.
@@ -132,19 +130,15 @@ def handle_synthesize_noz(model, stdin, stdout, state):
         pitches.append(pitch)
         
     pca = state["ganspace_components"]
-    stdevs = pca["stdev"]
-    layer_dtype = stdevs.dtype
-    edits = np.array(state["ganspace_component_amplitudes"], dtype=layer_dtype)
-    
-    layer = make_layer(pca, edits)
-    layers = np.repeat([layer], len(pitches), axis=0)
+    edits = np.array(state["ganspace_component_amplitudes"], dtype=pca["stdev"].dtype)
+    edits = np.repeat([edits], len(pitches), axis=0)
     
     try:
-        audios = model.generate_samples_from_layers({pca["layer"]: layers}, pitches)
+        audios = model.generate_samples_from_edits(pitches, edits, pca)
     except KeyError as e:
         print_err("can't synthesize - model was not trained on pitch {}".format(e.args[0]))
         audios = []
-        
+            
     stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_AUDIO))
     stdout.write(protocol.to_count_msg(len(audios)))
 
