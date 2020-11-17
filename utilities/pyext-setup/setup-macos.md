@@ -204,11 +204,11 @@ mv build/py/py.pd_darwin ~/Documents/Pd/externals/
 
 Start Pure Data. Go to Pd menu → Preferences → Path and make sure your externals directory is in the search path:
 
-![Pd Path window](media/pd_path.png)
+![Pd Path window](media/mac_pd_path.png)
 
 Then go to Pd menu → Preferences → Startup and add `py` to the libraries list:
 
-![Pd Startup window](media/pd_startup.png)
+![Pd Startup window](media/mac_pd_startup.png)
 
 Click OK, save your preferences (Pd menu → Preferences → Save All Preferences) and restart Pure Data. There should now be a message about pyext in the main window, e.g.:
 

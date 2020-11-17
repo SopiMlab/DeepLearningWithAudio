@@ -8,26 +8,13 @@ This guide supplements the [main training guide](../README.md). It is assumed yo
 cd "$WRKDIR"
 git clone https://github.com/SopiMlab/magenta.git
 git clone https://github.com/SopiMlab/DeepLearningWithAudio.git
-module load anaconda2/5.1.0-gpu
-module load cuda/10.0.130
+module load anaconda3
 module load teflon
 mkdir -p "$WRKDIR/conda"
 conda create -p "$WRKDIR/conda/gansynth" python=3.7 tensorflow-gpu=1.15
 source activate "$WRKDIR/conda/gansynth"
 cd magenta
-pip install -e .
-```
-
-If the last command complains about `oauth2client`, install a compatible version manually:
-
-```
-pip install 'oauth2client<4,>=2.0.1'
-```
-
-Likewise for `gym`:
-
-```
-pip install 'gym==0.14.0'
+pip install --use-feature=2020-resolver -e .
 ```
 
 ## Train
@@ -42,7 +29,7 @@ Prepare your dataset and copy the files to Triton, then submit a batch job using
 It is best to submit the job from a fresh shell with no modules loaded and no Conda environment active, as an active environment may [mess up](https://version.aalto.fi/gitlab/AaltoScienceIT/triton/issues/612) some Python paths.
 
 ```
-cd "$WRKDIR/DeepLearningWithAudio/gansynth/training/triton"
+cd "$WRKDIR/DeepLearningWithAudio/03_nsynth_and_gansynth/gansynth/training/triton"
 ```
 
 For vanilla gansynth:

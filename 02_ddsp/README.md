@@ -35,7 +35,7 @@ conda activate ddsp
 Enter the ddsp directory in the course repository (in this example, located in the home directory):
 
 ```
-cd ~/DeepLearningWithAudio/ddsp
+cd ~/DeepLearningWithAudio/02_ddsp
 ```
 
 Clone the DDSP repository:
@@ -53,13 +53,13 @@ cd ddsp
 Install DDSP:
 
 ```
-pip install -e .
+pip install --use-feature=2020-resolver -e .
 ```
 
 Install the sopilib support library from the course repository's root:
 
 ```
-pip install -e ../../utilities/sopilib
+pip install --use-feature=2020-resolver -e ../../utilities/sopilib
 ```
 
 Find out the path of your Python interpreter:
