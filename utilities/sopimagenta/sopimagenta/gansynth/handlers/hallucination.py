@@ -201,9 +201,11 @@ def handle_hallucinate_noz(model, stdin, stdout, state):
 
     final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release, max_note_length=max_note_length, sr=sample_rate)
     final_audio = final_audio.astype("float32")
-        
+
+    audio_size = final_audio.size * final_audio.itemsize
+    
     stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_AUDIO))
-    stdout.write(protocol.to_audio_size_msg(final_audio.size * final_audio.itemsize))
+    stdout.write(protocol.to_audio_size_msg(audio_size))
     stdout.write(protocol.to_audio_msg(final_audio))
     stdout.flush()
 

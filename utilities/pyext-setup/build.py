@@ -76,6 +76,42 @@ class MacConfig:
     max_app = max(pd_apps, key = lambda x: x[0])[0]
     return os.path.join(apps_dir, max_app)
 
+class LinuxConfig:
+  def __init__(self, common_cfg):
+    self.common_cfg = common_cfg
+
+    self.platform = "linux"
+    self.platform_alt = "lnx"
+    self.compiler = "gcc"
+
+    self.pd_path = self.common_cfg.pd_path or self.find_pd()
+    
+    # python executable is at {conda_root}/bin/python
+    self.conda_root = os.path.dirname(os.path.dirname(self.common_cfg.python_exe))
+
+    self.flext_build_env = {
+      "BUILDMODE": "debug",
+      "TARGETMODE": "debug",
+      "PDPATH": self.pd_path,
+      "PDINC": os.path.expanduser("~/usr/include"),
+      "PDLIB": os.path.expanduser("~/usr/lib"),
+      "FLEXT_INSTALL_PATH": self.common_cfg.py_package_dir,
+      "FLEXTPREFIX": self.common_cfg.flext_prefix
+    }
+    
+    self.py_build_env = {
+      **self.flext_build_env,
+      "PY_CONDA_ROOT": self.conda_root
+    }
+
+    self.build_cmd = ("bash", os.path.join(self.common_cfg.flext_dir, "build.sh"))
+
+    self.platform_output_name = "pd-linux"
+
+  def find_pd(self):
+    pd_exe = subprocess.check_output(["which", "pd"]).rstrip().decode("utf-8")
+    return os.path.dirname(os.path.dirname(pd_exe))
+  
 class WinConfig:
   def __init__(self, common_cfg):
     self.common_cfg = common_cfg
@@ -112,7 +148,7 @@ class WinConfig:
 
 class SetupError(Exception):
   def __init__(self, message=""):
-    super().__init__(self.message)
+    super().__init__(message)
   
 class Setup:
   def __init__(self, common_cfg, platform_cfg_ctor, ):
@@ -169,6 +205,7 @@ class Setup:
 
 supported_platform_cfgs = {
   "darwin": MacConfig,
+  "linux": LinuxConfig,
   "win32": WinConfig
 }
 
