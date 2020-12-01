@@ -116,6 +116,8 @@ class gansynth(pyext._class):
 
         print("GANSpace components loaded!", file=sys.stderr)
 
+        self._outlet(1, "loaded_pca")
+
     def randomize_z_1(self, *buf_names):
         if not self._proc:
             raise Exception("can't randomize z - no gansynth_worker process is running")
