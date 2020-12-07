@@ -281,8 +281,6 @@ class gansynth(pyext._class):
 
         out_count_msg = self._read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
-
-        print_err("out_count = {}".format(out_count))
         
         if out_count == 0:
             return
@@ -293,12 +291,8 @@ class gansynth(pyext._class):
             audio_size_msg = self._read(protocol.audio_size_struct.size)
             audio_size = protocol.from_audio_size_msg(audio_size_msg)
 
-            print_err("audio_size = {}".format(audio_size))
-
             audio_msg = self._read(audio_size)
             audio_note = protocol.from_audio_msg(audio_msg)
-
-            print_err("len(audio_note) = {}".format(len(audio_note)))
 
             audio_buf = pyext.Buffer(audio_buf_name)
             if len(audio_buf) != len(audio_note):
@@ -308,8 +302,7 @@ class gansynth(pyext._class):
             audio_buf.dirty()
         
         self._outlet(1, "synthesized")
-        
-        
+                
     def hallucinate_1(self, *args):
         if not self._proc:
             raise Exception("can't synthesize - load a checkpoint first")
