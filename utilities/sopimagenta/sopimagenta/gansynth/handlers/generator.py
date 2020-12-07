@@ -9,7 +9,7 @@ import pickle
 from magenta.models.gansynth.lib import generate_util as gu
 
 from sopilib import gansynth_protocol as protocol
-from sopilib.utils import print_err, read_msg
+from sopilib.utils import print_err, read_msg, suppress_stdout
 
 def handle_rand_z(model, stdin, stdout, state):
     """
@@ -17,8 +17,9 @@ def handle_rand_z(model, stdin, stdout, state):
     """
     count_msg = read_msg(stdin, protocol.count_struct.size)
     count = protocol.from_count_msg(count_msg)
-    
-    zs = model.generate_z(count)
+
+    with suppress_stdout():
+        zs = model.generate_z(count)
     
     stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_Z))
     stdout.write(protocol.to_count_msg(len(zs)))
@@ -101,7 +102,8 @@ def handle_gen_audio(model, stdin, stdout, state):
 
     z_arr = np.array(zs)
     try:
-        audios = model.generate_samples_from_z(z_arr, pitches, layer_offsets=layer_offsets)
+        with suppress_stdout():
+            audios = model.generate_samples_from_z(z_arr, pitches, layer_offsets=layer_offsets)
     except KeyError as e:
         print_err("can't synthesize - model was not trained on pitch {}".format(e.args[0]))
         audios = []
@@ -134,11 +136,12 @@ def handle_synthesize_noz(model, stdin, stdout, state):
     edits = np.repeat([edits], len(pitches), axis=0)
     
     try:
-        audios = model.generate_samples_from_edits(pitches, edits, pca)
+        with suppress_stdout():
+            audios = model.generate_samples_from_edits(pitches, edits, pca)
     except KeyError as e:
         print_err("can't synthesize - model was not trained on pitch {}".format(e.args[0]))
         audios = []
-            
+
     stdout.write(protocol.to_tag_msg(protocol.OUT_TAG_AUDIO))
     stdout.write(protocol.to_count_msg(len(audios)))
 

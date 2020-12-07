@@ -1,3 +1,5 @@
+import contextlib
+import os
 import os.path
 import sys
 
@@ -22,3 +24,9 @@ def sopimagenta_path(fn):
     }
     
     return d[fn]
+
+@contextlib.contextmanager
+def suppress_stdout():
+    with open(os.devnull, "w") as fnull:
+        with contextlib.redirect_stdout(fnull) as out:
+            yield out

@@ -11,11 +11,12 @@ import scipy.io.wavfile as wavfile
 from magenta.models.gansynth.lib import generate_util as gu
 
 from sopilib import gansynth_protocol as protocol
-from sopilib.utils import print_err, read_msg
+from sopilib.utils import print_err, read_msg, suppress_stdout
 
 def synthesize(model, zs, pitches):
     z_arr = np.array(zs)
-    return model.generate_samples_from_z(z_arr, pitches)
+    with suppress_stdout():
+        return model.generate_samples_from_z(z_arr, pitches)
 
 def slerp(p0, p1, t):
   #Spherical linear interpolation.
@@ -141,7 +142,8 @@ def handle_hallucinate(model, stdin, stdout, state):
 
     print_err("note_count = {} interpolation_steps = {}, spacing = {}s, start_trim = {}s, attack = {}s, sustain = {}s, release = {}s".format(*args))
 
-    initial_notes = model.generate_z(note_count)
+    with suppress_stdout:
+        initial_notes = model.generate_z(note_count)
     initial_piches = np.array([32] * len(initial_notes)) # np.floor(30 + np.random.rand(len(initial_notes)) * 30)
     final_notes, final_pitches = interpolate_notes(initial_notes, initial_piches, interpolation_steps)
 
@@ -194,10 +196,12 @@ def handle_hallucinate_noz(model, stdin, stdout, state):
     
     steps = list(interpolate_edits(steps, interpolation_steps))
 
-    layer_steps = np.array(list(map(lambda edits: model.make_edits_layer(pca, edits), steps)), dtype=layer_dtype)
+    with suppress_stdout():
+        layer_steps = np.array(list(map(lambda edits: model.make_edits_layer(pca, edits), steps)), dtype=layer_dtype)
     pitch_steps = np.repeat([pitch], len(steps))
 
-    audios = model.generate_samples_from_layers({pca["layer"]: layer_steps}, pitch_steps)
+    with suppress_stdout():
+        audios = model.generate_samples_from_layers({pca["layer"]: layer_steps}, pitch_steps)
 
     final_audio = combine_notes(audios, spacing = spacing, start_trim = start_trim, attack = attack, sustain = sustain, release = release, max_note_length=max_note_length, sr=sample_rate)
     final_audio = final_audio.astype("float32")

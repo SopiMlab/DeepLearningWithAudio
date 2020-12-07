@@ -18,7 +18,7 @@ import time
 import numpy as np
 
 import sopilib.gansynth_protocol as protocol
-from sopilib.utils import sopimagenta_path
+from sopilib.utils import print_err, sopimagenta_path
 
 class gansynth(pyext._class):
     def __init__(self, *args):
@@ -50,7 +50,7 @@ class gansynth(pyext._class):
         
         self._read_tag(protocol.OUT_TAG_INIT)
         
-        info_msg = self._proc.stdout.read(protocol.init_struct.size)
+        info_msg = self._read(protocol.init_struct.size)
         audio_length, sample_rate = protocol.from_info_msg(info_msg)
 
         print("gansynth_worker is ready", file=sys.stderr)
@@ -84,9 +84,13 @@ class gansynth(pyext._class):
         for msg in msgs:
             self._proc.stdin.write(msg)
         self._proc.stdin.flush()
+
+    def _read(self, n):
+        data = self._proc.stdout.read(n)
+        return data
         
     def _read_tag(self, expected_tag):
-        tag_msg = self._proc.stdout.read(protocol.tag_struct.size)
+        tag_msg = self._read(protocol.tag_struct.size)
         tag = protocol.from_tag_msg(tag_msg)
 
         if tag != expected_tag:
@@ -105,7 +109,7 @@ class gansynth(pyext._class):
 
         self._write_msg(protocol.IN_TAG_LOAD_COMPONENTS, size_msg, components_msg)
         self._read_tag(protocol.OUT_TAG_LOAD_COMPONENTS)
-        count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        count_msg = self._read(protocol.count_struct.size)
         component_count = protocol.from_count_msg(count_msg)
 
         self.ganspace_components_amplitudes_buffer_name = component_amplitudes_buff_name
@@ -132,13 +136,13 @@ class gansynth(pyext._class):
         
         self._read_tag(protocol.OUT_TAG_Z)
 
-        out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        out_count_msg = self._read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
         
         assert out_count == in_count
 
         for buf_name in buf_names:
-            z_msg = self._proc.stdout.read(protocol.z_struct.size)
+            z_msg = self._read(protocol.z_struct.size)
             z = protocol.from_z_msg(z_msg)
 
             z32 = z.astype(np.float32)
@@ -167,12 +171,12 @@ class gansynth(pyext._class):
 
         self._read_tag(protocol.OUT_TAG_Z)
 
-        out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        out_count_msg = self._read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
 
         assert out_count == 1
 
-        z_msg = self._proc.stdout.read(protocol.z_struct.size)
+        z_msg = self._read(protocol.z_struct.size)
         z = protocol.from_z_msg(z_msg)
 
         z32 = z.astype(np.float32)
@@ -220,7 +224,7 @@ class gansynth(pyext._class):
                 
         self._read_tag(protocol.OUT_TAG_AUDIO)
 
-        out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        out_count_msg = self._read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
         
         if out_count == 0:
@@ -229,10 +233,10 @@ class gansynth(pyext._class):
         assert out_count == in_count
 
         for audio_buf_name in audio_buf_names:
-            audio_size_msg = self._proc.stdout.read(protocol.audio_size_struct.size)
+            audio_size_msg = self._read(protocol.audio_size_struct.size)
             audio_size = protocol.from_audio_size_msg(audio_size_msg)
 
-            audio_msg = self._proc.stdout.read(audio_size)
+            audio_msg = self._read(audio_size)
             audio_note = protocol.from_audio_msg(audio_msg)
 
             audio_buf = pyext.Buffer(audio_buf_name)
@@ -272,11 +276,13 @@ class gansynth(pyext._class):
         in_count = len(gen_msgs)
         in_count_msg = protocol.to_count_msg(in_count)
         self._write_msg(protocol.IN_TAG_SYNTHESIZE_NOZ, in_count_msg, *gen_msgs)
-                
+
         self._read_tag(protocol.OUT_TAG_AUDIO)
 
-        out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        out_count_msg = self._read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
+
+        print_err("out_count = {}".format(out_count))
         
         if out_count == 0:
             return
@@ -284,11 +290,15 @@ class gansynth(pyext._class):
         assert out_count == in_count
 
         for audio_buf_name in audio_buf_names:
-            audio_size_msg = self._proc.stdout.read(protocol.audio_size_struct.size)
+            audio_size_msg = self._read(protocol.audio_size_struct.size)
             audio_size = protocol.from_audio_size_msg(audio_size_msg)
 
-            audio_msg = self._proc.stdout.read(audio_size)
+            print_err("audio_size = {}".format(audio_size))
+
+            audio_msg = self._read(audio_size)
             audio_note = protocol.from_audio_msg(audio_msg)
+
+            print_err("len(audio_note) = {}".format(len(audio_note)))
 
             audio_buf = pyext.Buffer(audio_buf_name)
             if len(audio_buf) != len(audio_note):
@@ -317,10 +327,10 @@ class gansynth(pyext._class):
 
         self._read_tag(protocol.OUT_TAG_AUDIO)
 
-        audio_size_msg = self._proc.stdout.read(protocol.audio_size_struct.size)
+        audio_size_msg = self._read(protocol.audio_size_struct.size)
         audio_size = protocol.from_audio_size_msg(audio_size_msg)
 
-        audio_msg = self._proc.stdout.read(audio_size)
+        audio_msg = self._read(audio_size)
         audio_note = protocol.from_audio_msg(audio_msg)
 
         audio_buf = pyext.Buffer(audio_buf_name)
