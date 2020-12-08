@@ -5,6 +5,7 @@ import sys
 import tensorflow.compat.v1 as tf
 import numpy as np
 import pickle
+from types import SimpleNamespace
 
 from magenta.models.gansynth.lib import generate_util as gu
 
@@ -123,17 +124,32 @@ def handle_synthesize_noz(model, stdin, stdout, state):
     count_msg = read_msg(stdin, protocol.count_struct.size)
     count = protocol.from_count_msg(count_msg)
     
-    pitches = []
+    sounds = []
+    max_num_edits = 0
     for i in range(count):
         gen_msg = read_msg(stdin, protocol.synthesize_noz_struct.size)
         
-        pitch = protocol.from_synthesize_noz_msg(gen_msg)
-        
-        pitches.append(pitch)
+        pitch, num_edits = protocol.from_synthesize_noz_msg(gen_msg)
+
+        max_num_edits = max(max_num_edits, num_edits)
+        edits = []
+        for j in range(num_edits):
+            edit_msg = read_msg(stdin, protocol.f64_struct.size)
+            edits.append(protocol.from_f64_msg(edit_msg))
+
+        sounds.append(SimpleNamespace(pitch = pitch, edits = edits))
+
+    # zero-pad all edits arrays to maximum length
+
+    for sound in sounds:
+        while len(sound.edits) < max_num_edits:
+            sound.edits.append(0.0)
         
     pca = state["ganspace_components"]
-    edits = np.array(state["ganspace_component_amplitudes"], dtype=pca["stdev"].dtype)
-    edits = np.repeat([edits], len(pitches), axis=0)
+    # edits = np.array(state["ganspace_component_amplitudes"], dtype=pca["stdev"].dtype)
+    # edits = np.repeat([edits], len(pitches), axis=0)
+    pitches = [sound.pitch for sound in sounds]
+    edits = np.array([sound.edits for sound in sounds], dtype=pca["stdev"].dtype)
     
     try:
         with suppress_stdout():

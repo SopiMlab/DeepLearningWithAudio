@@ -14,6 +14,7 @@ import subprocess
 import sys
 import threading
 import time
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -248,52 +249,68 @@ class gansynth(pyext._class):
         
         self._outlet(1, "synthesized")
 
+    # expected format: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] -- buf2 pitch2 [...] -- [...]
     def synthesize_noz_1(self, *args):
         if not self._proc:
             raise Exception("can't synthesize - no gansynth_worker process is running")
-        
-        arg_count = len(args)
-        
-        if arg_count == 0 or arg_count % 2 != 0:
-            raise ValueError("invalid number of arguments ({}), should be a multiple of 2: synthesize_noz audio1 pitch1 [audio2 pitch2 ...]".format(arg_count))
 
-        if self.ganspace_components_amplitudes_buffer_name:
-            component_buff = pyext.Buffer(self.ganspace_components_amplitudes_buffer_name)
-            components = np.array(component_buff, dtype=np.float64)
-            component_msgs = []
-            for value in components:
-                component_msgs.append(protocol.to_float_msg(value))
-            self._write_msg(protocol.IN_TAG_SET_COMPONENT_AMPLITUDES, *component_msgs)
+        # parse the input
+        
+        init_sound = lambda: SimpleNamespace(buf=None, pitch=None, edits=[])
+        
+        sounds = [init_sound()]
+        i = 0
+        for arg in args:
+            if str(arg) == "--":
+                sounds.append(init_sound())
+                i = 0
+            else:
+                if i == 0:
+                    sounds[-1].buf = arg
+                elif i == 1:
+                    sounds[-1].pitch = arg
+                else:
+                    sounds[-1].edits.append(arg)
 
-        gen_msgs = []
-        audio_buf_names = []
-        for i in range(0, arg_count, 2):
-            audio_buf_name, pitch = args[i:i+2]
-            
-            gen_msgs.append(protocol.to_synthesize_noz_msg(pitch))
-            audio_buf_names.append(audio_buf_name)
-            
-        in_count = len(gen_msgs)
+                i += 1
+                
+        # validate input and build synthesize messages
+        
+        synth_msgs = []
+        for sound in sounds:
+            if None in [sound.buf, sound.pitch]:
+                raise ValueError("invalid syntax, should be: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] [-- buf2 pitch2 [edit2_1 edit2_2 ...]] [-- ...")
+
+            synth_msgs.append(protocol.to_synthesize_noz_msg(sound.pitch, len(sound.edits)))
+            for edit in sound.edits:
+                synth_msgs.append(protocol.to_f64_msg(edit))
+
+        # write synthesize messages
+        
+        in_count = len(sounds)
         in_count_msg = protocol.to_count_msg(in_count)
-        self._write_msg(protocol.IN_TAG_SYNTHESIZE_NOZ, in_count_msg, *gen_msgs)
+        self._write_msg(protocol.IN_TAG_SYNTHESIZE_NOZ, in_count_msg, *synth_msgs)
+        
+        # wait for output
 
         self._read_tag(protocol.OUT_TAG_AUDIO)
 
         out_count_msg = self._read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
         
+        assert out_count == in_count
+
         if out_count == 0:
             return
 
-        assert out_count == in_count
-
-        for audio_buf_name in audio_buf_names:
+        for sound in sounds:
             audio_size_msg = self._read(protocol.audio_size_struct.size)
             audio_size = protocol.from_audio_size_msg(audio_size_msg)
 
             audio_msg = self._read(audio_size)
             audio_note = protocol.from_audio_msg(audio_msg)
 
+            audio_buf_name = sound.buf
             audio_buf = pyext.Buffer(audio_buf_name)
             if len(audio_buf) != len(audio_note):
                 audio_buf.resize(len(audio_note))
