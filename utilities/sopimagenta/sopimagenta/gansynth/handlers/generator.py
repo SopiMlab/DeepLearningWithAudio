@@ -118,9 +118,7 @@ def handle_gen_audio(model, stdin, stdout, state):
 
     stdout.flush()
     
-def handle_synthesize_noz(model, stdin, stdout, state):
-    print_err("handle_synthesize_noz")
-    
+def handle_synthesize_noz(model, stdin, stdout, state):    
     count_msg = read_msg(stdin, protocol.count_struct.size)
     count = protocol.from_count_msg(count_msg)
     
