@@ -11,7 +11,7 @@ git clone https://github.com/SopiMlab/DeepLearningWithAudio.git
 module load anaconda3
 module load teflon
 mkdir -p "$WRKDIR/conda"
-conda create -p "$WRKDIR/conda/gansynth" python=3.7 tensorflow-gpu=1.15
+conda create -p "$WRKDIR/conda/gansynth" python=3.8 tensorflow-gpu=2.2
 source activate "$WRKDIR/conda/gansynth"
 cd magenta
 pip install --use-feature=2020-resolver -e .
@@ -32,7 +32,7 @@ It is best to submit the job from a fresh shell with no modules loaded and no Co
 cd "$WRKDIR/DeepLearningWithAudio/03_nsynth_and_gansynth/gansynth/training/triton"
 ```
 
-For vanilla gansynth:
+To submit a GANSynth training job, run:
 
 ```
 sbatch train.slrm \
@@ -42,7 +42,9 @@ sbatch train.slrm \
     --train_root_dir "$WRKDIR/mymodel"
 ```
 
-For models/datasets with extra labels (here `nsynth_qualities_tfrecord`):
+TODO: how to compute PCA for GANSpaceSynth
+
+To train with a dataset that has extra labels (here `nsynth_qualities_tfrecord`):
 
 ```
 sbatch train.slrm \
@@ -52,3 +54,5 @@ sbatch train.slrm \
     --train_root_dir "$WRKDIR/mymodel" \ 
     --dataset_name nsynth_qualities_tfrecord
 ```
+
+(2020-11-17: this is still experimental and not really working...)
