@@ -42,8 +42,7 @@ if [ ! -n "$CONDA_ENV" -o ! -n "$INPUT_AUDIO_FILEPATTERNS" -o ! -n "$OUTPUT_TFRE
     exit 1
 fi
 
-module load anaconda2/5.1.0-gpu
-module load ffmpeg
+module load anaconda3
 source activate "$CONDA_ENV"
 
 srun ddsp_prepare_tfrecord \

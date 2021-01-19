@@ -58,12 +58,10 @@ echo "random_z_count: $RANDOM_Z_COUNT" 1>&2
 echo "estimator: $ESTIMATOR" 1>&2
 echo 1>&2
 
-module load anaconda2/5.1.0-gpu
-module load cuda/10.0.130
+module load anaconda3
 source activate "$CONDA_ENV"
 
-# TODO: install gansynth_ganspace.py as part of our magenta & remove hardcoding here
-srun python "/scratch/other/sopi/magenta/magenta/models/gansynth/gansynth_ganspace.py" \
+srun gansynth_ganspace \
     --ckpt_dir "$CKPT_DIR" \
     --seed 0 \
     --layer "$LAYER" \

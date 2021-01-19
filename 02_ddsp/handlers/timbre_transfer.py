@@ -70,7 +70,7 @@ def timbre_transfer(ckpt_dir, audio, in_sample_rate, out_sample_rate, f0_octave_
     # Compute features.
     log("computing audio features...")
     start_time = time.time()
-    audio_features = ddsp.training.eval_util.compute_audio_features(audio)
+    audio_features = ddsp.training.metrics.compute_audio_features(audio)
     audio_features['loudness_db'] = audio_features['loudness_db'].astype(np.float32)
     audio_features_mod = None
     duration = time.time() - start_time

@@ -64,8 +64,7 @@ echo "dataset_name: $DATASET_NAME" 1>&2
 echo "sample_rate: $SAMPLE_RATE" 1>&2
 echo 1>&2
 
-module load anaconda2/5.1.0-gpu
-module load cuda/10.0.130
+module load anaconda3
 source activate "$CONDA_ENV"
 
 srun gansynth_train \
