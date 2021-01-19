@@ -11,12 +11,14 @@ from magenta.models.gansynth.lib import flags as lib_flags
 from magenta.models.gansynth.lib import generate_util as gu
 from magenta.models.gansynth.lib import model as lib_model
 from magenta.models.gansynth.lib import util
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 import sopilib.gansynth_protocol as gss
 from sopilib.utils import print_err, read_msg
 
 from handlers import handlers
+
+tf.disable_v2_behavior()
 
 try:
     ckpt_dir = sys.argv[1]
