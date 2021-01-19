@@ -63,16 +63,16 @@ Create a Conda environment. The `-n` argument specifies the name of the environm
 For CPU:
 
 ```
-conda create -n magenta python=3.7 tensorflow=1.15
+conda create -n magenta python=3.7 tensorflow=2.2
 ```
 
 For GPU:
 
 ```
-conda create -n magenta python=3.7 tensorflow-gpu=1.15
+conda create -n magenta python=3.7 tensorflow-gpu=2.2
 ```
 
-This will ask you for confirmation, create a Python 3.7 environment and install some packages.
+This will ask you for confirmation, create a Python environment and install some packages.
 
 Activate the environment:
 
@@ -93,7 +93,7 @@ cd magenta
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
 ```
-pip install --use-feature=2020-resolver -e .
+pip install -e .
 ``` 
 
 You should now see Magenta in the output of `pip list`:
@@ -108,7 +108,7 @@ Output (the version number may differ):
 Package                            Version
 ---------------------------------- -----------
 ...
-magenta                            1.3.0
+magenta                            2.1.3
 ...
 ```
 
@@ -123,7 +123,7 @@ cd ../utilities/sopilib
 Install:
 
 ```
-pip install --use-feature=2020-resolver -e .
+pip install -e .
 ```
 
 ## Install sopimagenta
@@ -137,7 +137,7 @@ cd ../sopimagenta
 Install:
 
 ```
-pip install --use-feature=2020-resolver -e .
+pip install -e .
 ```
 
 ## Build pyext
