@@ -58,16 +58,16 @@ This will load the training data from `mydataset/data.tfrecord` and metadata fro
 
 ## Postprocess the trained model
 
-To generate sounds using the trained model, some postprocessing is required to remove intermediate files, fix up paths etc. Our `postprocess_checkpoint.py` script will do all of this. Run it as follows:
+To generate sounds using the trained model, some postprocessing is required to remove intermediate files, fix up paths etc. Our `postprocess_model.py` script will do all of this. Run it as follows:
 
 ```
-python postprocess_dataset.py --ckpt_dir mymodel --meta_path mydataset/meta.json
+python postprocess_model.py --ckpt_dir mymodel --meta_path mydataset/meta.json
 ```
 
 The script will list the required postprocessing steps. After checking that everything looks reasonable, re-run the script with the `--execute` flag to actually perform the postprocessing:
 
 ```
-python postprocess_dataset.py --ckpt_dir mymodel --meta_path mydataset/meta.json --execute
+python postprocess_model.py --ckpt_dir mymodel --meta_path mydataset/meta.json --execute
 ```
 
 Your model is now ready to be used with `gansynth_generate` or our Pd patches!
