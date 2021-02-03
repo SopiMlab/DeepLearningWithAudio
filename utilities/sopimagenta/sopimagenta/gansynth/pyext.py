@@ -10,6 +10,7 @@ except:
 
 import os
 import random
+import re
 import subprocess
 import sys
 import threading
@@ -28,6 +29,8 @@ class gansynth(pyext._class):
         self._proc = None
         self._stderr_printer = None
         self.ganspace_components_amplitudes_buffer_name = None
+        self.busy = set()
+        self.buf_re = re.compile(r"^(.+)_([^_]+)$")
 
     def load_1(self, ckpt_dir):
         if self._proc != None:
@@ -247,7 +250,7 @@ class gansynth(pyext._class):
             audio_buf[:] = audio_note
             audio_buf.dirty()
         
-        self._outlet(1, "synthesized")
+        self._outlet(1, "synthesized", *audio_buf_names)
 
     # expected format: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] -- buf2 pitch2 [...] -- [...]
     def synthesize_noz_1(self, *args):
@@ -303,6 +306,7 @@ class gansynth(pyext._class):
         if out_count == 0:
             return
 
+        synthesized_bufs = []
         for sound in sounds:
             audio_size_msg = self._read(protocol.audio_size_struct.size)
             audio_size = protocol.from_audio_size_msg(audio_size_msg)
@@ -311,15 +315,43 @@ class gansynth(pyext._class):
             audio_note = protocol.from_audio_msg(audio_msg)
 
             audio_buf_name = sound.buf
-            audio_buf = pyext.Buffer(audio_buf_name)
-            if len(audio_buf) != len(audio_note):
-                audio_buf.resize(len(audio_note))
 
-            audio_buf[:] = audio_note
-            audio_buf.dirty()
+            sound_name = str(audio_buf_name)
+            m = self.buf_re.match(sound_name)
+            if m:
+                sound_name = m.group(1)
+
+            if sound_name in self.busy:
+                synthesized_bufs.append("-")
+            else:
+                audio_buf = pyext.Buffer(audio_buf_name)
+                if len(audio_buf) != len(audio_note):
+                    audio_buf.resize(len(audio_note))
+
+                audio_buf[:] = audio_note
+                audio_buf.dirty()
+                synthesized_bufs.append(audio_buf_name)
         
-        self._outlet(1, "synthesized")
+        self._outlet(1, "synthesized", *synthesized_bufs)
+
+    def mill_buf_switched_1(self, sym):
+        name = str(sym)
+        m = self.buf_re.match(name)
+        if m:
+            name = m.group(1)
+
+        if name in self.busy:
+            self.busy.remove(name)
+            
+    def nextbufs_1(self, *bufs):
+        for buf in bufs:
+            name = str(buf)
+            m = self.buf_re.match(name)
+            if m:
+                name = m.group(1)
                 
+            self.busy.add(name)
+                    
     def hallucinate_1(self, *args):
         if not self._proc:
             raise Exception("can't synthesize - load a checkpoint first")
