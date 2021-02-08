@@ -11,30 +11,29 @@ ddsp_prepare_tfrecord \
 ```
 ddsp_run \
     --alsologtostderr \
-    --mode train \
-    --model_dir traveller_organ_train \
-    --gin_file models/solo_instrument.gin \
-    --gin_file datasets/tfrecord.gin \
+    --mode=train \
+    --save_dir=traveller_organ_train \
+    --gin_file=models/solo_instrument.gin \
+    --gin_file=datasets/tfrecord.gin \
     --gin_param="TFRecordProvider.file_pattern='traveller_organ_dataset/data.tfrecord*'" \
     --gin_param="batch_size=16" \
     --gin_param="train_util.train.num_steps=30000" \
     --gin_param="train_util.train.steps_per_save=300" \
-    --gin_param="train_util.Trainer.checkpoints_to_keep=10"
+    --gin_param="trainers.Trainer.checkpoints_to_keep=10"
 ```
 
 ### Triton
 
 ```
 module load teflon
-module load anaconda2/5.1.0-gpu
+module load anaconda3
 module load ffmpeg
-conda create -p /scratch/other/sopi/conda/ddsp python=3.7 tensorflow-gpu=2.1
+conda create -p /scratch/other/sopi/conda/ddsp python=3.8 tensorflow-gpu=2 tensorflow-probability
 source activate /scratch/other/sopi/conda/ddsp
 cd /scratch/other/sopi
 git clone https://github.com/magenta/ddsp.git
 cd ddsp
 pip install -e .
-pip install apache-beam
 cd ../ddsp-train-miranda
 ```
 
