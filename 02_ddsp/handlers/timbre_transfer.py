@@ -89,17 +89,17 @@ def timbre_transfer(ckpt_dir, audio, in_sample_rate, out_sample_rate, f0_octave_
     ckpt = os.path.join(model_dir, ckpt_name)
 
     # Ensure dimensions and sampling rates are equal
-    time_steps_train = gin.query_parameter('DefaultPreprocessor.time_steps')
-    n_samples_train = gin.query_parameter('Additive.n_samples')
+    time_steps_train = gin.query_parameter('F0LoudnessPreprocessor.time_steps')
+    n_samples_train = gin.query_parameter('Harmonic.n_samples')
     hop_size = int(n_samples_train / time_steps_train)
 
     time_steps = int(audio.shape[1] / hop_size)
     n_samples = time_steps * hop_size
 
     gin_params = [
-        'Additive.n_samples = {}'.format(n_samples),
+        'Harmonic.n_samples = {}'.format(n_samples),
         'FilteredNoise.n_samples = {}'.format(n_samples),
-        'DefaultPreprocessor.time_steps = {}'.format(time_steps),
+        'F0LoudnessPreprocessor.time_steps = {}'.format(time_steps),
     ]
 
     with gin.unlock_config():
@@ -132,10 +132,11 @@ def timbre_transfer(ckpt_dir, audio, in_sample_rate, out_sample_rate, f0_octave_
     # Run a batch of predictions.
     log("predicting...")
     start_time = time.time()
-    audio_gen = model(af, training=False)
+    outputs = model(af, training=False)
+    audio_gen = model.get_audio_from_outputs(outputs)
     duration = time.time() - start_time
     log("done - {:.1f} s".format(duration))
-
+    
     return audio_gen
 
 def handle_timbre_transfer(stdin, stdout):
