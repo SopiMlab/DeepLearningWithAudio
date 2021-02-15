@@ -14,7 +14,7 @@ The model works by trying to reconstruct sounds from the training dataset using 
 
 The input audio is divided into short frames, and three encoders produce latent representations of fundamental frequency, loudness and timbre information. These are fed into a decoder, which translates the latent representations into parameters for the additive oscillator and filtered noise. Finally, the summed signal from these is optionally passed through a convolution reverb. In the examples, the reverb impulse response is fixed, but it could in principle be learned automatically from the training dataset!
 
-## Setup (macOS)
+## Setup (macOS/Linux)
 
 First make sure you have [pyext](../utilities/pyext-setup/) set up.
 
@@ -23,7 +23,7 @@ DDSP requires a different version of TensorFlow than Magenta, which means we nee
 Create the environment:
 
 ```
-conda create -n ddsp python=3.7 tensorflow=2
+conda create -n ddsp python=3.8 tensorflow=2 tensorflow-probability
 ```
 
 Activate it:
@@ -53,13 +53,13 @@ cd ddsp
 Install DDSP:
 
 ```
-pip install --use-feature=2020-resolver -e .
+pip install -e .
 ```
 
 Install the sopilib support library from the course repository's root:
 
 ```
-pip install --use-feature=2020-resolver -e ../../utilities/sopilib
+pip install -e ../../utilities/sopilib
 ```
 
 Find out the path of your Python interpreter:
