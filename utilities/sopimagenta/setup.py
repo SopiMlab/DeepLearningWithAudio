@@ -13,6 +13,7 @@ setuptools.setup(
     ],
     python_requires=">=3.7",
     install_requires=[
-        "magenta>=1.3"
+        "magenta>=1.3",
+        "monotonic >= 1.5, <= 2"
     ]
 )
