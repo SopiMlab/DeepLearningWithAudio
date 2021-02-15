@@ -29,10 +29,13 @@ class timbre_transfer(pyext._class):
         self._proc = None
         self._stderr_printer = None
 
-    def load_1(self, python):
+    def load_1(self, python=None):
         if self._proc != None:
             self.unload_1()
-        
+
+        if not python:
+            python = sys.executable
+            
         worker_script = os.path.join(script_dir, "ddsp_worker.py")
 
         print_err("starting ddsp_worker process, this may take a while")
