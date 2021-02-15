@@ -18,7 +18,7 @@ The input audio is divided into short frames, and three encoders produce latent 
 
 First make sure you have [pyext](../utilities/pyext-setup/) set up.
 
-DDSP requires a different version of TensorFlow than Magenta, which means we need to make a separate Conda environment for it.
+DDSP requires a different version of TensorFlow than Magenta, which means we need to make a separate Conda environment for it. (TODO: this is probably no longer true and we could consider using a single environment)
 
 Create the environment:
 
