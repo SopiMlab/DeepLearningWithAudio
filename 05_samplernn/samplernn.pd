@@ -1,0 +1,38 @@
+#N canvas 476 254 696 575 12;
+#X obj 125 201 pyext samplernn_pd samplernn @detach 1;
+#X obj 232 255 print samplernn output;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array sound1 100 float 3;
+#A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0;
+#X coords 0 1 100 -1 200 140 1 0 0;
+#X restore 36 361 graph;
+#X obj 24 18 loadbang;
+#X obj 125 225 list trim;
+#X obj 90 255 route worker;
+#X obj 90 280 route on;
+#X obj 90 302 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#N canvas 72 96 450 250 (subpatch) 0;
+#X array sound2 100 float 3;
+#A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0;
+#X coords 0 1 100 -1 200 140 1 0 0;
+#X restore 259 359 graph;
+#X msg 208 99 generate --out_sr 8000 --dur 1 --temp 1 --out sound1
+--temp 0.9 --out sound2;
+#X msg 24 41 load --python /home/sopi/miniconda3/envs/samplernn/bin/python
+-- --num_seqs 2 pruu;
+#X connect 0 0 4 0;
+#X connect 3 0 10 0;
+#X connect 4 0 5 0;
+#X connect 4 0 1 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 9 0;
+#X connect 9 0 0 1;
+#X connect 10 0 0 1;
