@@ -26,6 +26,12 @@ Create the environment:
 conda create -n ddsp python=3.8 tensorflow=2 tensorflow-probability
 ```
 
+If you're on Linux and have an NVIDIA GPU with CUDA support, you can use `tensorflow-gpu` instead for much better performance:
+
+```
+conda create -n ddsp python=3.8 tensorflow-gpu=2 tensorflow-probability
+```
+
 Activate it:
 
 ```
@@ -41,7 +47,7 @@ cd ~/DeepLearningWithAudio/02_ddsp
 Clone the DDSP repository:
 
 ```
-git clone https://github.com/magenta/ddsp.git
+git clone https://github.com/SopiMlab/ddsp.git
 ```
 
 Enter the resulting directory:
