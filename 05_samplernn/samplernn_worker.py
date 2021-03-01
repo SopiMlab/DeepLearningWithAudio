@@ -18,14 +18,15 @@ from handlers import handlers
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--config", default=None)
-# parser.add_argument("--canvas_dir", default=".")
+parser.add_argument("--canvas_dir", default=".")
 parser.add_argument("--num_seqs", type=int, default=1)
-parser.add_argument("ckpt_dir")
+parser.add_argument("--ckpt_dir")
 
 args = parser.parse_args()
 
 config_file = args.config
 if config_file != None:
+    config_file = os.path.join(args.canvas_dir, config_file)
     with open(config_file, "rb") as fp:
         config = json.load(fp)
 else:

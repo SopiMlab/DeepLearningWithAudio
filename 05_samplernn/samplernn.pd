@@ -1,38 +1,91 @@
-#N canvas 476 254 696 575 12;
-#X obj 125 201 pyext samplernn_pd samplernn @detach 1;
-#X obj 232 255 print samplernn output;
+#N canvas 172 312 935 492 12;
+#X obj 613 55 pyext samplernn_pd samplernn @detach 1;
+#X obj 694 84 print samplernn output;
 #N canvas 0 50 450 250 (subpatch) 0;
-#X array sound1 100 float 3;
-#A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0;
-#X coords 0 1 100 -1 200 140 1 0 0;
-#X restore 36 361 graph;
-#X obj 24 18 loadbang;
-#X obj 125 225 list trim;
-#X obj 90 255 route worker;
-#X obj 90 280 route on;
-#X obj 90 302 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X array sound1 63936 float 2;
+#X coords 0 1 63936 -1 100 80 1 0 0;
+#X restore 643 174 graph;
+#X obj 613 79 list trim;
 #N canvas 72 96 450 250 (subpatch) 0;
-#X array sound2 100 float 3;
-#A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0;
-#X coords 0 1 100 -1 200 140 1 0 0;
-#X restore 259 359 graph;
-#X msg 208 99 generate --out_sr 8000 --dur 1 --temp 1 --out sound1
---temp 0.9 --out sound2;
-#X msg 24 41 load --python /home/sopi/miniconda3/envs/samplernn/bin/python
--- --num_seqs 2 pruu;
-#X connect 0 0 4 0;
-#X connect 3 0 10 0;
-#X connect 4 0 5 0;
-#X connect 4 0 1 0;
+#X array sound2 63936 float 2;
+#X coords 0 1 63936 -1 100 80 1 0 0;
+#X restore 745 174 graph;
+#X msg 666 285 sound1;
+#X msg 769 285 sound2;
+#N canvas 139 588 450 300 play 0;
+#X obj 80 219 tabread4~;
+#X obj 51 18 inlet;
+#X obj 51 40 t b a;
+#X obj 135 181 vline~;
+#X obj 211 72 expr $f1-2;
+#X obj 135 130 pack f f;
+#X msg 135 159 1 \, \$1 \$2;
+#X obj 135 107 f;
+#X obj 210 5 r \$0-out;
+#X obj 210 49 unpack s f f;
+#X obj 287 72 expr $f2/$f1*1000;
+#X floatatom 223 138 10 0 0 0 - - -;
+#X floatatom 315 138 10 0 0 0 - - -;
+#X text 220 119 sample rate;
+#X text 312 119 length;
+#X msg 62 154 set \$1;
+#X obj 62 132 pack s;
+#X obj 96 254 outlet~;
+#X obj 210 27 route generated;
+#X connect 0 0 17 0;
+#X connect 1 0 2 0;
+#X connect 2 0 7 0;
+#X connect 2 1 16 0;
+#X connect 3 0 0 0;
+#X connect 4 0 7 1;
 #X connect 5 0 6 0;
+#X connect 6 0 3 0;
+#X connect 7 0 5 0;
+#X connect 8 0 18 0;
+#X connect 9 1 10 0;
+#X connect 9 1 11 0;
+#X connect 9 2 10 1;
+#X connect 9 2 4 0;
+#X connect 9 2 12 0;
+#X connect 10 0 5 1;
+#X connect 15 0 0 0;
+#X connect 16 0 15 0;
+#X connect 18 0 9 0;
+#X coords 0 -1 1 1 170 60 1 220 100;
+#X restore 660 320 pd play;
+#X obj 714 115 s \$0-out;
+#X obj 660 395 dac~;
+#X obj 715 22 r \$0-in;
+#X obj 23 198 s \$0-in;
+#X obj 23 427 s \$0-in;
+#X msg 23 145 load --python /home/sopi/miniconda3/envs/samplernn/bin/python
+-- --num_seqs 2 --ckpt_dir pruu;
+#X text 19 34 --python: path to the python executable of your SampleRNN
+environment, f 78;
+#X text 19 14 load a SampleRNN model, f 78;
+#X text 19 54 --: all arguments after this are passed to the worker
+script, f 78;
+#X text 19 74 --num_seqs: number of sequences to generate simultaneously
+, f 78;
+#X text 19 94 --config: path to config file (only needed for non-default
+config), f 78;
+#X text 19 114 --ckpt_dir: path to checkpoint directory, f 78;
+#X text 19 245 generate audio, f 78;
+#X text 19 265 --out_sr: output sample rate, f 78;
+#X text 19 285 --dur: output audio duration in seconds, f 78;
+#X text 19 305 --temp: sampling temperature, f 78;
+#X text 19 325 --out: name of output array, f 78;
+#X text 19 345 the number of --temp and --out arguments should match
+the --num_seqs given to load, f 78;
+#X msg 23 389 generate --out_sr 16000 --dur 4 --temp 1 --out sound1
+--temp 0.9 --out sound2;
+#X connect 0 0 3 0;
+#X connect 3 0 1 0;
+#X connect 3 0 8 0;
+#X connect 5 0 7 0;
 #X connect 6 0 7 0;
 #X connect 7 0 9 0;
-#X connect 9 0 0 1;
+#X connect 7 0 9 1;
 #X connect 10 0 0 1;
+#X connect 13 0 11 0;
+#X connect 26 0 12 0;

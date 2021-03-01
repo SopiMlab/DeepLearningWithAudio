@@ -55,7 +55,7 @@ class samplernn(pyext._class):
         worker_script = os.path.join(script_dir, "samplernn_worker.py")
         
         print_err("starting samplernn_worker process, this may take a while")
-        worker_command = (str(python), worker_script, *args.worker_args)
+        worker_command = (str(python), worker_script, "--canvas_dir", self._canvas_dir, *args.worker_args)
         print_err("worker_command =", worker_command)
         
         self._proc = subprocess.Popen(
@@ -147,7 +147,7 @@ class samplernn(pyext._class):
             buf[:] = audio
             buf.dirty()
 
-        print_err("done")
+            self._outlet(1, ["generated", buf_name, g_out_sr, g_out_len])
         
     def _keep_printing_stderr(self):
         while True:
