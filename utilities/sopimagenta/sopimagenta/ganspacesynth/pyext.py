@@ -11,6 +11,7 @@ import subprocess
 import sys
 import threading
 import time
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -47,7 +48,8 @@ class halluseq(pyext._class):
         self._proc = None
         self._stderr_printer = None
         self._steps = []
-        self._step_ix = -1
+        self._step_ix = 0
+        self._steps.append(self._new_step())
         self._interp_steps = 1
         self._sample_spacing = 0.2
         self._start_trim = 0.0
@@ -98,7 +100,7 @@ class halluseq(pyext._class):
             str(ganspace_components_file)
         )
 
-        print("Loading GANSpace components...", file=sys.stderr)
+        print_err("Loading GANSpace components...")
 
         size_msg = protocol.to_int_msg(len(ganspace_components_file))
         components_msg = ganspace_components_file.encode('utf-8')
@@ -128,17 +130,15 @@ class halluseq(pyext._class):
         self.updated()
 
     def add_step_1(self):
-        self._steps.append({
-            "edits": np.zeros(len(pyext.Buffer(self._edits_buf_name)), dtype=np.float32)
-        })
-        self._step_ix += 1
         self._read_edits()
+        self._steps.append(self._new_step())
+        self._step_ix = len(self._steps) - 1
         self._write_edits()
         self.updated()
         
     def remove_step_1(self):
         self._read_edits()
-        if len(self._steps) > 0:
+        if len(self._steps) > 1:
             del self._steps[self._step_ix]
 
             self._step_ix = min(self._step_ix, len(self._steps)-1)
@@ -205,7 +205,11 @@ class halluseq(pyext._class):
         for msg in msgs:
             self._proc.stdin.write(msg)
         self._proc.stdin.flush()
-        
+
+    def _read(self, n):
+        data = self._proc.stdout.read(n)
+        return data
+
     def _read_tag(self, expected_tag):
         tag_msg = self._proc.stdout.read(protocol.tag_struct.size)
         tag = protocol.from_tag_msg(tag_msg)
@@ -213,19 +217,37 @@ class halluseq(pyext._class):
         if tag != expected_tag:
             raise ValueError("expected tag {}, got {}".format(expected_tag, tag))
 
+    def _print_steps(self):
+        print_err(f"_steps = {self._steps}")
+        for i, step in enumerate(self._steps):
+            edits = list(step["edits"])
+            print_err(f"{i+1}: {edits}")
+        
     def _read_edits(self):
         if not self._steps:
             return
 
         self._steps[self._step_ix]["edits"][:] = pyext.Buffer(self._edits_buf_name)
+        # print_err("_read_edits()")
+        # self._print_steps()
         
     def _write_edits(self):
         if not self._steps:
             return
 
+        # print_err("_write_edits()")
+        # self._print_steps()
         buf = pyext.Buffer(self._edits_buf_name)
         buf[:] = self._steps[self._step_ix]["edits"]
         buf.dirty()
+
+    def _new_step(self):
+        if self._steps:
+            edits = self._steps[self._step_ix]["edits"].copy()
+        else:
+            edits = np.zeros(len(pyext.Buffer(self._edits_buf_name)), dtype=np.float32)
+        step = {"edits": edits}
+        return step
         
     def randomize_z_1(self, *buf_names):
         if not self._proc:
@@ -348,66 +370,86 @@ class halluseq(pyext._class):
         
         self._outlet(1, "synthesized")
 
-    def synthesize_noz_1(self, *args):        
+    # expected format: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] -- buf2 pitch2 [...] -- [...]
+    def synthesize_noz_1(self, *args):
         if not self._proc:
             raise Exception("can't synthesize - no gansynth_worker process is running")
+
+        # parse the input
         
-        arg_count = len(args)
+        init_sound = lambda: SimpleNamespace(buf=None, pitch=None, edits=[])
         
-        if arg_count == 0 or arg_count % 2 != 0:
-            raise ValueError("invalid number of arguments ({}), should be a multiple of 2: synthesize_noz audio1 pitch1 [audio2 pitch2 ...]".format(arg_count))
+        sounds = [init_sound()]
+        i = 0
+        for arg in args:
+            if str(arg) == "--":
+                sounds.append(init_sound())
+                i = 0
+            else:
+                if i == 0:
+                    sounds[-1].buf = arg
+                elif i == 1:
+                    sounds[-1].pitch = arg
+                else:
+                    sounds[-1].edits.append(arg)
 
-        component_buff = pyext.Buffer(self._edits_buf_name)
-        components = np.array(component_buff, dtype=np.float64)
-        component_msgs = []
+                i += 1
+                
+        # validate input and build synthesize messages
+        
+        synth_msgs = []
+        for sound in sounds:
+            if None in [sound.buf, sound.pitch]:
+                raise ValueError("invalid syntax, should be: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] [-- buf2 pitch2 [edit2_1 edit2_2 ...]] [-- ...")
 
-        for value in components:
-            component_msgs.append(protocol.to_float_msg(value))
+            edits = []
+            for edit in sound.edits:
+                if isinstance(edit, pyext.Symbol):
+                    # edit refers to a Pd array
+                    edits_buf = pyext.Buffer(edit)
+                    for val in edits_buf:
+                        edits.append(val)
+                else:
+                    # edit is a number, probably
+                    edits.append(edit)
             
-        for i in range(self._component_count - len(components)):
-            component_msgs.append(protocol.to_float_msg(0.0))
-                  
-        self._write_msg(protocol.IN_TAG_SET_COMPONENT_AMPLITUDES, *component_msgs)
+            synth_msgs.append(protocol.to_synthesize_noz_msg(sound.pitch, len(edits)))
+            for edit in edits:
+                synth_msgs.append(protocol.to_f64_msg(edit))
 
-        gen_msgs = []
-        audio_buf_names = []
-        for i in range(0, arg_count, 2):
-            audio_buf_name, pitch = args[i:i+2]
-            
-            gen_msgs.append(protocol.to_synthesize_noz_msg(pitch))
-            audio_buf_names.append(audio_buf_name)
-            
-        in_count = len(gen_msgs)
+        # write synthesize messages
+        
+        in_count = len(sounds)
         in_count_msg = protocol.to_count_msg(in_count)
-        self._write_msg(protocol.IN_TAG_SYNTHESIZE_NOZ, in_count_msg, *gen_msgs)
-                  
+        self._write_msg(protocol.IN_TAG_SYNTHESIZE_NOZ, in_count_msg, *synth_msgs)
+        
+        # wait for output
+
         self._read_tag(protocol.OUT_TAG_AUDIO)
 
-        out_count_msg = self._proc.stdout.read(protocol.count_struct.size)
+        out_count_msg = self._read(protocol.count_struct.size)
         out_count = protocol.from_count_msg(out_count_msg)
-
-        print_err("out_count =", out_count)
         
-        if out_count == 0:
-            print_err("no audio was synthesized!")
-            return
-
         assert out_count == in_count
 
-        for audio_buf_name in audio_buf_names:
-            audio_size_msg = self._proc.stdout.read(protocol.audio_size_struct.size)
+        if out_count == 0:
+            return
+
+        for sound in sounds:
+            audio_size_msg = self._read(protocol.audio_size_struct.size)
             audio_size = protocol.from_audio_size_msg(audio_size_msg)
 
-            audio_msg = self._proc.stdout.read(audio_size)
+            audio_msg = self._read(audio_size)
             audio_note = protocol.from_audio_msg(audio_msg)
 
+            audio_buf_name = sound.buf
             audio_buf = pyext.Buffer(audio_buf_name)
             if len(audio_buf) != len(audio_note):
                 audio_buf.resize(len(audio_note))
 
             audio_buf[:] = audio_note
             audio_buf.dirty()
-            
+        
         self._outlet(1, "synthesized")
         
     def hallucinate_noz_1(self, audio_buf_name):
