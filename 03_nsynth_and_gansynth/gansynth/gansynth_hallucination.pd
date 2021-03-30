@@ -1,28 +1,27 @@
-#N canvas 285 23 1155 735 10;
-#X obj 194 18 cnv 15 830 200 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X obj 12 18 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 125 25 1155 678 10;
+#X obj 194 -39 cnv 15 830 200 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X obj 12 -39 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound 224000 float 0;
 #X coords 0 1 223999 -1 200 140 1 0 0;
-#X restore 14 577 graph;
-#X obj 14 72 loadbang;
-#X obj 240 698 dac~;
-#X obj 241 628 vline~;
-#X obj 240 651 tabread4~ \$0-sound;
-#X text 15 21 1 - load GANSynth model from a saved checkpoint, f 28
-;
+#X restore 14 520 graph;
+#X obj 240 641 dac~;
+#X obj 241 571 vline~;
+#X obj 240 594 tabread4~ \$0-sound;
+#X text 15 -36 1 - load GANSynth model from a saved checkpoint, f
+28;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 18 273 pd print_input;
-#X obj 18 408 print gansynth output;
-#X obj 240 673 *~ 0.5;
-#N canvas 2558 362 450 300 loaded 0;
+#X restore 18 216 pd print_input;
+#X obj 18 351 print gansynth output;
+#X obj 240 616 *~ 0.5;
+#N canvas 830 362 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -4034 -1 -1 0
 1;
 #X obj 99 19 inlet;
@@ -44,9 +43,9 @@
 #X connect 5 1 8 1;
 #X connect 8 0 7 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 245 435 pd loaded;
-#X obj 19 318 list trim;
-#N canvas 2513 401 450 300 parse_length 0;
+#X restore 245 378 pd loaded;
+#X obj 19 261 list trim;
+#N canvas 830 401 450 300 parse_length 0;
 #X obj 113 29 inlet;
 #X obj 108 193 outlet;
 #X obj 108 123 - 1;
@@ -65,12 +64,12 @@
 #X connect 6 0 4 0;
 #X connect 7 0 8 1;
 #X connect 8 0 3 1;
-#X restore 240 604 pd parse_length;
-#X obj 239 537 bng 30 250 50 0 empty empty Play 32 15 0 10 -4034 -1
+#X restore 240 547 pd parse_length;
+#X obj 239 480 bng 30 250 50 0 empty empty Play 32 15 0 10 -4034 -1
 -1;
-#X msg 374 500 stop;
-#X obj 139 372 route hallucinated;
-#N canvas 3028 315 812 595 sample_shape 0;
+#X msg 374 443 stop;
+#X obj 139 315 route hallucinated;
+#N canvas 468 108 812 595 sample_shape 0;
 #X obj 159 313 weightedsum;
 #X floatatom 104 261 5 0 0 0 - - -;
 #X floatatom 168 261 5 0 0 0 - - -;
@@ -135,8 +134,8 @@
 #X connect 19 0 7 0;
 #X connect 20 0 8 0;
 #X coords 0 -1 1 1 250 180 2 100 100;
-#X restore 763 29 pd sample_shape;
-#N canvas 2854 604 696 522 hallucination_settings 0;
+#X restore 763 -28 pd sample_shape;
+#N canvas 584 181 696 522 hallucination_settings 0;
 #X obj 57 118 vsl 15 128 1 20 0 0 empty empty NoteCount 0 -9 0 10 -262144
 -1 -1 2674 1;
 #X obj 120 118 vsl 15 128 0 20 0 0 empty empty InterpolationSteps 0
@@ -174,12 +173,12 @@
 #X connect 14 0 1 0;
 #X connect 15 0 2 0;
 #X coords 0 -1 1 1 270 180 2 50 100;
-#X restore 484 30 pd hallucination_settings;
-#X obj 210 61 bng 30 250 50 0 empty empty Generate 35 15 0 10 -4034
+#X restore 484 -27 pd hallucination_settings;
+#X obj 210 4 bng 30 250 50 0 empty empty Generate 35 15 0 10 -4034
 -1 -1;
-#X obj 210 137 f \$0;
-#X msg 210 191 hallucinate \$1-sound \$2 \$3 \$4 \$5 \$6 \$7 \$8;
-#N canvas 3014 481 779 439 read_arguments 0;
+#X obj 210 80 f \$0;
+#X msg 210 134 hallucinate \$1-sound \$2 \$3 \$4 \$5 \$6 \$7 \$8;
+#N canvas 501 264 779 439 read_arguments 0;
 #X obj 286 146 r s_trim;
 #X obj 297 165 r s_att;
 #X obj 310 185 r s_sus;
@@ -199,29 +198,28 @@
 #X connect 6 0 7 3;
 #X connect 7 0 9 0;
 #X connect 8 0 7 0;
-#X restore 210 164 pd read_arguments;
-#X text 198 21 2 - Generate Hallucination;
-#X msg 13 90 load all_instruments;
-#X obj 19 295 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X restore 210 107 pd read_arguments;
+#X text 198 -36 2 - Generate Hallucination;
+#X obj 19 238 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
-#X connect 3 0 24 0;
-#X connect 5 0 6 0;
-#X connect 6 0 10 0;
-#X connect 8 0 25 1;
-#X connect 10 0 4 0;
-#X connect 10 0 4 1;
-#X connect 12 0 9 0;
-#X connect 12 0 16 0;
-#X connect 13 0 5 0;
-#X connect 14 0 13 0;
-#X connect 15 0 5 0;
-#X connect 16 0 13 0;
-#X connect 16 1 11 0;
-#X connect 19 0 20 0;
-#X connect 20 0 22 0;
-#X connect 21 0 8 0;
-#X connect 21 0 15 0;
-#X connect 22 0 21 0;
-#X connect 24 0 8 0;
-#X connect 25 0 12 0;
-#X coords 0 735 1 734 0 0 0;
+#X msg 22 13 load pruu;
+#X connect 4 0 5 0;
+#X connect 5 0 9 0;
+#X connect 7 0 23 1;
+#X connect 9 0 3 0;
+#X connect 9 0 3 1;
+#X connect 11 0 8 0;
+#X connect 11 0 15 0;
+#X connect 12 0 4 0;
+#X connect 13 0 12 0;
+#X connect 14 0 4 0;
+#X connect 15 0 12 0;
+#X connect 15 1 10 0;
+#X connect 18 0 19 0;
+#X connect 19 0 21 0;
+#X connect 20 0 7 0;
+#X connect 20 0 14 0;
+#X connect 21 0 20 0;
+#X connect 23 0 11 0;
+#X connect 24 0 7 0;
+#X coords 0 678 1 677 0 0 0;

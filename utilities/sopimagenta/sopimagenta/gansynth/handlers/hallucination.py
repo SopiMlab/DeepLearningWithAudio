@@ -142,7 +142,7 @@ def handle_hallucinate(model, stdin, stdout, state):
 
     print_err("note_count = {} interpolation_steps = {}, spacing = {}s, start_trim = {}s, attack = {}s, sustain = {}s, release = {}s".format(*args))
 
-    with suppress_stdout:
+    with suppress_stdout():
         initial_notes = model.generate_z(note_count)
     initial_piches = np.array([32] * len(initial_notes)) # np.floor(30 + np.random.rand(len(initial_notes)) * 30)
     final_notes, final_pitches = interpolate_notes(initial_notes, initial_piches, interpolation_steps)
