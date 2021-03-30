@@ -29,19 +29,20 @@ class gansynth(pyext._class):
         self._stderr_printer = None
         self.ganspace_components_amplitudes_buffer_name = None
 
-    def load_1(self, ckpt_dir):
+    def load_1(self, ckpt_dir, batch_size=8):
         if self._proc != None:
             self.unload_1()
 
-        batch_size = 1
         python = sys.executable
         gen_script = sopimagenta_path("gansynth_worker")
         ckpt_dir = os.path.join(self._canvas_dir, str(ckpt_dir))
+        worker_cmd = (python, gen_script, ckpt_dir, str(batch_size))
 
         print("starting gansynth_worker process, this may take a while", file=sys.stderr)
+        print(f"worker_cmd = {worker_cmd}")
 
         self._proc = subprocess.Popen(
-            (python, gen_script, ckpt_dir, str(batch_size)),
+            worker_cmd,
             stdin = subprocess.PIPE,
             stdout = subprocess.PIPE,
             stderr = subprocess.PIPE
