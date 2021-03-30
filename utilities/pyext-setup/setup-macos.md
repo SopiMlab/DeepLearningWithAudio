@@ -6,6 +6,16 @@ You should have [Pure Data](https://puredata.info/) installed. We've found Purr 
 
 If you've never used the command line before, it may be a good idea to have a look at a [tutorial](https://macpaw.com/how-to/use-terminal-on-mac) first to learn some of the basics.
 
+## Install required Pd externals
+
+Some of our patches require the following externals:
+
+- `list-abs`
+- `unauthorized`
+- `zexy`
+
+Install these via Help menu → Find externals. Make sure the folders for `unauthorized` and `zexy` are in your search path (Pd menu → Preferences → Path…) and that `zexy` gets loaded on startup (Pd menu → Preferences → Startup…). There are screenshots at the end of this document showing an example of what these preferences should look like.
+
 ## Install Xcode command line tools
 
 Apple's Xcode command line developer tools are required for setup. If you have the regular Xcode installed from App Store, the command line tools may already be included.
@@ -32,10 +42,10 @@ This will download the repository into your current working directory, which in 
 
 We will use the Conda package/environment manager to set up a Python environment.
 
-If you use [Homebrew](https://brew.sh), you can simply run:
+If you have [Homebrew](https://brew.sh), you can simply run:
 
 ```
-brew cask install miniconda
+brew install --cask miniconda
 ```
 
 Otherwise, follow the [official Conda instructions](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
@@ -74,7 +84,29 @@ conda activate magenta
 
 This should update your command line prompt to say `(magenta)` at the start.
 
-Note that activating the Conda environment only applies to your current terminal window! If you open a  new window, you'll have to run this command again.
+Note that activating the Conda environment only applies to your current terminal window! If you open a new window, you'll have to run this command again.
+
+----
+
+### Error: "Your shell has not been properly configured..."
+
+The first time you run `conda activate`, you may get a message saying your shell has not been properly configured and instructing you to initialize. If so, run one of the following (depending on your macOS version) to configure the default shell:
+
+macOS 10.14 and earlier:
+
+```
+conda init bash
+```
+
+macOS 10.15 and later:
+
+```
+conda init zsh
+```
+
+Then close and re-open the terminal, navigate to the `DeepLearningWithAudio` directory again and re-run the `conda activate` command above.
+
+----
 
 Enter the previously created Magenta directory:
 
@@ -85,10 +117,16 @@ cd magenta
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
 ```
-pip install --use-feature=2020-resolver -e .
+pip install -e .
 ``` 
 
-During the installation, you may see some errors about packages like `googledatastore` and `apache-beam`. These can be ignored.
+----
+
+### Why `-e`?
+
+Using `pip install` with the  `-e` flag installs in "editable mode". This means you can edit or update the Python code in the `DeepLearningWithAudio` repository and the changes will take effect without having to reinstall the package.
+
+----
 
 You should now see Magenta in the output of `pip list`:
 
@@ -102,7 +140,7 @@ Output (the version number may differ):
 Package                            Version
 ---------------------------------- -----------
 ...
-magenta                            1.3.0
+magenta                            2.1.3
 ...
 ```
 
@@ -117,7 +155,7 @@ cd ../utilities/sopilib
 Install:
 
 ```
-pip install --use-feature=2020-resolver -e .
+pip install -e .
 ```
 
 ## Install sopimagenta
@@ -131,7 +169,7 @@ cd ../sopimagenta
 Install:
 
 ```
-pip install --use-feature=2020-resolver -e .
+pip install -e .
 ```
 
 ## Build pyext
@@ -151,15 +189,19 @@ python build.py --info
 Output:
 
 ```
-Python version: 3.7.7 (default, Mar 26 2020, 10:32:53)
-[Clang 4.0.1 (tags/RELEASE_401/final)]
+platform config: MacConfig
+Python version: 3.7.10 (default, Feb 26 2021, 10:16:00)
+[Clang 10.0.0 ]
 Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta/bin/python
-Pd path: /Applications/Pd-0.50-2.app
-Pd variant: vanilla
+Pd path: /Applications/Pd-0.51-3.app
 Conda root: /usr/local/Caskroom/miniconda/base/envs/magenta
 ```
 
 The output on your system will differ a bit according to your corresponding paths.
+
+----
+
+### Error: "No Pd found" or wrong Pd path
 
 If the script fails to find your Pd path, or finds the wrong version, you can specify it manually with the `--pd` option:
 
@@ -170,13 +212,15 @@ python build.py --info --pd /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
 Output:
 
 ```
-Python version: 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 10:59:10)
-[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]
+platform config: MacConfig
+Python version: 3.7.10 (default, Feb 26 2021, 10:16:00)
+[Clang 10.0.0 ]
 Python executable: /usr/local/Caskroom/miniconda/base/envs/magenta/bin/python
 Pd path: /Users/miranda/SomeUnusualPdFolder/Pd-0.50-0.app
-Pd variant: vanilla
 Conda root: /usr/local/Caskroom/miniconda/base/envs/magenta
 ```
+
+----
 
 Now build pyext by running the same command without `--info` (keep the `--pd` option if you needed to add it before):
 

@@ -40,6 +40,10 @@ Download a pre-trained model (in this example, `attention_rnn`):
 curl -LO http://download.magenta.tensorflow.org/models/attention_rnn.mag
 ```
 
-You can now open `ai_duet.pd`! Note that it may take a moment for the patch window to appear.
+You can now open `ai_duet.pd`! Note that it may take a while for the patch window to appear.
 
-`ai_duet.pd` tries to load `attention_rnn` by default; modify the load message to use another model.
+`ai_duet.pd` loads `attention_rnn` by default; modify the load message to use another model.
+as
+## Exercises
+
+1. Experiment with two or more of the pre-trained models. How does their output differ?

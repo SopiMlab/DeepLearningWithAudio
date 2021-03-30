@@ -1,6 +1,6 @@
 # SampleRNN
 
-SampleRNN is another generative deep learning model for audio, introduced in 2017 by Soroush Mehri, Kundan Kumar, Ishaan Gulrajani, Rithesh Kumar, Shubham Jain, Jose Sotelo, Aaron Courville and Yoshua Bengio. It trains on an dataset of unlabeled audio chunks and learns to generate sequences of similar audio. The architecture of SampleRNN is based on recurrent neural networks (RNNs), in which the output of each time step is fed back as input to the next one. RNNs are well suited for modeling sequential data, but suffer from the vanishing gradient problem, in which the network's ability to learn is hindered by its gradients shrinking exponentially during backpropagation. Two popular variants of RNN have been developed to address the vanishing gradient problem: gated recurrent units (GRU) and long short-term memory (LSTM). SampleRNN can be configured to work with either variant, and it's not currently clear whether either one is universally better.
+SampleRNN is another generative deep learning model for audio, introduced in 2017 by Soroush Mehri, Kundan Kumar, Ishaan Gulrajani, Rithesh Kumar, Shubham Jain, Jose Sotelo, Aaron Courville and Yoshua Bengio. It trains on a dataset of unlabeled audio chunks and learns to generate sequences of similar audio. The architecture of SampleRNN is based on recurrent neural networks (RNNs), in which the output of each time step is fed back as input to the next one. RNNs are well suited for modeling sequential data, but suffer from the vanishing gradient problem, in which the network's ability to learn is hindered by its gradients shrinking exponentially during backpropagation. Two popular variants of RNN have been developed to address the vanishing gradient problem: gated recurrent units (GRU) and long short-term memory (LSTM). SampleRNN can be configured to work with either variant, and it's not currently clear whether either one is universally better.
 
 The use of RNNs allows SampleRNN to generate audio sequences of any duration. This is in contrast to the fixed-length sequences of GANSynth, however SampleRNN is significantly slower. As the [original implementation of SampleRNN](https://github.com/soroushmehr/sampleRNN_ICLR2017) is unmaintained and hard to set up successfully, we use [our own fork](https://github.com/SopiMlab/prism-samplernn/) of the [PRiSM SampleRNN](https://github.com/rncm-prism/prism-samplernn/) implementation.
 
@@ -16,15 +16,27 @@ To avoid potential version incompatibilities between SampleRNN and our existing 
 
 Create the environment:
 
+----
+
+### on macOS
+
+```
+conda create -n samplernn python=3.8
+```
+
+### on Linux
+
 ```
 conda create -n samplernn python=3.8 tensorflow=2
 ```
 
-If you're on Linux and have an NVIDIA GPU with CUDA support, you can use `tensorflow-gpu` instead for much better performance:
+If you have an NVIDIA GPU with CUDA support, you can use `tensorflow-gpu` instead for much better performance:
 
 ```
 conda create -n samplernn python=3.8 tensorflow-gpu=2
 ```
+
+----
 
 Activate the environment:
 

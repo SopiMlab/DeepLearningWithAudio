@@ -57,7 +57,7 @@ We also have some of our own checkpoints available at the [SOPI Google Drive](ht
 
 ## Setup (macOS)
 
-First make sure you have [pyext](../pyext-setup/) set up.
+First ensure you have [pyext](../../utilities/pyext-setup/) set up.
 
 Make sure the Conda environment you used for pyext is activated:
 
@@ -93,7 +93,11 @@ gansynth_generate --ckpt_dir=all_instruments --output_dir=output
 
 This will print a bunch of warnings, but should eventually produce a few wav files in the `output` subdirectory.
 
-You can now open `gansynth.pd` or `gansynth_multi.pd`!
+You can now run the patches:
+
+- `gansynth.pd`
+- `gansynth_multi.pd`
+- `gansynth_hallucination.pd`
 
 ## Training
 
