@@ -1,8 +1,5 @@
 from __future__ import print_function
 
-print("loading gansynth")
-import sys
-
 try:
     import pyext
 except:
@@ -282,8 +279,20 @@ class gansynth(pyext._class):
             if None in [sound.buf, sound.pitch]:
                 raise ValueError("invalid syntax, should be: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] [-- buf2 pitch2 [edit2_1 edit2_2 ...]] [-- ...")
 
-            synth_msgs.append(protocol.to_synthesize_noz_msg(sound.pitch, len(sound.edits)))
+            edits = []
             for edit in sound.edits:
+                print(f"type(edit) = {type(edit)}")
+                if isinstance(edit, pyext.Symbol):
+                    # edit refers to a Pd array
+                    edits_buf = pyext.Buffer(edit)
+                    for val in edits_buf:
+                        edits.append(val)
+                else:
+                    # edit is a number, probably
+                    edits.append(edit)
+            
+            synth_msgs.append(protocol.to_synthesize_noz_msg(sound.pitch, len(edits)))
+            for edit in edits:
                 synth_msgs.append(protocol.to_f64_msg(edit))
 
         # write synthesize messages
