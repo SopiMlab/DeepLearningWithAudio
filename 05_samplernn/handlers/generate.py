@@ -25,7 +25,7 @@ def generate(state, sample_rate, num_samples, temperature, seed):
     q_levels = model.q_levels
     q_zero = q_levels // 2
     print_err("temperature 0 =", temperature)
-    temperature = gen.get_temperature(temperature, num_seqs)
+    temperature = gen.get_temperature(temperature, num_seqs, num_samples, num_samples/sample_rate)
     print_err("temperature 1 =", temperature)
     # Precompute sample sequences, initialised to q_zero.
     samples = []

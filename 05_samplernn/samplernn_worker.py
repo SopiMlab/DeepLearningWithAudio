@@ -24,15 +24,8 @@ parser.add_argument("--ckpt_dir")
 
 args = parser.parse_args()
 
-config_file = args.config
-if config_file != None:
-    config_file = os.path.join(args.canvas_dir, config_file)
-    with open(config_file, "rb") as fp:
-        config = json.load(fp)
-else:
-    config = json.loads(pkgutil.get_data("samplernn_scripts", "conf/default.config.json"))
-
-print_err("config:", config)
+ckpt_path = gen.find_checkpoint_path(args.ckpt_dir)
+config = gen.find_config(ckpt_path, args.config)
     
 max_ckpt = None
 for fn in os.listdir(args.ckpt_dir):
