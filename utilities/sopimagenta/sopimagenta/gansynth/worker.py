@@ -27,7 +27,7 @@ except IndexError:
     print_err("usage: {} checkpoint_dir batch_size".format(os.path.basename(__file__)))
     sys.exit(1)
 
-flags = lib_flags.Flags({"batch_size_schedule": [batch_size]})
+flags = lib_flags.Flags({"batch_size_schedule": [batch_size], "dataset_name": "nsynth_tfrecord"})
 model = lib_model.Model.load_from_path(ckpt_dir, flags)
 
 stdin = os.fdopen(sys.stdin.fileno(), "rb", 0)
