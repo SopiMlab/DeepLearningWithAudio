@@ -113,13 +113,7 @@ The timbre transfer is unfortunately quite slow without GPU acceleration (unsupp
 
 ## Checkpoints
 
-A few example checkpoints are provided by the DDSP authors:
-
-- [solo\_violin\_ckpt](https://storage.googleapis.com/ddsp/models/tf2/solo_violin_ckpt.zip)
-- [solo\_flute\_ckpt](https://storage.googleapis.com/ddsp/models/tf2/solo_flute_ckpt.zip)
-- [solo\_flute2\_ckpt](https://storage.googleapis.com/ddsp/models/tf2/solo_flute2_ckpt.zip)
-
-We have some more in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
+A few example checkpoints are provided by the DDSP authors, and we've trained some additional ones. You can find all of them in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
 ## Training
 

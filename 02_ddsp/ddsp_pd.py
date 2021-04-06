@@ -1,6 +1,5 @@
 from __future__ import print_function
 
-print("loading timbre_transfer")
 import sys
 
 try:
@@ -21,6 +20,17 @@ import sopilib.ddsp_protocol as protocol
 from sopilib.utils import print_err
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
+
+def normalize(buf, target=0.9, inplace=False):
+    maximum = max(buf.min(), buf.max(), key=abs)
+    if maximum == 0.0:
+        return buf
+    factor = target/maximum
+    if inplace:
+        buf *= factor
+        return buf
+    else:
+        return buf * factor
 
 class timbre_transfer(pyext._class):
     def __init__(self, *args):
@@ -131,11 +141,17 @@ class timbre_transfer(pyext._class):
 
         # write output
 
-        out_buf[:] = out_audio
+        out_buf[:] = normalize(out_audio)
         print_err("wrote out_audio")
         out_buf.dirty()
 
         self._outlet(1, ["transferred", len(out_audio)])
+
+    def normalize_1(self, buf_name, target=0.9):
+        buf = pyext.Buffer(buf_name)
+        buf[:] = normalize(np.array(buf), target)
+        buf.dirty()
+        self._outlet(1, "normalized")
         
     def _keep_printing_stderr(self):
         while True:

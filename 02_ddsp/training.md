@@ -1,12 +1,36 @@
 # DDSP training
 
+----
+
+## Using Aalto computers
+
+If you want to train on Aalto computers, see our [Using Aalto computers](../using-aalto-computers.md) document.
+
+In addition to the `anaconda3` module, you'll need to load `ffmpeg`:
+
+```
+module load ffmpeg
+```
+
+----
+
+## Conda environment
+
+First make sure you have a Conda environment set up for DDSP — see our [main DDSP guide](README.md).
+
 ## Timbre transfer
+
+In this example, we train on a recording named `traveller_organ.wav`.
+
+Convert the audio to TFRecord dataset format:
 
 ```
 ddsp_prepare_tfrecord \
     --input_audio_filepatterns traveller_organ.wav \
     --output_tfrecord_path traveller_organ_dataset/data.tfrecord
 ```
+
+Run the training:
 
 ```
 ddsp_run \
