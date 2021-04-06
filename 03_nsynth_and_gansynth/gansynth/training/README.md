@@ -1,10 +1,20 @@
 # Training GANSynth
 
-This guide describes how to train a GANSynth model using your own sounds. Note that training is a very resource-intensive process, so you will want to use a powerful GPU.
+This guide describes how to train a GANSynth model using your own sounds. Note that training is a very computation-intensive process, so you will want to use a powerful GPU.
+
+----
+
+## Using Aalto computers
+
+If you want to train on Aalto computers, see our [Using Aalto computers](../../../using-aalto-computers.md) document.
 
 For training on the Triton computing cluster, see also [Training GANSynth on Triton](triton/README.md).
 
+----
+
 ## Create a dataset
+
+Set up a [Conda environment for GANSynth](../README.md) and activate it. Enter the `gansynth/training` directory.
 
 Prepare any amount of audio samples (the more the better) and put them in one directory. The requirements for the samples are:
 
@@ -15,9 +25,15 @@ Prepare any amount of audio samples (the more the better) and put them in one di
 - Mono
 - Named like `[instrument]_[pitch].wav`, e.g. `piano_62.wav`
 
-GANSynth expects input in the TFRecord format (a generic file format for TensorFlow data), so the WAV files need to be converted. This can be done with our script `make_dataset.py`.
+You can use the `chop.py` script to automatically chop up longer files (such as music). For example, if you have music files in a folder called `mytunes`, you can run:
 
-Set up a [Conda environment for GANSynth](../README.md) and activate it. Enter the `gansynth/training` directory.
+```
+python chop.py --step 16000 mytunes mysamples
+```
+
+This will create suitable 4-second files in the `mysamples` folder. The `--step` parameter specifies how much to advance in the audio at a time — for example, the step size of `16000` frames used above will advance 1 second at a time, causing 3 seconds of overlap between successive output files. Using `64000` would produce non-overlapping files, etc.
+
+GANSynth expects input in the TFRecord format (a generic file format for TensorFlow data), so the WAV files need to be converted. This can be done with our script `make_dataset.py`.
 
 Run `make_dataset.py` as follows:
 

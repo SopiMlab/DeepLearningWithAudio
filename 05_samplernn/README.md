@@ -90,7 +90,11 @@ Finally, open `samplernn.pd`. You will need to edit the `load` message to use yo
 
 ## Checkpoints
 
-TODO
+We have some pre-trained checkpoints in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
+
+## Training
+
+See [Training SampleRNN](training.md).
 
 ## Exercises
 

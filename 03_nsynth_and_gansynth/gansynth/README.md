@@ -49,12 +49,6 @@ The network operates on a spectral representation of audio rather than directly 
 - [MuseGAN](https://salu133445.github.io/musegan/) ([paper]())
 - [Conditional LSTM-GAN for Melody Generation from Lyrics](https://github.com/yy1lab/Lyrics-Conditioned-Neural-Melody-Generation) ([paper](https://arxiv.org/abs/1908.05551))a
 
-## Checkpoints
-
-Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints: `all_instruments` is trained on all instruments in the NSynth dataset, while `acoustic_only` is trained on the acoustic instruments only.
-
-We also have some of our own checkpoints available at the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
-
 ## Setup (macOS)
 
 First ensure you have [pyext](../../utilities/pyext-setup/) set up.
@@ -98,6 +92,12 @@ You can now run the patches:
 - `gansynth.pd`
 - `gansynth_multi.pd`
 - `gansynth_hallucination.pd`
+
+## Checkpoints
+
+Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints: `all_instruments` is trained on all instruments in the NSynth dataset, while `acoustic_only` is trained on the acoustic instruments only.
+
+We also have some of our own checkpoints available at the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
 ## Training
 
