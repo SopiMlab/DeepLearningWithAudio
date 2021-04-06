@@ -1,9 +1,9 @@
-#N canvas 661 23 684 823 12;
+#N canvas 329 23 834 823 12;
 #X obj 304 470 route list;
 #X obj 304 491 route play;
 #X obj 552 176 print;
 #X obj 533 117 stripnote;
-#X obj 533 96 notein 1;
+#X obj 482 53 notein 1;
 #X msg 533 152 note_on \$1;
 #X obj 529 178 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -31,7 +31,7 @@
 #X obj 253 42 inlet;
 #X obj 62 125 print loader;
 #X msg 101 495 position_rel \$1 \$2;
-#X obj 30 251 grid grid2 200 0 1 200 0 1 0 0.01 0.01 10 10 376 411
+#X obj 30 251 grid grid2 200 0 1 200 0 1 0 0.01 0.01 10 10 132 419
 ;
 #X obj 101 474 pack;
 #X obj 18 169 route loaded;
@@ -68,6 +68,128 @@
 #X text 130 177 ...then play MIDI notes and move the X/Y pad position!
 ;
 #X msg 478 115 44;
+#N canvas 334 57 449 610 keys 0;
+#X floatatom 112 118 5 0 8 1 octave - -;
+#X obj 58 45 loadbang;
+#X msg 53 390 note \$1 \$2;
+#X floatatom 112 137 5 0 127 1 velocity - -;
+#X msg 29 68 100;
+#X obj 53 368 pack f f;
+#X obj 53 433 outlet;
+#X obj 103 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 248 13 keyname;
+#X obj 120 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 137 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 154 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 171 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 188 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 205 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 222 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 111 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
+1;
+#X obj 128 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
+1;
+#X obj 162 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
+1;
+#X obj 179 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
+1;
+#X obj 196 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
+1;
+#X msg 248 53 \$2 \$1;
+#X obj 248 33 pack f s;
+#X obj 248 74 route a w s e d f t g y h u j k;
+#X msg 111 215 1 \$1;
+#X msg 144 215 3 \$1;
+#X msg 215 215 6 \$1;
+#X msg 249 215 8 \$1;
+#X msg 283 215 10 \$1;
+#X msg 97 237 0 \$1;
+#X msg 131 237 2 \$1;
+#X msg 165 237 4 \$1;
+#X msg 199 237 5 \$1;
+#X msg 233 237 7 \$1;
+#X msg 267 237 9 \$1;
+#X msg 341 237 12 \$1;
+#X msg 301 237 11 \$1;
+#X obj 20 324 expr $f1+12*$f2;
+#X obj 34 287 unpack f f;
+#X obj 136 324 *;
+#X obj 53 412 spigot;
+#X obj 199 119 tgl 15 0 empty empty on 17 7 0 10 -262144 -1 -1 1 1
+;
+#X msg 88 68 0;
+#X msg 58 68 4;
+#X connect 0 0 37 1;
+#X connect 1 0 43 0;
+#X connect 1 0 4 0;
+#X connect 1 0 42 0;
+#X connect 2 0 40 0;
+#X connect 3 0 39 1;
+#X connect 4 0 3 0;
+#X connect 5 0 2 0;
+#X connect 7 0 29 0;
+#X connect 8 0 22 0;
+#X connect 8 1 22 1;
+#X connect 9 0 30 0;
+#X connect 10 0 31 0;
+#X connect 11 0 32 0;
+#X connect 12 0 33 0;
+#X connect 13 0 34 0;
+#X connect 14 0 36 0;
+#X connect 15 0 35 0;
+#X connect 16 0 24 0;
+#X connect 17 0 25 0;
+#X connect 18 0 26 0;
+#X connect 19 0 27 0;
+#X connect 20 0 28 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 0;
+#X connect 23 0 7 0;
+#X connect 23 1 16 0;
+#X connect 23 2 9 0;
+#X connect 23 3 17 0;
+#X connect 23 4 10 0;
+#X connect 23 5 11 0;
+#X connect 23 6 18 0;
+#X connect 23 7 12 0;
+#X connect 23 8 19 0;
+#X connect 23 9 13 0;
+#X connect 23 10 20 0;
+#X connect 23 11 14 0;
+#X connect 23 12 15 0;
+#X connect 24 0 38 0;
+#X connect 25 0 38 0;
+#X connect 26 0 38 0;
+#X connect 27 0 38 0;
+#X connect 28 0 38 0;
+#X connect 29 0 38 0;
+#X connect 30 0 38 0;
+#X connect 31 0 38 0;
+#X connect 32 0 38 0;
+#X connect 33 0 38 0;
+#X connect 34 0 38 0;
+#X connect 35 0 38 0;
+#X connect 36 0 38 0;
+#X connect 37 0 5 0;
+#X connect 38 0 37 0;
+#X connect 38 1 39 0;
+#X connect 39 0 5 1;
+#X connect 40 0 6 0;
+#X connect 41 0 40 1;
+#X connect 42 0 41 0;
+#X connect 43 0 0 0;
+#X coords 0 -1 1 1 140 96 1 100 100;
+#X restore 650 68 pd keys;
+#X obj 650 169 route note;
+#X obj 650 193 unpack f f;
 #X connect 0 0 1 0;
 #X connect 1 0 15 0;
 #X connect 1 0 13 0;
@@ -103,3 +225,7 @@
 #X connect 24 0 22 0;
 #X connect 24 0 22 1;
 #X connect 28 0 5 0;
+#X connect 29 0 30 0;
+#X connect 30 0 31 0;
+#X connect 31 0 3 0;
+#X connect 31 1 3 1;
