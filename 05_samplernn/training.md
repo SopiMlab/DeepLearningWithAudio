@@ -40,6 +40,8 @@ python -m samplernn_scripts.train \
   --config_file path/to/my.config.json
 ```
 
+The time it takes for SampleRNN to finish training is quite variable, but in our experience 2-3 days is typical on Aalto computers.
+
 ## Example configuration files
 
 We've had good results with linear quantization and skip connections enabled, using either LSTM or GRU (which one sounds better seems to depend on the dataset). Here are config files for these setups:
