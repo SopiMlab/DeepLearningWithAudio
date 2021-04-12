@@ -1,6 +1,6 @@
 # Training SampleRNN
 
-See [PRiSM SampleRNN - Training](https://github.com/SopiMlab/prism-samplernn#training) for more details.
+See also [PRiSM SampleRNN - Training](https://github.com/SopiMlab/prism-samplernn#training) for more details.
 
 ----
 
@@ -10,7 +10,13 @@ If you want to train on Aalto computers, see our [Using Aalto computers](../usin
 
 ----
 
+## Install SampleRNN
+
+Follow the [instructions](README.md) to install PRiSM SampleRNN. You don't need `sopilib` or anything else from the `DeepLearningWithAudio` repository for training.
+
 ## Split audio into chunks
+
+Note: before running `chunk_audio`, you should convert your audio to your desired sample rate (16000 Hz in this example) and mono. The `train` script is supposed to handle this automatically, but it seems to be buggy at the moment.
 
 ```
 python -m samplernn_scripts.chunk_audio \
