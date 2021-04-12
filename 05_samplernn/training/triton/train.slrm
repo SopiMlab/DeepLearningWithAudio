@@ -1,0 +1,50 @@
+#!/bin/bash
+#SBATCH --time=5-00:00:00
+#SBATCH --cpus-per-task=12
+#SBATCH --mem=32G
+#SBATCH --gres=gpu:1
+
+GETOPTS_RESULT=$(getopt -o '' -l conda_env: -n train -- "$@")
+GETOPTS_EXIT=$?
+if [ "$GETOPTS_EXIT" -ne 0 ]; then
+    exit "$GETOPTS_EXIT"
+fi
+eval set -- "$GETOPTS_RESULT"
+
+TRAIN_ARGS=''
+while true; do
+    case "$1" in
+        --conda_env )
+            CONDA_ENV="$2"
+            shift 2
+            ;;
+        -- )
+            shift 1
+            TRAIN_ARGS="$@"
+            break
+            ;;
+        * )
+            echo "invalid arguments: $@" 1>&2
+            exit 1
+            ;;
+    esac
+done
+
+usage() {
+    echo "usage: $(basename $0) --conda_env CONDA_ENV [-- <args for train.py>]"
+}
+
+if [ ! -n "$CONDA_ENV" ]; then
+    usage
+    exit 1
+fi
+
+echo "cwd: $(pwd)" 1>&2
+echo "conda_env: $CONDA_ENV" 1>&2
+echo "train.py args: $@" 1>&2
+echo 1>&2
+
+module load anaconda3
+source activate "$CONDA_ENV"
+
+srun python -m samplernn_scripts.train "$@"
