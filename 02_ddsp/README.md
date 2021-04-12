@@ -27,19 +27,19 @@ Create the environment:
 ### on macOS
 
 ```
-conda create -n ddsp python=3.8
+conda create -n ddsp python=3.7 pandas=0.24
 ```
 
 ### on Linux
 
 ```
-conda create -n ddsp python=3.8 tensorflow=2.1 tensorflow-probability
+conda create -n ddsp python=3.7 tensorflow=2.1 tensorflow-probability pandas=0.24
 ```
 
 If you have an NVIDIA GPU with CUDA support, you can use `tensorflow-gpu` instead for much better performance:
 
 ```
-conda create -n ddsp python=3.8 tensorflow-gpu=2.1 tensorflow-probability
+conda create -n ddsp python=3.7 tensorflow-gpu=2.1 tensorflow-probability pandas=0.24
 ```
 
 ----
@@ -73,6 +73,14 @@ Install DDSP:
 ```
 pip install -e .
 ```
+
+Install Google Colab libraries:
+
+```
+pip install google-colab
+```
+
+(TODO: can we do without `google-colab`? It's unfortunate that we need to pull in such a big library for a few helper functions)
 
 Install the sopilib support library from the course repository's root:
 

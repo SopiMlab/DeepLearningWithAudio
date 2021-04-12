@@ -12,8 +12,8 @@ OUT_TAG_TIMBRE_TRANSFERRED = 1
 # tag: message type identifier
 tag_struct = struct.Struct("I")
 
-# timbre_transfer: input sample rate, output sample rate, f0 octave shift, f0 confidence threshold, loudness db shift, ckpt path length, source audio length, (ckpt path, source audio)
-timbre_transfer_struct = struct.Struct("IIdddLL")
+# timbre_transfer: input sample rate, output sample rate, f0 octave shift, f0 confidence threshold, loudness db shift, adjust, quiet, autotune, ckpt path length, source audio length, (ckpt path, source audio)
+timbre_transfer_struct = struct.Struct("IIddd?ddLL")
 
 # timbre_transferred: audio length
 timbre_transferred_struct = struct.Struct("L")

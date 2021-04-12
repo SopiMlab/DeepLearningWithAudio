@@ -78,7 +78,10 @@ class timbre_transfer(pyext._class):
         f0_confidence_threshold = 0.0,
         loudness_db_shift = 0.0,
         in_sample_rate = 44100,
-        out_sample_rate = 16000
+        out_sample_rate = 16000,
+        adjust = True,
+        quiet = 20.0,
+        autotune = 0.0
     ):
         if not self._proc:
             raise Exception("no ddsp_worker process is running")
@@ -103,6 +106,9 @@ class timbre_transfer(pyext._class):
             f0_octave_shift,
             f0_confidence_threshold,
             loudness_db_shift,
+            adjust,
+            quiet,
+            autotune,
             len(ckpt_msg),
             in_audio.size * in_audio.itemsize
         )
