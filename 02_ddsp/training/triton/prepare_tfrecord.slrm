@@ -4,50 +4,47 @@
 #SBATCH --mem=16G
 #SBATCH --gres=gpu:1
 
-GETOPTS_RESULT=$(getopt -o '' -l conda_env:,input_audio_filepatterns:,output_tfrecord_path:,sample_rate: -n prepare_tfrecord -- "$@")
-
+GETOPTS_RESULT=$(getopt -o '' -l conda_env: -n generate -- "$@")
+GETOPTS_EXIT=$?
+if [ "$GETOPTS_EXIT" -ne 0 ]; then
+    exit "$GETOPTS_EXIT"
+fi
 eval set -- "$GETOPTS_RESULT"
 
-SAMPLE_RATE=16000
+ARGS=''
 while true; do
     case "$1" in
         --conda_env )
             CONDA_ENV="$2"
             shift 2
             ;;
-        --input_audio_filepatterns )
-            INPUT_AUDIO_FILEPATTERNS="$2"
-            shift 2
-            ;;
-        --output_tfrecord_path )
-            OUTPUT_TFRECORD_PATH="$2"
-            shift 2
-            ;;
-        --sample_rate )
-            SAMPLE_RATE="$2"
-            shift 2
+        -- )
+            shift 1
+            ARGS="$@"
+            break
             ;;
         * )
-            break
+            echo "invalid arguments: $@" 1>&2
+            exit 1
             ;;
     esac
 done
 
 usage() {
-    echo "usage: $(basename $0) --conda_env CONDA_ENV --input_audio_filepatterns INPUT_AUDIO_FILEPATTERNS --output_tfrecord_path OUTPUT_TFRECORD_PATH [--sample_rate SAMPLE_RATE]"
+    echo "usage: $(basename $0) --conda_env CONDA_ENV [-- <args>]"
 }
 
-if [ ! -n "$CONDA_ENV" -o ! -n "$INPUT_AUDIO_FILEPATTERNS" -o ! -n "$OUTPUT_TFRECORD_PATH" ]; then
+if [ ! -n "$CONDA_ENV" ]; then
     usage
     exit 1
 fi
 
+echo "cwd: $(pwd)" 1>&2
+echo "conda_env: $CONDA_ENV" 1>&2
+echo "args: $@" 1>&2
+echo 1>&2
+
 module load anaconda3
 source activate "$CONDA_ENV"
 
-srun ddsp_prepare_tfrecord \
-    --alsologtostderr \
-    --input_audio_filepatterns "$INPUT_AUDIO_FILEPATTERNS" \
-    --output_tfrecord_path "$OUTPUT_TFRECORD_PATH" \
-    --num_shards 10 \
-    --sample_rate "$SAMPLE_RATE"
+srun ddsp_prepare_tfrecord "$@"

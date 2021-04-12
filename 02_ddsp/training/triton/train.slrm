@@ -4,61 +4,47 @@
 #SBATCH --mem=16G
 #SBATCH --gres=gpu:1
 
-GETOPTS_RESULT=$(getopt -o '' -l conda_env:,input_tfrecord_filepattern:,output_model_dir:,model_gin:,sample_rate: -n train -- "$@")
-
+GETOPTS_RESULT=$(getopt -o '' -l conda_env: -n generate -- "$@")
+GETOPTS_EXIT=$?
+if [ "$GETOPTS_EXIT" -ne 0 ]; then
+    exit "$GETOPTS_EXIT"
+fi
 eval set -- "$GETOPTS_RESULT"
 
-MODEL_GIN=models/solo_instrument.gin
-SAMPLE_RATE=16000
+ARGS=''
 while true; do
     case "$1" in
         --conda_env )
             CONDA_ENV="$2"
             shift 2
             ;;
-        --input_tfrecord_filepattern )
-            INPUT_TFRECORD_FILEPATTERN="$2"
-            shift 2
-            ;;
-        --output_model_dir )
-            OUTPUT_MODEL_DIR="$2"
-            shift 2
-            ;;
-        --model_gin )
-            MODEL_GIN="$2"
-            shift 2
-            ;;
-        --sample_rate )
-            SAMPLE_RATE="$2"
-            shift 2
+        -- )
+            shift 1
+            ARGS="$@"
+            break
             ;;
         * )
-            break
+            echo "invalid arguments: $@" 1>&2
+            exit 1
             ;;
     esac
 done
 
 usage() {
-    echo "usage: $(basename $0) --conda_env CONDA_ENV --input_tfrecord_filepattern INPUT_TFRECORD_FILEPATTERN --output_model_dir OUTPUT_MODEL_DIR [--model_gin MODEL_GIN --sample_rate SAMPLE_RATE]"
+    echo "usage: $(basename $0) --conda_env CONDA_ENV [-- <args>]"
 }
 
-if [ ! -n "$CONDA_ENV" -o ! -n "$INPUT_TFRECORD_FILEPATTERN" -o ! -n "$OUTPUT_MODEL_DIR" ]; then
+if [ ! -n "$CONDA_ENV" ]; then
     usage
     exit 1
 fi
 
+echo "cwd: $(pwd)" 1>&2
+echo "conda_env: $CONDA_ENV" 1>&2
+echo "args: $@" 1>&2
+echo 1>&2
+
 module load anaconda3
 source activate "$CONDA_ENV"
 
-srun ddsp_run \
-    --alsologtostderr \
-    --mode=train \
-    --save_dir="$OUTPUT_MODEL_DIR" \
-    --gin_file="$MODEL_GIN" \
-    --gin_file=datasets/tfrecord.gin \
-    --gin_param="TFRecordProvider.file_pattern='$INPUT_TFRECORD_FILEPATTERN'" \
-    --gin_param="TFRecordProvider.sample_rate=$SAMPLE_RATE" \
-    --gin_param="batch_size=16" \
-    --gin_param="train_util.train.num_steps=30000" \
-    --gin_param="train_util.train.steps_per_save=300" \
-    --gin_param="trainers.Trainer.checkpoints_to_keep=10"
+srun ddsp_run "$@"
