@@ -36,5 +36,42 @@ python -m samplernn_scripts.train \
   --batch_size 128 \
   --checkpoint_every 5 \
   --output_file_dur 3 \
-  --sample_rate 16000
+  --sample_rate 16000 \
+  --config_file path/to/my.config.json
+```
+
+## Example configuration files
+
+We've had good results with linear quantization and skip connections enabled, using either LSTM or GRU (which one sounds better seems to depend on the dataset). Here are config files for these setups:
+
+### `lstm-linear-skip.config.json`
+
+```json
+{
+    "seq_len": 1024,
+    "frame_sizes": [16,64],
+    "dim": 1024,
+    "rnn_type": "lstm",
+    "num_rnn_layers": 4,
+    "q_type": "linear",
+    "q_levels": 256,
+    "emb_size": 256,
+    "skip_conn": true
+}
+```
+
+### `gru-linear-skip.config.json`
+
+```json
+{
+    "seq_len": 1024,
+    "frame_sizes": [16, 64],
+    "dim": 1024,
+    "rnn_type": "gru",
+    "num_rnn_layers": 4,
+    "q_type": "linear",
+    "q_levels": 256,
+    "emb_size": 256,
+    "skip_conn": true
+}
 ```
