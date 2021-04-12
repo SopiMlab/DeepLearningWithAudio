@@ -3,3 +3,9 @@ The course Deep Learning with Audio will introduce the state of the art in deep 
 We will provide detailed setup instructions and automated scripts to make installation of the required tools as easy as possible (for Pure Data, Python, Conda, Magenta, PyExt). The current module of installations and course exercises only work in macOS and Linux, unfortunately Windows is not supported at the moment. You can contact https://takeout.aalto.fi and reserve a laptop computer for this course. 
 
 Students will also learn and practice preparing data sets and traning deep learning models using cluster network in Aalto University. Students will further explore a particular model and incorporate it into their own project work. Deep Learning with Audio is a project-based course, we dedicate half of the contact hours for project work, the lecturer and the teaching assistants will support students by giving sufficient guidance, feedback and tutoring. At the end of the course, students will submit and present their projects.
+
+
+
+## Installation of the Required Tools (pyext)
+
+First make sure you have [pyext](../utilities/pyext-setup/) set up.
