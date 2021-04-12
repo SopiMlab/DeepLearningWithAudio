@@ -6,6 +6,6 @@ Students will also learn and practice preparing data sets and traning deep learn
 
 
 
-## Installation of the Required Tools (pyext)
+## Installation of the Required Tools (Pure Data, Python, Conda, Magenta, PyExt)
 
 First make sure you have [pyext](../utilities/pyext-setup/) set up.
