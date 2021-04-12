@@ -73,7 +73,7 @@ class timbre_transfer(pyext._class):
 
         self._outlet(1, ["worker", "off"])
         
-    def run_1(self, ckpt_dir, in_arr, out_arr,
+    def run_1(self, gin_file, in_arr, out_arr,
         f0_octave_shift = 0,
         f0_confidence_threshold = 0.0,
         loudness_db_shift = 0.0,
@@ -97,8 +97,10 @@ class timbre_transfer(pyext._class):
         print_err("in_audio.itemsize =", in_audio.itemsize)
         
         # make timbre transfer message
-        
-        ckpt_msg = protocol.to_str_msg(os.path.join(script_dir, str(ckpt_dir)))
+
+        gin_path = os.path.join(script_dir, str(gin_file))
+        ckpt_dir = os.path.dirname(gin_path)
+        ckpt_msg = protocol.to_str_msg(ckpt_dir)
         print_err("len(ckpt_msg) = ", len(ckpt_msg))
         transfer_msg = protocol.to_timbre_transfer_msg(
             in_sample_rate,
@@ -106,7 +108,7 @@ class timbre_transfer(pyext._class):
             f0_octave_shift,
             f0_confidence_threshold,
             loudness_db_shift,
-            adjust,
+            bool(adjust),
             quiet,
             autotune,
             len(ckpt_msg),

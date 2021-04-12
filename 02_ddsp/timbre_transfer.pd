@@ -1,5 +1,5 @@
-#N canvas 291 96 989 600 10;
-#X obj 11 18 cnv 15 600 150 empty empty empty 20 12 0 14 -228856 -66577
+#N canvas 218 142 989 794 10;
+#X obj 11 12 cnv 15 600 150 empty empty empty 20 12 0 14 -228856 -66577
 0;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
@@ -7,10 +7,10 @@
 #X obj 201 65 print ddsp input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 769 232 pd print_input;
+#X restore 772 106 pd print_input;
 #N canvas 261 142 450 300 loaded 0;
 #X obj 102 103 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-0 1;
+1 1;
 #X obj 100 77 f 1;
 #X obj 124 77 f 0;
 #X obj 99 55 route on off;
@@ -23,157 +23,186 @@
 #X connect 4 0 3 0;
 #X connect 5 0 4 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 536 135 pd loaded;
-#X obj 779 304 list trim;
-#X obj 694 278 pyext ddsp_pd timbre_transfer @detach 1;
-#X obj 53 132 s \$0-ddsp_in;
-#X obj 774 205 r \$0-ddsp_in;
-#X obj 685 339 print ddsp output;
-#X obj 11 178 cnv 15 600 200 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 536 129 pd loaded;
+#X obj 782 178 list trim;
+#X obj 697 152 pyext ddsp_pd timbre_transfer @detach 1;
+#X obj 53 126 s \$0-ddsp_in;
+#X obj 777 79 r \$0-ddsp_in;
+#X obj 712 213 print ddsp output;
+#X obj 11 172 cnv 15 600 200 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 11 388 cnv 15 600 200 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 382 cnv 15 600 400 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#N canvas 297 212 978 592 run 0;
-#X obj 128 531 s \$0-ddsp_in;
-#X obj 318 269 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
+#N canvas 159 202 978 766 run 0;
+#X obj 128 721 s \$0-ddsp_in;
+#X obj 519 158 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
 -1 -1;
-#X obj 81 423 f \$0;
-#X obj 364 381 r \$0-in_sr;
-#X text 157 479 run <ckpt_dir> <in_arr> <out_arr> [f0_octave_shift]
-[f0_confidence_threshold] [loudness_db_shift] [in_sample_rate] [out_sample_rate]
-, f 82;
+#X obj 27 597 f \$0;
+#X obj 304 572 r \$0-in_sr;
 #N canvas 0 23 450 300 (subpatch) 0;
 #X array \$0-out 84480 float 0;
 #X coords 0 1 84479 -1 200 140 1 0 0;
-#X restore 490 119 graph;
-#X text 339 272 run timbre transfer;
-#X obj 318 151 nbx 5 14 -20 20 0 1 empty empty empty 0 -8 0 10 -204786
+#X restore 488 224 graph;
+#X text 540 161 run timbre transfer;
+#X obj 108 217 nbx 5 14 -20 20 0 1 empty empty empty 0 -8 0 10 -204786
 -1 -1 0 256;
-#X text 315 135 f0 octave shift;
-#X obj 318 191 nbx 5 14 0 1 0 1 empty empty empty 0 -8 0 10 -204786
--1 -1 0.3 256;
-#X text 315 175 f0 confidence threshold;
-#X obj 318 230 nbx 5 14 -100 100 0 1 empty empty empty 0 -8 0 10 -204786
+#X text 105 196 f0 octave shift;
+#X obj 108 307 nbx 5 14 0 1 0 1 empty empty empty 0 -8 0 10 -204786
+-1 -1 0.2 256;
+#X text 105 286 f0 confidence threshold;
+#X obj 108 412 nbx 5 14 -100 100 0 1 empty empty empty 0 -8 0 10 -204786
 -1 -1 0 256;
-#X text 316 214 loudness db shift;
-#X obj 108 215 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -204786
+#X text 106 391 loudness db shift;
+#X obj 333 151 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -204786
 -1 -1 0;
-#X obj 93 316 expr 16000*pow(2 \, $f1);
-#X text 127 215 16000;
-#X text 127 231 32000;
-#X text 106 198 output sample rate;
-#X obj 93 335 s \$0-out_sr;
-#X obj 430 381 r \$0-out_sr;
-#X obj 276 14 s \$0-fos;
-#X obj 276 43 s \$0-fct;
-#X obj 272 75 s \$0-lds;
+#X obj 93 506 expr 16000*pow(2 \, $f1);
+#X text 352 151 16000;
+#X text 352 167 32000;
+#X text 331 134 output sample rate;
+#X obj 93 525 s \$0-out_sr;
+#X obj 370 572 r \$0-out_sr;
+#X obj 20 277 s \$0-fos;
+#X obj 20 356 s \$0-fct;
+#X obj 20 449 s \$0-lds;
 #X obj 22 212 loadbang;
-#X obj 22 230 f 0;
-#X obj 202 381 r \$0-fos;
-#X obj 256 381 r \$0-fct;
-#X obj 310 381 r \$0-lds;
-#X obj 365 321 s \$0-run;
-#X obj 70 403 r \$0-run;
-#X obj 159 447 pack f s f f f f f;
-#X obj 142 381 r \$0-ckpt;
+#X obj 142 572 r \$0-fos;
+#X obj 196 572 r \$0-fct;
+#X obj 250 572 r \$0-lds;
+#X obj 365 511 s \$0-run;
+#X obj 16 577 r \$0-run;
+#X obj 82 572 r \$0-ckpt;
 #X obj 21 190 s \$0-ckpt;
-#X msg 128 513 run \$2 \$1-in \$1-out \$3 \$4 \$5 \$6 \$7;
 #X text 104 107 transfer the timbre of the checkpoint onto the input
 audio, f 97;
 #X obj 108 175 cnv 15 195 15 empty empty empty 20 12 0 14 -204786 -66577
 0;
 #X symbolatom 107 174 32 0 0 0 - - -;
-#X obj 488 279 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
+#X obj 503 416 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 84480 256;
 #X obj 716 200 r \$0-out_len;
 #X obj 714 135 s \$0-out_len;
 #X obj 711 90 r \$0-ddsp_out;
 #X obj 713 112 route transferred;
 #X obj 795 200 r \$0-out_sr;
-#X obj 776 435 dac~;
-#X obj 776 378 vline~;
-#X obj 571 269 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
+#X obj 596 389 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
 -1 -1;
-#X obj 776 416 *~ 0.5;
-#X obj 776 397 tabread4~ \$0-out;
-#X text 486 262 length;
-#X text 592 272 play;
-#X obj 812 252 expr $f1/$f2*1000;
-#X obj 736 253 expr $f1-2;
-#X obj 624 269 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
+#X text 501 399 length;
+#X text 617 392 play;
+#X obj 596 417 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
 -1 -1;
-#X obj 572 368 f \$0;
-#X obj 567 438 soundfiler;
-#X obj 587 320 savepanel;
-#X obj 572 351 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 572 558 f \$0;
+#X obj 567 628 soundfiler;
+#X obj 587 510 savepanel;
+#X obj 572 541 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 596 389 pack f s f;
-#X obj 647 351 r \$0-out_sr;
-#X msg 567 420 write -wave -rate \$3 \$2 \$1-out;
-#X text 645 272 save...;
+#X obj 596 579 pack f s f;
+#X obj 647 541 r \$0-out_sr;
+#X msg 567 610 write -wave -rate \$3 \$2 \$1-out;
+#X text 617 420 save...;
 #X obj 107 151 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
 -1 -1;
-#X obj 19 164 openpanel 1;
 #X text 105 134 checkpoint;
-#X text 128 153 select directory...;
 #X obj 27 76 loadbang;
 #X obj 27 97 symbol;
-#X obj 756 327 pack f f;
-#X msg 776 359 1 \, \$1 \$2;
 #X obj 106 70 symbol;
-#X msg 815 48 normalize;
-#X connect 1 0 28 0;
-#X connect 2 0 30 0;
-#X connect 3 0 30 5;
-#X connect 7 0 20 0;
-#X connect 9 0 21 0;
-#X connect 11 0 22 0;
-#X connect 13 0 14 0;
-#X connect 14 0 18 0;
-#X connect 19 0 30 6;
-#X connect 23 0 24 0;
-#X connect 24 0 13 0;
-#X connect 25 0 30 2;
-#X connect 26 0 30 3;
-#X connect 27 0 30 4;
-#X connect 29 0 2 0;
-#X connect 30 0 33 0;
-#X connect 31 0 30 1;
-#X connect 33 0 0 0;
-#X connect 36 0 32 0;
-#X connect 38 0 37 0;
-#X connect 38 0 50 0;
-#X connect 38 0 51 0;
-#X connect 38 0 45 0;
-#X connect 40 0 41 0;
-#X connect 41 0 39 0;
-#X connect 42 0 50 1;
-#X connect 44 0 47 0;
-#X connect 45 0 67 0;
+#X obj 755 503 symbol \$0-out;
+#X obj 755 526 pack s f;
+#X msg 755 549 \$1 \$2;
+#X obj 755 572 s \$0-player;
+#X obj 298 412 nbx 5 14 0 1 0 1 empty empty empty 0 -8 0 10 -204786
+-1 -1 0 256;
+#X text 296 391 autotune;
+#X obj 713 344 s \$0-autotune;
+#X text 105 236 (shifts the input audio's fundamental frequency by
+the given number of octaves), f 30;
+#X text 105 326 (silences pitched output whenever the pitch detector's
+confidence is below the given number), f 30;
+#X text 105 432 (adjusts overall loudness), f 30;
+#X text 295 432 (nudges pitch towards the nearest note), f 30;
+#X text 296 286 quiet;
+#X obj 298 307 nbx 5 14 0 100 0 1 empty empty empty 0 -8 0 10 -204786
+-1 -1 0 256;
+#X text 295 326 (quiet parts without notes detected (dB)), f 30;
+#X obj 298 217 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X text 316 216 auto adjust;
+#X text 295 236 (uses dataset_statistics.pkl file to automatically
+adjust settings \, if it exists), f 30;
+#X obj 719 453 s \$0-quiet;
+#X obj 715 267 s \$0-adjust;
+#X msg 11 238 0;
+#X msg 41 240 0.2;
+#X msg 70 241 1;
+#X obj 159 637 pack f s f f f f f f f f;
+#X obj 330 598 r \$0-adjust;
+#X obj 402 598 r \$0-quiet;
+#X obj 468 598 r \$0-autotune;
+#X text 157 669 run <ckpt_dir> <in_arr> <out_arr> [f0_octave_shift]
+[f0_confidence_threshold] [loudness_db_shift] [in_sample_rate] [out_sample_rate]
+[adjust] [quiet] [autotune], f 82;
+#X msg 128 703 run \$2 \$1-in \$1-out \$3 \$4 \$5 \$6 \$7 \$8 \$9 \$10
+;
+#X obj 19 164 openpanel;
+#X text 128 153 select .gin file...;
+#X connect 1 0 26 0;
+#X connect 2 0 78 0;
+#X connect 3 0 78 5;
+#X connect 6 0 19 0;
+#X connect 8 0 20 0;
+#X connect 10 0 21 0;
+#X connect 12 0 13 0;
+#X connect 13 0 17 0;
+#X connect 18 0 78 6;
+#X connect 22 0 75 0;
+#X connect 22 0 76 0;
+#X connect 22 0 77 0;
+#X connect 23 0 78 2;
+#X connect 24 0 78 3;
+#X connect 25 0 78 4;
+#X connect 27 0 2 0;
+#X connect 28 0 78 1;
+#X connect 32 0 29 0;
+#X connect 34 0 33 0;
+#X connect 34 0 39 0;
+#X connect 36 0 37 0;
+#X connect 37 0 35 0;
+#X connect 38 0 57 1;
+#X connect 39 0 56 0;
+#X connect 42 0 45 0;
+#X connect 43 0 47 0;
+#X connect 45 0 46 0;
+#X connect 45 0 47 1;
 #X connect 46 0 43 0;
-#X connect 46 0 43 1;
-#X connect 47 0 46 0;
-#X connect 50 0 67 1;
-#X connect 51 0 67 0;
-#X connect 52 0 55 0;
-#X connect 53 0 57 0;
-#X connect 55 0 56 0;
-#X connect 55 0 57 1;
-#X connect 56 0 53 0;
-#X connect 57 0 59 0;
-#X connect 58 0 57 2;
-#X connect 59 0 54 0;
-#X connect 61 0 62 0;
-#X connect 62 0 36 0;
-#X connect 65 0 66 0;
-#X connect 66 0 36 0;
-#X connect 67 0 68 0;
-#X connect 68 0 44 0;
-#X connect 69 0 32 0;
-#X connect 69 0 36 0;
-#X coords 0 -1 1 1 600 200 2 100 100;
-#X restore 11 388 pd run;
-#N canvas 331 225 809 653 input 0;
+#X connect 47 0 49 0;
+#X connect 48 0 47 2;
+#X connect 49 0 44 0;
+#X connect 51 0 84 0;
+#X connect 53 0 54 0;
+#X connect 54 0 32 0;
+#X connect 55 0 29 0;
+#X connect 55 0 32 0;
+#X connect 56 0 57 0;
+#X connect 57 0 58 0;
+#X connect 58 0 59 0;
+#X connect 60 0 62 0;
+#X connect 68 0 73 0;
+#X connect 70 0 74 0;
+#X connect 75 0 6 0;
+#X connect 75 0 10 0;
+#X connect 75 0 68 0;
+#X connect 75 0 60 0;
+#X connect 75 0 12 0;
+#X connect 76 0 8 0;
+#X connect 77 0 70 0;
+#X connect 78 0 83 0;
+#X connect 79 0 78 7;
+#X connect 80 0 78 8;
+#X connect 81 0 78 9;
+#X connect 83 0 0 0;
+#X connect 84 0 32 0;
+#X coords 0 -1 1 1 600 400 2 100 100;
+#X restore 11 382 pd run;
+#N canvas 72 101 874 653 input 0;
 #X obj 141 165 bng 20 250 50 0 empty empty empty 34 14 0 10 -159808
 -1 -1;
 #N canvas 0 23 450 300 (subpatch) 0;
@@ -193,18 +222,18 @@ audio, f 97;
 #X obj 71 484 s \$0-in_len;
 #X obj 519 58 r \$0-in_len;
 #X text 162 168 select file...;
-#X obj 554 171 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
-#X obj 554 210 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
-#X text 552 153 length;
-#X text 552 192 sample rate;
-#X obj 553 239 bng 20 250 50 0 empty empty empty 34 14 0 10 -159808
+#X obj 554 148 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 232960 256;
+#X obj 554 187 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 44100 256;
+#X text 552 130 length;
+#X text 552 169 sample rate;
+#X obj 553 216 bng 20 250 50 0 empty empty empty 34 14 0 10 -159808
 -1 -1;
-#X text 574 242 normalize;
-#X obj 675 360 f \$0;
-#X obj 675 413 s \$0-ddsp_in;
-#X msg 675 386 normalize \$1-in 0.9;
+#X text 574 219 normalize;
+#X obj 709 237 f \$0;
+#X obj 709 290 s \$0-ddsp_in;
+#X msg 709 263 normalize \$1-in 0.9;
 #X obj 141 212 bng 20 250 50 0 empty empty empty 34 14 0 10 -159808
 -1 -1;
 #X text 162 215 record (5 secs);
@@ -235,6 +264,13 @@ audio, f 97;
 #X msg 317 549 print;
 #X obj 376 569 print writesf;
 #X text 120 238 DSP must be on to record!;
+#X obj 553 257 bng 20 250 50 0 empty empty empty 17 7 0 10 -159808
+-1 -1;
+#X obj 658 409 s \$0-player;
+#X text 574 259 play;
+#X obj 659 343 symbol \$0-in;
+#X obj 658 365 pack s f;
+#X msg 658 387 \$1 \$2;
 #X connect 0 0 2 0;
 #X connect 2 0 7 0;
 #X connect 3 0 12 0;
@@ -245,6 +281,7 @@ audio, f 97;
 #X connect 8 0 3 0;
 #X connect 9 0 11 0;
 #X connect 10 0 16 0;
+#X connect 10 0 55 1;
 #X connect 13 0 15 0;
 #X connect 19 0 21 0;
 #X connect 21 0 23 0;
@@ -281,19 +318,56 @@ audio, f 97;
 #X connect 45 0 38 1;
 #X connect 46 0 47 0;
 #X connect 48 0 47 0;
+#X connect 51 0 54 0;
+#X connect 54 0 55 0;
+#X connect 55 0 56 0;
+#X connect 56 0 52 0;
 #X coords 0 -1 1 1 600 200 2 100 100;
-#X restore 11 178 pd input;
-#X obj 794 339 s \$0-ddsp_out;
-#X text 15 23 start the ddsp worker script using the Python interpreter
+#X restore 11 172 pd input;
+#X obj 821 213 s \$0-ddsp_out;
+#X text 15 17 start the ddsp worker script using the Python interpreter
 at the given path, f 97;
-#X text 51 73 you need to run `which python` in your ddsp Conda environment
+#X text 51 67 you need to run `which python` in your ddsp Conda environment
 and enter the resulting path here!, f 61;
-#X msg 53 101 load /usr/local/Caskroom/miniconda/base/envs/ddsp/bin/python
-;
+#X obj 784 545 dac~;
+#X obj 734 472 vline~;
+#X obj 784 524 *~ 0.5;
+#X obj 805 287 r \$0-player;
+#X msg 874 420 set \$1;
+#X obj 784 504 tabread4~;
+#X obj 734 432 pack f f;
+#X msg 734 452 1 \, \$1 \$2;
+#X obj 747 410 expr $f1/$f2*1000;
+#X obj 681 410 expr $f1-2;
+#X msg 53 95 load /home/sopi/miniconda3/envs/ddsp/bin/python;
+#X obj 715 384 array size;
+#X obj 805 310 t a a;
+#X obj 874 398 unpack s f;
+#X obj 770 337 unpack s f;
+#X obj 770 360 t b s;
 #X connect 1 0 4 1;
 #X connect 3 0 7 0;
 #X connect 3 0 12 0;
 #X connect 4 0 3 0;
 #X connect 6 0 1 0;
-#X connect 15 0 5 0;
-#X coords 0 600 1 599 0 0 0;
+#X connect 16 0 20 0;
+#X connect 17 0 15 0;
+#X connect 17 0 15 1;
+#X connect 18 0 27 0;
+#X connect 19 0 20 0;
+#X connect 20 0 17 0;
+#X connect 21 0 22 0;
+#X connect 22 0 16 0;
+#X connect 23 0 21 1;
+#X connect 24 0 21 0;
+#X connect 25 0 5 0;
+#X connect 26 0 24 0;
+#X connect 26 0 23 0;
+#X connect 27 0 29 0;
+#X connect 27 1 28 0;
+#X connect 28 0 19 0;
+#X connect 29 0 30 0;
+#X connect 29 1 23 1;
+#X connect 30 0 26 0;
+#X connect 30 1 26 1;
+#X coords 0 794 1 793 0 0 0;
