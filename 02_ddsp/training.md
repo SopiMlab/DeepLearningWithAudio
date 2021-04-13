@@ -73,7 +73,17 @@ ddsp_run \
     --gin_param="trainers.Trainer.checkpoints_to_keep=10"
 ```
 
-### Triton
+Save dataset statistics (allows auto-adjusting parameters for better results when generating):
+
+```
+python DeepLearningWithAudio/02_ddsp/training/save_dataset_statistics.py \
+    --tfrecord_file_pattern 'traveller_organ_dataset/data.tfrecord*' \
+    --save_dir 'traveller_organ_train'
+```
+
+## Triton
+
+(potentially outdated...)
 
 ```
 module load teflon
@@ -89,15 +99,28 @@ cd ../ddsp-train-miranda
 ```
 
 ```
-sbatch ../DeepLearningWithAudio/ddsp/training/triton/prepare_tfrecord.slrm \
+sbatch DeepLearningWithAudio/02_ddsp/training/triton/ddsp_prepare_tfrecord.slrm \
     --conda_env /scratch/other/sopi/conda/ddsp \
-    --input_audio traveller_organ_16k.wav \
-    --output_tfrecord_path traveller_organ_dataset/data.tfrecord    
+    -- \
+    --alsologtostderr \
+    --num_shards 10 \
+    --sample_rate 16000 \
+    --input_audio_filepatterns traveller_organ_16k.wav \
+    --output_tfrecord_path traveller_organ_dataset/data.tfrecord
 ```
 
 ```
-sbatch ../DeepLearningWithAudio/ddsp/training/triton/train.slrm \
+sbatch DeepLearningWithAudio/02_ddsp/training/triton/ddsp_run.slrm \
     --conda_env /scratch/other/sopi/conda/ddsp \
-    --input_tfrecord_filepattern 'traveller_organ_dataset/data.tfrecord*' \
-    --output_model_dir traveller_organ_train
+    -- \
+    --alsologtostderr \
+    --mode=train \
+    --save_dir=traveller_organ_train \
+    --gin_file=models/solo_instrument.gin \
+    --gin_file=datasets/tfrecord.gin \
+    --gin_param="TFRecordProvider.file_pattern='traveller_organ_dataset/data.tfrecord*'" \
+    --gin_param="batch_size=16" \
+    --gin_param="train_util.train.num_steps=30000" \
+    --gin_param="train_util.train.steps_per_save=300" \
+    --gin_param="trainers.Trainer.checkpoints_to_keep=10"
 ```
