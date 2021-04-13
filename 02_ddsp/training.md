@@ -1,22 +1,46 @@
 # DDSP training
 
+This guide describes how to train a DDSP timbre transfer model using your own sounds. Note that training is a very computation-intensive process, so you will want to use a powerful GPU.
+
 ----
 
 ## Using Aalto computers
 
 If you want to train on Aalto computers, see our [Using Aalto computers](../using-aalto-computers.md) document.
 
-In addition to the `anaconda3` module, you'll need to load `ffmpeg`:
+----
+
+## ffmpeg
+
+You will need to have `ffmpeg` installed. On Aalto computers you can load this with Lmod using:
 
 ```
 module load ffmpeg
 ```
 
-----
+Otherwise, install it from your package manager, e.g. on Ubuntu:
+
+```
+sudo apt install ffmpeg
+```
 
 ## Conda environment
 
-First make sure you have a Conda environment set up for DDSP — see our [main DDSP guide](README.md).
+First make sure you have a Conda environment set up for DDSP — see our [main DDSP guide](README.md) (you can stop before the `sopilib` installation).
+
+The DDSP package seems to have some issues with installing dependencies, and when trying to run the training scripts you may encounter errors like:
+
+```
+pkg_resources.ContextualVersionConflict: (six 1.12.0 (/scratch/other/sopi/conda/ddsp/lib/python3.7/site-packages), Requirement.parse('six>=1.13.0'), {'google-api-core'})
+```
+
+In this case, use `pip` to manually install the required package version (the one inside `Requirement.parse(...)`), e.g.:
+
+```
+pip install 'six>=1.13.0'
+```
+
+This has the potential to cause other incompatibilities, but in our experience it seems to work so far...
 
 ## Timbre transfer
 
@@ -26,6 +50,9 @@ Convert the audio to TFRecord dataset format:
 
 ```
 ddsp_prepare_tfrecord \
+    --alsologtostderr \
+    --num_shards 10 \
+    --sample_rate 16000 \
     --input_audio_filepatterns traveller_organ.wav \
     --output_tfrecord_path traveller_organ_dataset/data.tfrecord
 ```
