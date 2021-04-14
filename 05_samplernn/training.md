@@ -28,14 +28,15 @@ python -m samplernn_scripts.chunk_audio \
 
 ## Train
 
+Note: The `--logdir_root` argument should point to an existing directory, in which checkpoints will be saved.
+
 ```
 python -m samplernn_scripts.train \
   --id test \
-  --data_dir ./data \
-  --num_epochs 100 \
+  --logdir_root ./logdir \
+  --data_dir ./chunks \
   --batch_size 128 \
   --checkpoint_every 5 \
-  --output_file_dur 3 \
   --sample_rate 16000 \
   --config_file path/to/my.config.json
 ```
