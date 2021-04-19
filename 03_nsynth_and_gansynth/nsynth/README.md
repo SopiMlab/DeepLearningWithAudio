@@ -68,11 +68,8 @@ Load some sounds into `nsynth.pd` and explore how they change by moving the posi
 
 Investigate the structure of the patch. What kind of alternative ways of interacting with the sounds can you come up with?
 
-### 2. Group generation
+### 2. (optional) Generate sounds
 
-Using whatever kind of instrument you prefer, record 4-second samples of each of the following notes: C2, E2, G#2, C3, E3, G#3, C4 (MIDI notes 24, 28, 32, 36, 40, 44, 48).
+If you'd like to use your own sounds to generate with NSynth, you can follow the [Open NSynth Super audio pipeline](https://github.com/SopiMlab/open-nsynth-super/tree/master/audio) guide.
 
-Convert the samples to 16000 Hz sample rate, 16-bit signed integer. Make sure they're **exactly** 4 seconds long (64000 samples). Note that the low sample rate means your sounds will lose all frequencies above 8000 Hz, so don't waste time on making super detailed highs! Name your samples with the instrument name and note number separated by an underscore, e.g. `sandstormlead_24.wav`.
-
-We will collect the samples in groups of four and run the audio generation scripts on Aalto Science-IT's Triton cluster. This will take a few days, after which we will load the samples onto Open NSynth Super devices and explore the generated sounds.
-
+Note that this requires a powerful GPU (ideally multiple) and generally takes several days.

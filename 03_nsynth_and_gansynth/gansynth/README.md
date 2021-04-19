@@ -101,11 +101,11 @@ We also have some of our own checkpoints available at the [SOPI Google Drive](ht
 
 ## Training
 
-See [Training GANSynth](training).
+See [Training GANSynth](training/README.md).
 
 ## Exercises
 
 1. Try generating some random latent vectors and synthesizing sounds from them using `gansynth.pd` and the `all_instruments` checkpoint. What kind of timbres does the neural network generate? How does the `acoustic_only` checkpoint compare?
 2. Try manually drawing in the latent vector (z) array and then synthesizing. GANSynth expects z to be normalized such that its magnitude is 1, but drawing in arbitrary values breaks this. What happens to the generated sounds?
 3. Try interpolating between different latent vectors using `gansynth_multi.pd`. How does the resulting synthesized sound compare to the sounds from the original latent vectors? By default, the `synthesize` message in this patch is set up to generate four different pitches, but it may be easier to compare sounds by using the same pitch for each.
-4. Group training?
+4. (optional) Prepare your own dataset of sounds and [train](training/README.md) a new model.
