@@ -33,13 +33,13 @@ conda create -n ddsp python=3.7 pandas=0.24
 ### on Linux
 
 ```
-conda create -n ddsp python=3.7 tensorflow=2.1 tensorflow-probability pandas=0.24
+conda create -n ddsp python=3.7 tensorflow=2.4.1 tensorflow-probability pandas=0.24
 ```
 
 If you have an NVIDIA GPU with CUDA support, you can use `tensorflow-gpu` instead for much better performance:
 
 ```
-conda create -n ddsp python=3.7 tensorflow-gpu=2.1 tensorflow-probability pandas=0.24
+conda create -n ddsp python=3.7 tensorflow-gpu=2.4.1 tensorflow-probability pandas=0.24
 ```
 
 ----
@@ -131,7 +131,7 @@ See [DDSP training](training.md).
 
 1. Try a few different combinations of input audio and checkpoint. What kind of observations can you make about how the inputs' characteristics affect the output?
 2. Experiment with the f₀ octave shift, f₀ confidence threshold and loudness dB shift parameters. How does the algorithm respond to extreme values of these?
-3. Group training? We could train a few checkpoints overnight with students' audio (takes ~5 hours per checkpoint)
+3. (optional) Prepare your own audio and [train](trainind.md) a new model.
 
 ## Links
 

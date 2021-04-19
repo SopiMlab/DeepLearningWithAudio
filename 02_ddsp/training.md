@@ -44,7 +44,13 @@ This has the potential to cause other incompatibilities, but in our experience i
 
 ## Timbre transfer
 
-In this example, we train on a recording named `traveller_organ.wav`.
+### Dataset
+
+Your training dataset should have about 10-20 minutes of audio from your chosen instrument. The timbre transfer technique is designed for monophonic audio, but polyphonic recordings can also produce interesting results. Experiment!
+
+### Convert to TFRecord
+
+In this example, we train on a single-file recording named `traveller_organ.wav`. 
 
 Convert the audio to TFRecord dataset format:
 
@@ -56,6 +62,20 @@ ddsp_prepare_tfrecord \
     --input_audio_filepatterns traveller_organ.wav \
     --output_tfrecord_path traveller_organ_dataset/data.tfrecord
 ```
+
+It is also possible to specify multiple files by passing a comma-delimited list, e.g.:
+
+```
+... --input_audio_filepatterns 'file1.wav,file2.wav,file3.wav' ...
+```
+
+or a wildcard:
+
+```
+... --input_audio_filepatterns 'file*.wav' ...
+```
+
+### Train
 
 Run the training:
 
@@ -72,6 +92,8 @@ ddsp_run \
     --gin_param="train_util.train.steps_per_save=300" \
     --gin_param="trainers.Trainer.checkpoints_to_keep=10"
 ```
+
+### Save dataset statistics
 
 Save dataset statistics (allows auto-adjusting parameters for better results when generating):
 
