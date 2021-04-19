@@ -116,6 +116,9 @@ Its adjustable parameters are:
 - f₀ octave shift — Shifts the input audio's fundamental frequency by the given number of octaves
 - f₀ confidence threshold — Silences input audio whenever the pitch detector's confidence is below the given number
 - Loudness dB shift — Adjusts overall loudness
+- Auto adjust — Uses `dataset_statistics.pkl` file to automatically adjust settings
+- Quiet — Not sure what exactly this does! Maybe you can figure it out? ;)
+- Autotune — Nudges pitch towards the nearest note
 
 The timbre transfer is unfortunately quite slow without GPU acceleration (unsupported in TensorFlow on Mac), often taking minutes to generate even short samples.
 
