@@ -205,3 +205,19 @@ Click OK, save your preferences (File menu → Preferences → Save All Preferen
 ------------------------------------------------py/pyext 0.2.2 - python script objects(C)2002-2019 Thomas Grill - http://grrrr.org/extusing Python 3.7.9 (default, Aug 31 2020, 12:46:46) [GCC 7.3.0]Python array support enabled------------------------------------------------```
 
 Congratulations, you've got it working! You're now ready to run our Pd patches.
+
+## Updating the repository
+
+We may sometimes make changes to the course repository. To obtain the changed files, you could re-download the whole `DeepLearningWithAudio` repository. Alternatively, you can use Git to pull the changes to your existing local copy of the repository. To do this, make sure you're in the `DeepLearningWithAudio` folder and run:
+
+```
+git pull
+```
+
+This may give you some errors if you've made your own modifications to the files being updated. How to "properly" resolve such conflicts with Git is outside the scope of this course. Instead you can just make copies of your changed files with new filenames, and then run:
+
+```
+git reset --hard
+```
+
+to remove your changes from the original files. Then run `git pull` again.
