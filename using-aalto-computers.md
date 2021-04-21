@@ -145,3 +145,49 @@ In summary, to run e.g. a training script on a Paniikki computer:
 5. Run the script — `python ...`
 
 When doing long runs, it can be easy to forget which computer you chose, so we recommend making a note of this.
+
+## Transferring files
+
+You can transfer files to and from your Aalto home directory using SMB, but you need to be on the Aalto network to do this. When working remotely, you can use the [Aalto VPN](https://www.aalto.fi/en/services/establishing-a-remote-connection-vpn-to-an-aalto-network) to join the network.
+
+Once on the Aalto network, you can connect to the SMB server.
+
+### Using SMB from macOS
+
+In Finder, open the Go menu and select "Connect to Server...". Enter:
+
+```
+smb://home.org.aalto.fi
+```
+
+Click Connect and log in with your Aalto credentials.
+
+#### Alternative Unix hacker method: SSH tunnel
+
+If you prefer not to set up the Aalto VPN, there is another method on Mac: you can create an SSH tunnel via an outward–facing Aalto shell server like `kosh` or `lyta`. 
+
+Open a separate terminal window and run: (replacing `myusername` with your Aalto username)
+
+```
+ssh myusername@kosh.aalto.fi -L 127.0.0.1:10139:home.org.aalto.fi:139
+```
+
+In Finder, you can then open the Go menu, select "Connect to Server..." and enter:
+
+```
+smb://localhost:10139
+```
+
+Click Connect and log in with your Aalto credentials.
+
+The tunnel will be closed when you log out of the ssh connection.
+
+### Using SMB from Windows
+
+Open an Explorer window, and enter in the address bar:
+
+```
+\\home.org.aalto.fi
+```
+
+Press Enter and log in with your Aalto credentials.
