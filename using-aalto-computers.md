@@ -77,6 +77,16 @@ See the [Lmod manual](https://lmod.readthedocs.io/en/latest/010_user.html) for m
 
 After this, you should be ready to set up Conda environments as described in our other instructions for Linux, and to run training scripts etc. on the remote system.
 
+*Note:* If you get an error while creating a conda environment, you might have to tun
+```
+conda init bash
+```
+then log out and log back in and run
+```
+source ~/.bashrc
+```
+And then rerun the conda environment creation command.
+
 ## Running things in the background
 
 Training the neural networks covered in the course can take anywhere from a few hours to ~5 days. Normally, whatever processes you're running will be terminated if you log out, get disconnected, etc. To avoid this, you can use the `screen` "terminal multiplexer" utility to leave a process running in the background.
