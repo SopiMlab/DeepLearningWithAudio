@@ -77,7 +77,7 @@ See the [Lmod manual](https://lmod.readthedocs.io/en/latest/010_user.html) for m
 
 After this, you should be ready to set up Conda environments as described in our other instructions for Linux, and to run training scripts etc. on the remote system.
 
-*Note:* If you get an error while creating a conda environment, you might have to tun
+*Note:* If you get an error while creating a conda environment, you might have to run
 ```
 conda init bash
 ```
