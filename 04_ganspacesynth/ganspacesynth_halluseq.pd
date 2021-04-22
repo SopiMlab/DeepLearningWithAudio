@@ -1,7 +1,7 @@
-#N canvas 529 23 809 776 10;
+#N canvas 353 23 1087 793 10;
 #N canvas 257 23 1179 831 controls 0;
 #X obj 501 154 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-64000 1;
+0 1;
 #X obj 355 -3 f 1;
 #X obj 379 -3 f 0;
 #X obj 206 -96 r \$0-gansynth_out;
@@ -43,7 +43,7 @@
 #N canvas 0 23 450 300 (subpatch) 0;
 #X array \$0-preview_audio 64000 float 0;
 #X coords 0 1 63999 -1 200 100 1 0 0;
-#X restore 791 393 graph;
+#X restore -127 930 graph;
 #X obj 494 292 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
 #X text 481 312 preview;
@@ -53,29 +53,29 @@
 #N canvas 0 23 450 300 (subpatch) 0;
 #X array \$0-out_audio 800000 float 0;
 #X coords 0 1 799999 -1 200 100 1 0 0;
-#X restore 567 532 graph;
+#X restore 567 572 graph;
 #X obj -64 519 expr round($f1);
 #X text 600 160 interpolation steps;
 #X text 564 109 settings;
-#X obj 653 429 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
+#X obj 653 449 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
-#X text 637 449 generate;
-#X obj 624 644 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
+#X text 637 469 generate;
+#X obj 624 684 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
-#X obj 687 644 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
+#X obj 687 684 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
-#X text 620 665 play;
-#X text 683 665 save;
-#X text 565 498 output;
+#X text 620 705 play;
+#X text 683 705 save;
+#X text 565 538 output;
 #X msg -65 539 interp_steps \$1;
 #X msg 95 -33 send_state;
 #X obj 34 -52 loadbang;
 #X msg -14 183 set \$1;
 #X msg 35 183 set \$1;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array \$0-edits 16 float 2;
-#X coords 0 1 16 -1 200 100 1 0 0;
-#X restore 791 264 graph;
+#X array \$0-edits 8192 float 2;
+#X coords 0 1 8192 -1 200 100 1 0 0;
+#X restore -127 801 graph;
 #X obj 576 132 ganspacesynth_halluseq/numberslider2way 0 32;
 #X obj 125 337 ganspacesynth_halluseq/edit_sliders \$0-edits;
 #X obj 169 -33 bang;
@@ -151,6 +151,8 @@ release;
 @detach 1;
 #X msg -125 484 synthesize_noz \$1-preview_audio 32 \$1-edits, f 30
 ;
+#X text 566 486 to avoid crashes \, turn dsp off when generating!,
+f 33;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 97 0;
@@ -264,15 +266,46 @@ release;
 #X connect 118 0 113 0;
 #X connect 119 0 30 0;
 #X coords 0 0 1 1 680 640 2 100 100;
-#X restore 6 54 pd controls;
-#X obj 717 74 loadbang;
-#X msg 717 95 \; pd dsp 1;
-#X obj 6 736 dac~;
-#X obj 6 717 *~ 0.5;
-#X msg 6 14 init pruu pruu/pruu_conv0_ipca_4194304.pickle;
+#X restore -40 66 pd controls;
+#X obj 654 5 loadbang;
+#X msg 654 26 \; pd dsp 1;
+#X obj -40 748 dac~;
+#X obj -40 729 *~ 0.5;
+#X msg -40 26 init pruu pruu/pruu_conv0_ipca_4194304.pickle;
+#X text 653 74 HALLU - GANSpaceSynth hallucination sequencer, f 55
+;
+#X text 653 104 1 - load a GANSynth checkpoint and a PCA file, f 55
+;
+#X text 653 184 2 - edit steps, f 55;
+#X text 663 204 in the steps area \, create the principal steps through
+which the hallucination will move., f 53;
+#X text 663 234 previous/next - switch between steps, f 53;
+#X text 663 254 add - add a new step after the existing ones, f 53
+;
+#X text 663 274 remove - remove the current step, f 53;
+#X text 663 294 preview - generate and play the audio at the current
+step, f 53;
+#X text 663 324 sliders - set the current step's latent space position
+along the axis corresponding to each principal component (often only
+the 2-3 first ones will have an audible effect), f 53;
+#X text 653 384 3 - edit settings, f 55;
+#X text 663 404 in the settings area \, define how to build the hallucination
+out of the principal steps., f 53;
+#X text 663 434 interpolation steps - how many intermediate steps to
+synthesize between each principal step, f 53;
+#X text 663 464 sample spacing - time in seconds between starting playback
+of each step, f 53;
+#X text 663 494 start trim - time in seconds to trim from the start
+of each step, f 53;
+#X text 663 524 attack/sustain/release - duration in seconds of each
+part of the amplitude envelope applied to each step, f 53;
+#X text 653 564 4 - generate!, f 55;
+#X text 663 124 you can automate this by sending into the inlet a message
+like:, f 53;
+#X text 673 154 load <checkpoint dir> <pca file>, f 52;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
 #X connect 4 0 3 0;
 #X connect 4 0 3 1;
 #X connect 5 0 0 0;
-#X coords 0 776 1 775 0 0 0;
+#X coords 0 793 1 792 0 0 0;
