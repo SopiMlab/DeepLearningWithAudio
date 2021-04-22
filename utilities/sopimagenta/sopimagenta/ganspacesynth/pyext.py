@@ -112,8 +112,8 @@ class halluseq(pyext._class):
         print_err("_component_count =", self._component_count)
         
         buf = pyext.Buffer(self._edits_buf_name)
-        #buf.resize(component_count)
-        #buf.dirty()
+        buf.resize(self._component_count)
+        buf.dirty()
 
         print_err("GANSpace components loaded!")
         
@@ -400,7 +400,7 @@ class halluseq(pyext._class):
         synth_msgs = []
         for sound in sounds:
             if None in [sound.buf, sound.pitch]:
-                raise ValueError("invalid syntax, should be: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] [-- buf2 pitch2 [edit2_1 edit2_2 ...]] [-- ...")
+                raise ValueError("invalid syntax, should be: synthesize_noz buf1 pitch1 [edit1_1 edit1_2 ...] [-- buf2 pitch2 [edit2_1 edit2_2 ...]] [-- ...]")
 
             edits = []
             for edit in sound.edits:
