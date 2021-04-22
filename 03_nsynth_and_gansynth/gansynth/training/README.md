@@ -65,7 +65,7 @@ Run `gansynth_train`:
 ```
 gansynth_train \
     --config=mel_prog_hires \
-    --hparams='{"train_data_path":"mydataset/data.tfrecord", "train_meta_path":"mydataset/meta.json", "train_root_dir":"mymodel"}'
+    --hparams='{"train_data_path":"mydataset/data.tfrecord", "train_meta_path":"mydataset/meta.json", "train_root_dir":"mymodel", "dataset_name":"nsynth_tfrecord"}'
 ```
 
 Note that this is a single command, so make sure to include all the lines if copy-pasting!
