@@ -65,7 +65,7 @@ gansynth_ganspace \
     --pca_out_file mymodel/mymodel_conv0_ipca_4194304.pickle
 ```
 
-You can also experiment with layer `conv1`.
+You can also experiment with `--layer conv1` and larger values of `--random_z_count` (though the latter will increase the computation time).
 
 ## Exercises
 
