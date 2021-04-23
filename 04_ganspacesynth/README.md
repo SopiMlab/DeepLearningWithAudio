@@ -51,3 +51,4 @@ Make sure you have [pyext](../utilities/pyext-setup) and [GANSynth](../03_nsynth
 
 ## Exercises
 
+1. Try loading some models & components into `ganspacessynth_noz.pd` and generate sounds by varying one direction at a time. What effects do the directions have?
