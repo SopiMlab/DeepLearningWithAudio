@@ -71,7 +71,7 @@ pip install -e .
 Install the sopilib support library from the course repository's root:
 
 ```
-pip install -e ../utilities/sopilib
+pip install -e ../../utilities/sopilib
 ```
 
 Find out the path of your Python interpreter:
