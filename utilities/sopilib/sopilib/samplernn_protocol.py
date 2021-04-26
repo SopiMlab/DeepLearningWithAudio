@@ -12,11 +12,13 @@ OUT_TAG_GENERATED = 1
 # tag: message type identifier
 tag_struct = struct.Struct("I")
 
-# generate: seed sample rate, output sample rate, number of outputs, output audio length, seed audio length, (temperatures, seed audio)
-generate_struct = struct.Struct("IIILL")
+size_struct = struct.Struct("N")
+
+# generate: seed sample rate, output sample rate, number of outputs, output audio duration, seed audio length, (seed audio, temp1 length, temp1 string, temp2 length, temp2 string...)
+generate_struct = struct.Struct("IIINN")
 
 # generated: output sample rate, number of outputs, output audio length, (output audios)
-generated_struct = struct.Struct("IIL")
+generated_struct = struct.Struct("IIN")
 
 def simple_conv(msg_struct):
     to_msg = lambda *args: msg_struct.pack(*args)
@@ -25,6 +27,8 @@ def simple_conv(msg_struct):
     return to_msg, from_msg
 
 to_tag_msg, from_tag_msg = simple_conv(tag_struct)
+
+to_size_msg, from_size_msg = simple_conv(size_struct)
 
 to_generate_msg, from_generate_msg = simple_conv(generate_struct)
 

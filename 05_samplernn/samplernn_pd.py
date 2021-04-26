@@ -37,9 +37,9 @@ class samplernn(pyext._class):
         self._generate_parser = argparse.ArgumentParser()
         self._generate_parser.add_argument("--seed_sr", type=int, default=16000)
         self._generate_parser.add_argument("--out_sr", type=int, default=16000)
-        self._generate_parser.add_argument("--dur", type=float, default=10.0)
+        self._generate_parser.add_argument("--dur", type=int, default=10.0)
         self._generate_parser.add_argument("--seed", default=None)
-        self._generate_parser.add_argument("--temp", type=float, action="append")
+        self._generate_parser.add_argument("--temp", type=str, action="append")
         self._generate_parser.add_argument("--out", action="append", required=True)
         
     def load_1(self, *raw_args):
@@ -109,14 +109,14 @@ class samplernn(pyext._class):
         print_err("seed_audio size*itemsize =", seed_audio.size * seed_audio.itemsize)
             
         seed_len = seed_audio.size * seed_audio.itemsize
-        
-        out_len = round(args.dur * args.out_sr)
-        
-        generate_msg = protocol.to_generate_msg(args.seed_sr, args.out_sr, num_outs, out_len, seed_len)
-        temp_msgs = map(protocol.to_f32_msg, temps)
+                
+        generate_msg = protocol.to_generate_msg(args.seed_sr, args.out_sr, num_outs, args.dur, seed_len)
         seed_audio_msg = protocol.to_audio_msg(seed_audio)
+        temp_msgs = map(protocol.to_str_msg, temps)
+        temp_msgs = map(lambda bs: (protocol.to_size_msg(len(bs)), bs), temp_msgs)
+        temp_msgs = (x for pair in temp_msgs for x in pair)
         
-        self._write_msg(protocol.IN_TAG_GENERATE, generate_msg, *temp_msgs, seed_audio_msg)
+        self._write_msg(protocol.IN_TAG_GENERATE, generate_msg, seed_audio_msg, *temp_msgs)
 
         print_err("wrote")
         

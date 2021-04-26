@@ -1,17 +1,17 @@
-#N canvas 172 312 935 492 12;
-#X obj 613 55 pyext samplernn_pd samplernn @detach 1;
-#X obj 694 84 print samplernn output;
+#N canvas 228 23 935 810 12;
+#X obj 623 242 pyext samplernn_pd samplernn @detach 1;
+#X obj 704 271 print samplernn output;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X array sound1 63936 float 2;
 #X coords 0 1 63936 -1 100 80 1 0 0;
-#X restore 643 174 graph;
-#X obj 613 79 list trim;
+#X restore 653 371 graph;
+#X obj 623 266 list trim;
 #N canvas 72 96 450 250 (subpatch) 0;
 #X array sound2 63936 float 2;
 #X coords 0 1 63936 -1 100 80 1 0 0;
-#X restore 745 174 graph;
-#X msg 666 285 sound1;
-#X msg 769 285 sound2;
+#X restore 755 371 graph;
+#X msg 676 492 sound1;
+#X msg 779 492 sound2;
 #N canvas 139 588 450 300 play 0;
 #X obj 80 219 tabread4~;
 #X obj 51 18 inlet;
@@ -52,33 +52,60 @@
 #X connect 16 0 15 0;
 #X connect 18 0 9 0;
 #X coords 0 -1 1 1 170 60 1 220 100;
-#X restore 660 320 pd play;
-#X obj 714 115 s \$0-out;
-#X obj 660 395 dac~;
-#X obj 715 22 r \$0-in;
-#X obj 23 198 s \$0-in;
-#X obj 23 427 s \$0-in;
-#X msg 23 145 load --python /home/sopi/miniconda3/envs/samplernn/bin/python
--- --num_seqs 2 --ckpt_dir pruu;
-#X text 19 34 --python: path to the python executable of your SampleRNN
+#X restore 670 527 pd play;
+#X obj 724 302 s \$0-out;
+#X obj 670 602 dac~;
+#X obj 725 209 r \$0-in;
+#X obj 9 6 cnv 15 570 200 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 20 174 s \$0-in;
+#X text 16 31 --python: path to the python executable of your SampleRNN
 environment, f 78;
-#X text 19 14 load a SampleRNN model, f 78;
-#X text 19 54 --: all arguments after this are passed to the worker
+#X text 16 51 --: all arguments after this are passed to the worker
 script, f 78;
-#X text 19 74 --num_seqs: number of sequences to generate simultaneously
+#X text 16 71 --num_seqs: number of sequences to generate simultaneously
 , f 78;
-#X text 19 94 --config: path to config file (only needed for non-default
-config), f 78;
-#X text 19 114 --ckpt_dir: path to checkpoint directory, f 78;
-#X text 19 245 generate audio, f 78;
-#X text 19 265 --out_sr: output sample rate, f 78;
-#X text 19 285 --dur: output audio duration in seconds, f 78;
-#X text 19 305 --temp: sampling temperature, f 78;
-#X text 19 325 --out: name of output array, f 78;
-#X text 19 345 the number of --temp and --out arguments should match
+#X text 16 91 --ckpt_dir: path to checkpoint directory, f 78;
+#X msg 20 121 load --python /usr/local/Caskroom/miniconda/base/envs/samplernn/bin/python
+-- --num_seqs 2 --ckpt_dir pruu3_16k;
+#X text 16 11 1 - load a SampleRNN model, f 78;
+#X obj 9 217 cnv 15 570 220 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 20 404 s \$0-in;
+#X text 16 242 --out_sr: output sample rate, f 78;
+#X text 16 282 --temp: sampling temperature, f 78;
+#X text 16 302 --out: name of output array, f 78;
+#X text 16 322 the number of --temp and --out arguments should match
 the --num_seqs given to load, f 78;
-#X msg 23 389 generate --out_sr 16000 --dur 4 --temp 1 --out sound1
---temp 0.9 --out sound2;
+#X text 16 222 2 - generate audio, f 78;
+#X text 16 262 --dur: output audio duration in (whole) seconds, f
+78;
+#X obj 9 448 cnv 15 570 340 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 20 756 s \$0-in;
+#X text 16 453 3 - expressive temperature, f 78;
+#X text 16 507 Env(levels \, times \, curves), f 78;
+#X text 16 565 levels: temperature values that the envelope will move
+through, f 78;
+#X text 16 605 curves: curve shapes of each segment. 0 is linear \,
+>0 is exponential \, <0 is logarithmic, f 78;
+#X text 16 639 with N levels \, you should have N-1 times and curves.
+, f 78;
+#X msg 20 366 generate --out_sr 16000 --dur 4 --temp 0.8 --out sound1
+--temp 1 --out sound2;
+#X text 16 473 you can vary the temperature over time by passing a
+SuperCollider-style envelope instead of a single number \, in the format
+, f 78;
+#X text 16 527 where each of levels \, times and curves is a list of
+numbers enclosed by square brackets and separated by commas. (see example
+below), f 78;
+#X text 16 659 in Pd we also have to escape all the special characters
+with backslashes \, so the messages get a bit ugly..., f 78;
+#X text 16 585 times: durations in seconds of each segment (should
+add up to dur or less), f 78;
+#X msg 20 703 generate --out_sr 16000 --dur 4 --temp Env([0.7\\\,1.05]\\\,[4]\\\,[-2])
+--out sound1 --temp Env([0.8\\\,1\\\,0.7]\\\,[2\\\,2]\\\,[0\\\,0])
+--out sound2;
 #X connect 0 0 3 0;
 #X connect 3 0 1 0;
 #X connect 3 0 8 0;
@@ -87,5 +114,6 @@ the --num_seqs given to load, f 78;
 #X connect 7 0 9 0;
 #X connect 7 0 9 1;
 #X connect 10 0 0 1;
-#X connect 13 0 11 0;
-#X connect 26 0 12 0;
+#X connect 17 0 12 0;
+#X connect 34 0 20 0;
+#X connect 39 0 28 0;
