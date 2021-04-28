@@ -12,6 +12,44 @@ For training on the Triton computing cluster, see also [Training GANSynth on Tri
 
 ----
 
+## Set up a Conda environment
+
+Enter the GANSynth training directory:
+
+```
+cd DeepLearningWithAudio/03_nsynth_and_gansynth/gansynth/training
+```
+
+Create a Conda environment using the `gansynth-training-env.yml` file:
+
+```
+conda env create -n magenta -f gansynth-training-env.yml
+```
+
+Enter the Magenta directory: (here we assume you cloned Magenta to `DeepLearningAudio/magenta`, adjust accordingly if not)
+
+```
+cd ../../../magenta
+```
+
+Install Magenta:
+
+```
+pip install -e .
+```
+
+If you get an error related to `python-rtmidi`, open `setup.py` in a text editor and search for `rtmidi`. Comment out that line by adding a `#` to the start:
+
+```
+...
+    'pygtrie >= 2.3',
+    #'python-rtmidi >= 1.1, < 1.2',  # 1.2 breaks us
+    'scikit-image',
+...
+```
+
+Then run the install command again.
+
 ## Create a dataset
 
 Set up a [Conda environment for GANSynth](../README.md) and activate it. Enter the `gansynth/training` directory.
