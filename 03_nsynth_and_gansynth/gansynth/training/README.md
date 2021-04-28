@@ -14,6 +14,8 @@ For training on the Triton computing cluster, see also [Training GANSynth on Tri
 
 ## Set up a Conda environment
 
+Note: Previously we suggested following the [main GANSynth guide](../README.md), but because of problems with that approach we now have separate instructions here.
+
 Enter the GANSynth training directory:
 
 ```
@@ -24,6 +26,12 @@ Create a Conda environment using the `gansynth-training-env.yml` file:
 
 ```
 conda env create -n magenta -f gansynth-training-env.yml
+```
+
+Activate the environment:
+
+```
+conda activate magenta
 ```
 
 Enter the Magenta directory: (here we assume you cloned Magenta to `DeepLearningAudio/magenta`, adjust accordingly if not)
@@ -52,7 +60,14 @@ Then run the install command again.
 
 ## Create a dataset
 
-Set up a [Conda environment for GANSynth](../README.md) and activate it. Enter the `gansynth/training` directory.
+Enter the `gansynth/training` directory which contains our preparation scripts:
+
+```
+# if you're in DeepLearningWithAudio/magenta after the previous steps:
+cd ..
+
+cd 03_nsynth_and_gansynth/gansynth/training
+```
 
 ### From longer recordings
 
