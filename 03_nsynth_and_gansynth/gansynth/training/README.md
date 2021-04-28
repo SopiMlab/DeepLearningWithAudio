@@ -31,7 +31,7 @@ conda env create -n magenta -f gansynth-training-env.yml
 Activate the environment:
 
 ```
-conda activate magenta
+source activate magenta
 ```
 
 Enter the Magenta directory: (here we assume you cloned Magenta to `DeepLearningAudio/magenta`, adjust accordingly if not)
