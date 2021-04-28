@@ -54,7 +54,7 @@ Then run the install command again.
 
 Set up a [Conda environment for GANSynth](../README.md) and activate it. Enter the `gansynth/training` directory.
 
-### From music files
+### From longer recordings
 
 You can use the `chop.py` script to automatically chop up longer files (such as music). For example, if you have music files in a folder called `mytunes`, you can run:
 
