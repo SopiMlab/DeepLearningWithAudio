@@ -1,6 +1,6 @@
 # Training GANSynth
 
-This guide describes how to train a GANSynth model using your own sounds. Note that training is a very computation-intensive process, so you will want to use a powerful GPU. You can find the supplementary video-instructions at https://vimeo.com/543008330.
+This guide describes how to train a GANSynth model using your own sounds. Note that training is a very computation-intensive process, so you will want to use a powerful GPU. We also provide supplementary video-instructions for GANSynth model training at https://vimeo.com/543008330.
 
 ----
 
