@@ -1,21 +1,19 @@
-#N canvas 320 181 854 545 10;
-#X obj 4 5 cnv 15 400 130 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 332 31 1074 724 10;
+#X obj 15 168 cnv 15 500 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 130 48 loadbang;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
 #X obj 201 65 print melody_rnn input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 570 140 pd print_input;
-#X msg 130 68 load attention_rnn;
-#X obj 492 209 print melody_rnn output;
-#X obj 669 409 noteout 1;
-#X obj 660 220 route note;
-#X obj 669 387 unpack f f;
-#X text 7 10 1 - load a Melody RNN model from disk, f 64;
-#X obj 498 413 dac~;
+#X restore 755 152 pd print_input;
+#X msg 197 244 load attention_rnn;
+#X obj 677 221 print melody_rnn output;
+#X obj 780 400 noteout 1;
+#X obj 845 232 route note;
+#X obj 780 378 unpack f f;
+#X obj 556 401 dac~;
 #N canvas 196 536 450 300 select_output 0;
 #X obj 215 28 inlet;
 #X obj 204 252 outlet;
@@ -34,18 +32,16 @@
 #X connect 7 0 1 0;
 #X connect 7 1 2 0;
 #X coords 0 -1 1 1 85 40 1 100 100;
-#X restore 560 283 pd select_output;
-#X text 672 367 external midi instrument;
-#X obj 438 166 pyext. sopimagenta.melody_rnn.pyext melody_rnn @detach
+#X restore 699 301 pd select_output;
+#X obj 623 178 pyext. sopimagenta.melody_rnn.pyext melody_rnn @detach
 1;
-#X obj 156 104 s \$0-input;
-#X obj 570 120 r \$0-input;
-#X obj 4 138 cnv 15 400 200 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 222 269 s \$0-input;
+#X obj 758 122 r \$0-input;
+#X obj 15 309 cnv 15 500 220 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 40 222 pack f f;
-#X obj 40 202 notein 1;
-#X msg 40 242 note \$1 \$2;
-#X text 9 141 2 - send note input to melody_rnn, f 64;
+#X obj 94 432 pack f f;
+#X obj 94 412 notein 1;
+#X msg 94 452 note \$1 \$2;
 #N canvas 618 463 449 464 keys 0;
 #X floatatom 112 118 5 0 8 1 octave - -;
 #X obj 58 45 loadbang;
@@ -101,7 +97,7 @@
 #X obj 34 287 unpack f f;
 #X obj 116 324 *;
 #X obj 53 412 spigot;
-#X obj 199 119 tgl 15 0 empty empty on 17 7 0 10 -262144 -1 -1 1 1
+#X obj 199 119 tgl 15 0 empty empty on 17 7 0 10 -262144 -1 -1 0 1
 ;
 #X msg 88 68 0;
 #X msg 58 68 4;
@@ -165,21 +161,14 @@
 #X connect 42 0 41 0;
 #X connect 43 0 0 0;
 #X coords 0 -1 1 1 140 96 1 100 100;
-#X restore 208 203 pd keys;
-#X text 19 178 use a midi device;
-#X obj 162 312 s \$0-input;
-#X obj 4 341 cnv 15 400 200 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 302 399 pd keys;
+#X obj 221 503 s \$0-input;
+#X obj 15 540 cnv 15 500 170 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X msg 84 430 generate 20;
-#X text 8 342 3 - control melody_rnn, f 65;
-#X msg 260 432 clear;
-#X text 254 398 clear the note memory, f 12;
-#X obj 160 500 s \$0-input;
-#X obj 660 200 list trim;
-#X text 188 170 or this virtual keyboard (play with A \, W \, S \,
-E \, D \, F \, T \, G \, Y \, H \, U \, J \, K), f 34;
-#X text 667 293 select midi output;
-#X text 507 367 sine wave example;
+#X msg 142 644 generate 20;
+#X msg 318 646 clear;
+#X obj 221 679 s \$0-input;
+#X obj 845 212 list trim;
 #N canvas 215 630 348 254 sine 0;
 #X obj 142 31 inlet;
 #X obj 112 124 osc~;
@@ -193,28 +182,68 @@ E \, D \, F \, T \, G \, Y \, H \, U \, J \, K), f 34;
 #X connect 3 0 2 0;
 #X connect 3 1 4 1;
 #X connect 4 0 5 0;
-#X restore 498 386 pd sine;
-#X text 74 397 generate 20 secs of new notes, f 18;
-#X connect 1 0 3 0;
-#X connect 2 0 12 1;
-#X connect 2 0 6 0;
-#X connect 3 0 13 0;
-#X connect 6 0 10 0;
-#X connect 7 0 5 0;
-#X connect 7 1 5 1;
-#X connect 10 0 33 0;
-#X connect 10 1 7 0;
-#X connect 12 0 4 0;
-#X connect 12 0 29 0;
-#X connect 14 0 2 0;
-#X connect 16 0 18 0;
-#X connect 17 0 16 0;
-#X connect 17 1 16 1;
-#X connect 18 0 22 0;
-#X connect 20 0 22 0;
-#X connect 24 0 28 0;
-#X connect 26 0 28 0;
-#X connect 29 0 6 0;
-#X connect 33 0 9 0;
-#X connect 33 0 9 1;
-#X coords 0 545 1 544 0 0 0;
+#X restore 556 378 pd sine;
+#X obj 15 17 cnv 15 500 140 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 25 47 Melody RNN is a collection of models for generating melodies
+\, introduced by Magenta in 2016 They apply language modeling with
+long short-term memory (LSTM) to music. These models operate on note
+data \, rather than audio waveforms \, and are relatively lightweight
+in terms of computational resources., f 79;
+#X text 25 121 https://github.com/magenta/magenta/tree/master/magenta/models/melody_rnn#pre-trained
+, f 79;
+#X text 25 101 Pre-trained Melody RNN models can be downloaded at:
+, f 79;
+#X text 25 27 ---- AI Duet (Melody RNN) ----, f 79;
+#X text 26 179 1 Load a Melody RNN model from disk using the "load"
+message., f 79;
+#X text 26 199 You should provide the path to a model file as the argument
+\, without the ".mag" extension. If the file is in the same folder
+as this patch \, you can simply give its name., f 79;
+#X text 26 319 2 Send note input to Melody RNN., f 79;
+#X text 26 339 The Melody RNN object accepts messages of the form "note
+<pitch> <velocity>" (zero velocity means note off). Here \, you can
+get notes from a MIDI input device \, or enable the virtual keyboard
+and play using the A \, W \, S \, E \, D \, F \, T \, G \, Y \, H \,
+U \, J \, K keys on your computer keyboard., f 79;
+#X text 26 549 3 Operate on Melody RNN's recorded note data., f 79
+;
+#X text 26 569 A "generate <duration_secs>" message will make Melody
+RNN generate a sequence of new notes based on the recorded input. The
+duration of the sequence is given by the argument., f 79;
+#X text 26 611 "clear" will erase the recorded notes \, allowing you
+to start over., f 79;
+#X text 640 561 We make use of the following open source projects:
+, f 53;
+#X text 640 581 - pyext/flext (GPL v2), f 53;
+#X text 640 601 - Magenta (Apache 2.0), f 53;
+#X text 640 530 This work is provided by SOPI research group (https://sopi.aalto.fi)
+under the ??? license (TBD)., f 53;
+#X text 809 301 We provide two example output routings \, you can toggle
+between them here., f 25;
+#X text 609 378 Sine example - plays a simple monophonic sine wave
+oscillator, f 23;
+#X text 852 378 External MIDI instrument - plays the output device
+selected in your MIDI preferences., f 33;
+#X connect 1 0 9 1;
+#X connect 1 0 5 0;
+#X connect 2 0 10 0;
+#X connect 5 0 8 0;
+#X connect 6 0 4 0;
+#X connect 6 1 4 1;
+#X connect 8 0 23 0;
+#X connect 8 1 6 0;
+#X connect 9 0 3 0;
+#X connect 9 0 22 0;
+#X connect 11 0 1 0;
+#X connect 13 0 15 0;
+#X connect 14 0 13 0;
+#X connect 14 1 13 1;
+#X connect 15 0 17 0;
+#X connect 16 0 17 0;
+#X connect 19 0 21 0;
+#X connect 20 0 21 0;
+#X connect 22 0 5 0;
+#X connect 23 0 7 0;
+#X connect 23 0 7 1;
+#X coords 0 724 1 723 0 0 0;
