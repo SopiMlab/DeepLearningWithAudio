@@ -1,49 +1,42 @@
-#N canvas 720 23 720 415 10;
-#X obj 363 6 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 284 87 1061 607 10;
+#X obj 11 435 cnv 15 500 160 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 184 6 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 284 cnv 15 500 140 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 5 6 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 163 cnv 15 500 110 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#N canvas 0 22 450 300 (subpatch) 0;
+#N canvas 0 23 450 300 (subpatch) 0;
 #X array \$0-sound 64000 float 0;
-#X coords 0 1 63999 -1 200 140 1;
-#X restore 207 264 graph;
-#X msg 7 78 load all_instruments;
-#X obj 7 60 loadbang;
-#X obj 421 359 dac~;
-#X obj 421 302 vline~;
-#X msg 421 283 1 \, 63998 4000;
-#X obj 421 321 tabread4~ \$0-sound;
-#N canvas 0 22 450 300 (subpatch) 0;
+#X coords 0 1 63999 -1 120 60 1 0 0;
+#X restore 301 516 graph;
+#X msg 88 227 load all_instruments;
+#X obj 547 579 dac~;
+#X obj 547 522 vline~;
+#X msg 547 503 1 \, 63998 4000;
+#X obj 547 541 tabread4~ \$0-sound;
+#N canvas 0 23 450 300 (subpatch) 0;
 #X array \$0-z 256 float 2;
-#X coords 0 5 256 -5 200 140 1;
-#X restore 4 264 graph;
-#X text 7 8 1 - load GANSynth model from a saved checkpoint, f 28
-;
-#X text 365 8 3 - synthesize from the vector and a given pitch, f
-28;
+#X coords 0 5 256 -5 120 60 1 0 0;
+#X restore 302 352 graph;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 211 133 pd print_input;
-#X obj 421 261 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
+#X restore 730 184 pd print_input;
+#X obj 547 481 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
 -1 -1;
-#X text 186 8 2 - generate a random latent vector for timbre, f 28
-;
-#X obj 257 196 print gansynth output;
-#X obj 421 340 *~ 0.5;
-#X obj 186 38 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 756 244 print gansynth output;
+#X obj 547 560 *~ 0.5;
+#X obj 98 337 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 186 60 f \$0;
-#X msg 186 78 randomize_z \$1-z;
-#X obj 365 38 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 98 359 f \$0;
+#X msg 98 377 randomize_z \$1-z;
+#X obj 63 504 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 365 60 f \$0;
-#X msg 365 78 synthesize \$1-z \$1-sound 52;
+#X obj 63 526 f \$0;
+#X msg 63 544 synthesize \$1-z \$1-sound 52;
 #N canvas 501 282 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
 64000 1;
@@ -57,31 +50,69 @@
 #X connect 3 0 0 0;
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 109 46 pd loaded;
-#X obj 229 174 list trim;
-#X obj 421 232 route synthesized;
-#X obj 149 196 s \$0-gansynth_out;
-#X obj 421 214 r \$0-gansynth_out;
-#X obj 128 153 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X restore 330 233 pd loaded;
+#X obj 647 224 list trim;
+#X obj 547 452 route synthesized;
+#X obj 647 244 s \$0-gansynth_out;
+#X obj 547 434 r \$0-gansynth_out;
+#X obj 647 204 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
-#X connect 4 0 13 0;
-#X connect 5 0 4 0;
-#X connect 7 0 9 0;
-#X connect 8 0 7 0;
-#X connect 9 0 17 0;
-#X connect 13 0 29 1;
-#X connect 14 0 8 0;
-#X connect 17 0 6 0;
-#X connect 17 0 6 1;
+#X obj 11 12 cnv 15 500 140 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 19 16 ---- GANSynth ----, f 80;
+#X text 19 36 GANSynth is an audio synthesis algorithm based on generative
+adversarial networks (GANs). It was introduced by Magenta in January
+2019 Like the earlier NSynth algorithm \, GANSynth is designed for
+generating musical notes at specified pitches \, but GANSynth achieves
+better audio quality and also synthesizes thousands of times faster.
+The vastly improved speed makes the algorithm suitable for interactive
+purposes \, potentially even near-real-time applications!, f 80;
+#X text 19 111 Our pre-trained GANSynth checkpoints can be downloaded
+at:, f 80;
+#X text 19 131 https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_
+, f 80;
+#X obj 731 154 r \$0-in;
+#X obj 126 248 s \$0-in;
+#X text 19 165 1 - Load a saved checkpoint., f 80;
+#X text 19 185 The "load <ckpt>" message loads a trained model from
+checkpoint folder <ckpt>. If the checkpoint folder is in the same folder
+as this patch \, you can simply give its name., f 80;
+#X obj 124 399 s \$0-in;
+#X text 18 286 2 - Randomly generate a latent vector ("Z") for timbre.
+, f 80;
+#X obj 120 568 s \$0-in;
+#X text 18 437 3 - Synthesize., f 80;
+#X text 18 457 The "synthesize <z_array> <out_array> <pitch>" message
+reads a timbre vector from <z_array> \, synthesizes a corresponding
+audio segment using pitch <pitch> and writes it to <out_array>., f
+80;
+#X text 18 306 The "randomize_z <z_array>" message randomly samples
+a latent timbre vector from a spherical Gaussian distribution and writes
+it to <z_array>., f 80;
+#X text 724 535 We make use of the following open source projects:
+, f 53;
+#X text 724 555 - pyext/flext (GPL v2), f 53;
+#X text 724 504 This work is provided by SOPI research group (https://sopi.aalto.fi)
+under the ??? license (TBD)., f 53;
+#X text 724 575 - Magenta (Apache 2.0), f 53;
+#X connect 4 0 32 0;
+#X connect 6 0 8 0;
+#X connect 7 0 6 0;
+#X connect 8 0 13 0;
+#X connect 10 0 25 1;
+#X connect 11 0 7 0;
+#X connect 13 0 5 0;
+#X connect 13 0 5 1;
+#X connect 14 0 15 0;
+#X connect 15 0 16 0;
+#X connect 16 0 35 0;
+#X connect 17 0 18 0;
 #X connect 18 0 19 0;
-#X connect 19 0 20 0;
-#X connect 20 0 13 0;
-#X connect 21 0 22 0;
-#X connect 22 0 23 0;
-#X connect 23 0 13 0;
-#X connect 25 0 16 0;
-#X connect 25 0 27 0;
-#X connect 26 0 14 0;
-#X connect 28 0 26 0;
-#X connect 29 0 25 0;
-#X coords 0 415 1 414 0 0 0;
+#X connect 19 0 37 0;
+#X connect 21 0 12 0;
+#X connect 21 0 23 0;
+#X connect 22 0 11 0;
+#X connect 24 0 22 0;
+#X connect 25 0 21 0;
+#X connect 31 0 10 0;
+#X coords 0 607 1 606 0 0 0;
