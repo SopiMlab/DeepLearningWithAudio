@@ -1,81 +1,74 @@
-#N canvas 490 23 963 753 10;
-#X obj 7 249 cnv 15 600 120 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 396 23 1050 785 10;
+#X obj 11 593 cnv 15 600 180 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 7 126 cnv 15 600 120 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 292 cnv 15 600 290 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 7 3 cnv 15 600 120 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 151 cnv 15 600 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound1 64000 float 0;
-#X coords 0 1 63999 -1 200 140 1;
-#X restore 7 545 graph;
-#X obj 18 55 loadbang;
+#X coords 0 1 63999 -1 60 60 1 0 0;
+#X restore 327 682 graph;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z1 256 float 2;
-#X coords 0 5 256 -5 200 140 1;
-#X restore 7 390 graph;
+#X coords 0 5 256 -5 60 60 1 0 0;
+#X restore 328 506 graph;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 695 48 pd print_input;
-#X obj 746 117 print gansynth output;
-#X obj 19 156 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X restore 766 110 pd print_input;
+#X obj 817 179 print gansynth output;
+#X obj 63 352 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 19 178 f \$0;
-#X obj 19 279 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 63 374 f \$0;
+#X obj 49 663 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 19 301 f \$0;
-#X obj 715 93 list trim;
+#X obj 49 685 f \$0;
+#X obj 786 155 list trim;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound2 64000 float 0;
-#X coords 0 1 63999 -1 200 140 1;
-#X restore 210 545 graph;
+#X coords 0 1 63999 -1 60 60 1 0 0;
+#X restore 389 682 graph;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z2 256 float 2;
-#X coords 0 5 256 -5 200 140 1;
-#X restore 210 390 graph;
+#X coords 0 5 256 -5 60 60 1 0 0;
+#X restore 390 506 graph;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound3 64000 float 0;
-#X coords 0 1 63999 -1 200 140 1;
-#X restore 413 545 graph;
+#X coords 0 1 63999 -1 60 60 1 0 0;
+#X restore 451 682 graph;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z3 256 float 2;
-#X coords 0 5 256 -5 200 140 1;
-#X restore 413 390 graph;
-#X obj 693 13 r \$0-gansynth_in;
-#X obj 18 93 s \$0-gansynth_in;
-#X msg 18 74 load all_instruments 4;
-#X obj 19 216 s \$0-gansynth_in;
-#X text 9 128 2 - generate random latent vectors for timbre, f 48
-;
-#X obj 19 339 s \$0-gansynth_in;
-#X text 9 251 3 - synthesize from the vectors and the given pitches
-, f 98;
+#X coords 0 5 256 -5 60 60 1 0 0;
+#X restore 452 506 graph;
+#X obj 764 75 r \$0-gansynth_in;
+#X obj 104 249 s \$0-gansynth_in;
+#X msg 104 230 load all_instruments 4;
+#X obj 63 412 s \$0-gansynth_in;
+#X obj 49 746 s \$0-gansynth_in;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound4 64000 float 0;
-#X coords 0 1 63999 -1 200 140 1 0 0;
-#X restore 616 545 graph;
+#X coords 0 1 63999 -1 60 60 1 0 0;
+#X restore 513 682 graph;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z4 256 float 2;
-#X coords 0 5 256 -5 200 140 1 0 0;
-#X restore 616 390 graph;
-#X msg 19 197 randomize_z \$1-z1 \$1-z2 \$1-z3 \$1-z4;
-#X msg 19 320 synthesize \$1-z1 \$1-sound1 52 \$1-z2 \$1-sound2 55
-\$1-z3 \$1-sound3 59 \$1-z4 \$1-sound4 62, f 87;
-#X obj 315 224 s \$0-gansynth_in;
-#X obj 318 152 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -232576
+#X coords 0 5 256 -5 60 60 1 0 0;
+#X restore 514 506 graph;
+#X msg 63 393 randomize_z \$1-z1 \$1-z2 \$1-z3 \$1-z4;
+#X msg 49 704 synthesize \$1-z1 \$1-sound1 52 \$1-z2 \$1-sound2 55
+\$1-z3 \$1-sound3 59 \$1-z4 \$1-sound4 62, f 38;
+#X obj 62 557 s \$0-gansynth_in;
+#X obj 65 485 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -232576
 -1 -1 0 1;
-#X obj 315 187 pack f f;
-#X msg 315 205 slerp_z \$1-z1 \$1-z2 \$1-z3 \$2;
-#X obj 315 169 expr \$0;
-#X text 313 128 2b - interpolate between two latent vectors!, f 47
-;
+#X obj 62 520 pack f f;
+#X msg 62 538 slerp_z \$1-z1 \$1-z2 \$1-z3 \$2;
+#X obj 62 502 expr \$0;
 #N canvas 261 142 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-0 1;
+64000 1;
 #X obj 103 68 f 1;
 #X obj 101 43 route loaded unloaded;
 #X obj 127 68 f 0;
@@ -86,56 +79,93 @@
 #X connect 3 0 0 0;
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 313 72 pd loaded;
-#X obj 635 117 s \$0-gansynth_out;
-#X obj 686 183 cnv 15 130 30 empty empty empty 30 20 0 14 -232576 -66577
+#X restore 399 237 pd loaded;
+#X obj 706 179 s \$0-gansynth_out;
+#X obj 746 335 cnv 15 130 30 empty empty empty 30 20 0 14 -232576 -66577
 0;
-#X obj 709 351 dac~;
-#X obj 735 288 vline~;
-#X obj 709 332 *~ 0.5;
-#X msg 724 190 2;
-#X obj 693 243 makefilename \$0-sound%d;
-#X msg 693 190 1;
-#X msg 755 190 3;
-#X msg 684 270 set \$1;
-#X msg 735 270 1 \, 63998 4000;
-#X obj 709 313 tabread4~;
-#X text 691 169 4 - play;
-#X msg 786 190 4;
-#X text 9 5 1 - load GANSynth model from a saved checkpoint \, specifying
-a batch size as the second argument. when synthesizing a lot of notes
-in one go \, a larger batch size makes the process faster \, but also
-uses more memory. probably should be a power of 2, f 98;
-#X obj 615 72 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X obj 769 503 dac~;
+#X obj 795 440 vline~;
+#X obj 769 484 *~ 0.5;
+#X msg 784 342 2;
+#X obj 753 395 makefilename \$0-sound%d;
+#X msg 753 342 1;
+#X msg 815 342 3;
+#X msg 744 422 set \$1;
+#X msg 795 422 1 \, 63998 4000;
+#X obj 769 465 tabread4~;
+#X text 751 321 4 - play;
+#X msg 846 342 4;
+#X obj 666 134 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
-#X connect 4 0 19 0;
-#X connect 6 0 50 1;
-#X connect 8 0 9 0;
-#X connect 9 0 26 0;
-#X connect 10 0 11 0;
-#X connect 11 0 27 0;
-#X connect 12 0 7 0;
-#X connect 12 0 35 0;
-#X connect 17 0 6 0;
-#X connect 19 0 18 0;
-#X connect 26 0 20 0;
-#X connect 27 0 22 0;
-#X connect 29 0 30 1;
-#X connect 29 0 32 0;
-#X connect 30 0 31 0;
-#X connect 31 0 28 0;
-#X connect 32 0 30 0;
-#X connect 38 0 46 0;
+#X obj 11 10 cnv 15 600 130 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 19 34 GANSynth is an audio synthesis algorithm based on generative
+adversarial networks (GANs). It was introduced by Magenta in January
+2019 Like the earlier NSynth algorithm \, GANSynth is designed for
+generating musical notes at specified pitches \, but GANSynth achieves
+better audio quality and also synthesizes thousands of times faster.
+The vastly improved speed makes the algorithm suitable for interactive
+purposes \, potentially even near-real-time applications!, f 97;
+#X text 19 98 Our pre-trained GANSynth checkpoints can be downloaded
+at:, f 97;
+#X text 19 118 https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_
+, f 97;
+#X text 17 176 The "load <ckpt> <batch_size>" message loads a trained
+model from checkpoint folder <ckpt>. If the checkpoint folder is in
+the same folder as this patch \, you can simply give its name. The
+<batch_size> argument specifies how many audio segments GANSynth should
+synthesize in parallel., f 97;
+#X text 17 156 1 - Load a saved checkpoint., f 97;
+#X text 18 296 2 - Generate latent vectors ("Z") for timbre., f 97
+;
+#X text 18 316 The "randomize_z <z_array1> <z_array2> ..." message
+randomly samples latent timbre vectors from a spherical Gaussian distribution
+and writes them to the specified arrays., f 97;
+#X text 18 436 The "slerp_z <z_in1> <z_in2> <z_out> <amount>" message
+performs spherical linear interpolation between the latent vectors
+in <z_in1> and <z_in2> \, and writes the result into <z_out>. The <amount>
+parameter (range 0 to 1) controls the weighting between the two input
+vectors., f 97;
+#X text 17 596 3 - Synthesize., f 97;
+#X text 17 616 The "synthesize <z_array1> <out_array1> <pitch1> <z_array2>
+<out_array2> <pitch2> ..." message reads timbre vectors from each <z_arrayN>
+\, synthesizes corresponding audio segments using pitch <pitchN> and
+writes them into <out_arrayN>., f 97;
+#X text 673 654 We make use of the following open source projects:
+, f 53;
+#X text 673 674 - pyext/flext (GPL v2), f 53;
+#X text 673 623 This work is provided by SOPI research group (https://sopi.aalto.fi)
+under the ??? license (TBD)., f 53;
+#X text 673 694 - Magenta (Apache 2.0), f 53;
+#X text 19 14 ---- GANSynth - timbre interpolation & batch synthesis
+----, f 97;
+#X connect 5 0 45 1;
+#X connect 7 0 8 0;
+#X connect 8 0 23 0;
+#X connect 9 0 10 0;
+#X connect 10 0 24 0;
+#X connect 11 0 6 0;
+#X connect 11 0 31 0;
+#X connect 16 0 5 0;
+#X connect 18 0 17 0;
+#X connect 23 0 19 0;
+#X connect 24 0 20 0;
+#X connect 26 0 27 1;
+#X connect 26 0 29 0;
+#X connect 27 0 28 0;
+#X connect 28 0 25 0;
+#X connect 29 0 27 0;
+#X connect 34 0 42 0;
+#X connect 35 0 33 0;
+#X connect 35 0 33 1;
+#X connect 36 0 37 0;
+#X connect 37 0 40 0;
+#X connect 37 0 41 0;
+#X connect 38 0 37 0;
 #X connect 39 0 37 0;
-#X connect 39 0 37 1;
-#X connect 40 0 41 0;
-#X connect 41 0 44 0;
-#X connect 41 0 45 0;
-#X connect 42 0 41 0;
-#X connect 43 0 41 0;
-#X connect 44 0 46 0;
-#X connect 45 0 38 0;
-#X connect 46 0 39 0;
-#X connect 48 0 41 0;
-#X connect 50 0 12 0;
-#X coords 0 753 1 752 0 0 0;
+#X connect 40 0 42 0;
+#X connect 41 0 34 0;
+#X connect 42 0 35 0;
+#X connect 44 0 37 0;
+#X connect 45 0 11 0;
+#X coords 0 785 1 784 0 0 0;
