@@ -195,19 +195,14 @@ in terms of computational resources., f 79;
 #X text 25 101 Pre-trained Melody RNN models can be downloaded at:
 , f 79;
 #X text 25 27 ---- AI Duet (Melody RNN) ----, f 79;
-#X text 26 179 1 Load a Melody RNN model from disk using the "load"
-message., f 79;
 #X text 26 199 You should provide the path to a model file as the argument
 \, without the ".mag" extension. If the file is in the same folder
 as this patch \, you can simply give its name., f 79;
-#X text 26 319 2 Send note input to Melody RNN., f 79;
 #X text 26 339 The Melody RNN object accepts messages of the form "note
 <pitch> <velocity>" (zero velocity means note off). Here \, you can
 get notes from a MIDI input device \, or enable the virtual keyboard
 and play using the A \, W \, S \, E \, D \, F \, T \, G \, Y \, H \,
 U \, J \, K keys on your computer keyboard., f 79;
-#X text 26 549 3 Operate on Melody RNN's recorded note data., f 79
-;
 #X text 26 569 A "generate <duration_secs>" message will make Melody
 RNN generate a sequence of new notes based on the recorded input. The
 duration of the sequence is given by the argument., f 79;
@@ -225,6 +220,11 @@ between them here., f 25;
 oscillator, f 23;
 #X text 852 378 External MIDI instrument - plays the output device
 selected in your MIDI preferences., f 33;
+#X text 26 179 1 - Load a Melody RNN model from disk using the "load"
+message., f 79;
+#X text 26 319 2 - Send note input to Melody RNN., f 79;
+#X text 26 549 3 - Operate on Melody RNN's recorded note data., f
+79;
 #X connect 1 0 9 1;
 #X connect 1 0 5 0;
 #X connect 2 0 10 0;
