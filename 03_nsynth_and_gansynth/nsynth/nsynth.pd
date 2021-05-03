@@ -1,73 +1,58 @@
-#N canvas 329 23 834 823 12;
-#X obj 304 470 route list;
-#X obj 304 491 route play;
-#X obj 552 176 print;
-#X obj 533 117 stripnote;
-#X obj 482 53 notein 1;
-#X msg 533 152 note_on \$1;
-#X obj 529 178 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#N canvas 329 23 821 828 10;
+#X obj 617 66 route list;
+#X obj 617 87 route play;
+#X obj 525 239 nsynthosc \$0-audio;
+#X obj 663 153 f 0;
+#X obj 663 136 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 35 64 f \$0;
-#X obj 35 47 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 35 24 loadbang;
-#X msg 35 85 load glass_string_whistle_wood.bin glass_string_whistle_wood_settings.json
+#X floatatom 663 174 5 0 0 0 - - -;
+#X obj 553 138 unpack f f f f;
+#X obj 552 172 pack f f f f f;
+#X obj 641 241 nsynthosc \$0-audio;
+#X obj 574 262 nsynthosc \$0-audio;
+#X obj 693 262 nsynthosc \$0-audio;
+#X obj 691 153 expr ($f1+1)%4;
+#X obj 564 203 route 0 1 2 3;
+#X obj 627 367 dac~;
+#X obj 625 322 *~ 0.8;
+#X text 668 204 4-voice polyphony;
+#X obj 9 10 cnv 15 500 160 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 19 17 ---- NSynth ----, f 79;
+#X text 19 37 NSynth is an algorithm for synthesizing musical notes
+using deep neural networks. It presents a data-driven approach to synthesis
+\, where the neural network learns a latent space of the timbre and
+dynamics of existing sounds — that is \, a compressed data representation
+based on features inferred from the data. A trained NSynth model can
+encode arbitrary input sounds into the latent representation \, perform
+transformations (e.g. interpolation) in the latent space and decode
+back to audio., f 79;
+#X text 19 124 Our generated NSynth sounds can be downloaded at:,
+f 79;
+#X text 19 144 https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_
+, f 79;
+#X obj 9 180 cnv 15 500 220 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 19 188 1 - Load generated sounds., f 79;
+#X text 19 239 The "load <sounds_file> <settings_file> <array>" message
+loads sounds from the NSynth-formatted <sounds_file> (.bin) using settings
+from <settings_file> (.json) and stores them in <array>., f 79;
+#X obj 109 316 f \$0;
+#X obj 109 283 bng 30 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 109 335 load glass_string_whistle_wood.bin glass_string_whistle_wood_settings.json
 \$1-audio;
-#X obj 195 637 nsynthosc \$0-audio;
-#X obj 350 557 f 0;
-#X obj 350 540 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X floatatom 350 578 5 0 0 0 - - -;
-#X obj 240 542 unpack f f f f;
-#X obj 239 576 pack f f f f f;
-#X obj 327 637 nsynthosc \$0-audio;
-#X obj 261 666 nsynthosc \$0-audio;
-#X obj 393 666 nsynthosc \$0-audio;
-#X obj 378 557 expr ($f1+1)%4;
-#X obj 251 607 route 0 1 2 3;
-#X obj 318 772 dac~;
-#N canvas 251 54 857 728 nsynthui 0;
-#X obj 18 42 inlet;
-#X obj 253 42 inlet;
-#X obj 62 125 print loader;
-#X msg 101 495 position_rel \$1 \$2;
-#X obj 30 251 grid grid2 200 0 1 200 0 1 0 0.01 0.01 10 10 132 419
-;
-#X obj 101 474 pack;
-#X obj 18 169 route loaded;
-#X obj 18 190 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X msg 18 207 values 0 0;
-#X obj 254 575 outlet;
-#N canvas 357 244 450 278 (subpatch) 0;
-#X array \$0-audio 3.888e+07 float 0;
-#X coords 0 1 3.888e+07 -1 200 140 1;
-#X restore 247 286 graph;
-#X obj 18 100 pyext. sopimagenta.nsynth.pyext nsynth_loader @detach
-1;
-#X obj 227 547 pyext. sopimagenta.nsynth.pyext nsynth_controller @detach
-1;
-#X connect 0 0 11 1;
-#X connect 1 0 12 1;
-#X connect 3 0 12 1;
-#X connect 4 0 5 1;
-#X connect 4 1 5 0;
-#X connect 5 0 3 0;
-#X connect 6 0 7 0;
-#X connect 7 0 8 0;
-#X connect 8 0 4 0;
-#X connect 11 0 2 0;
-#X connect 11 0 6 0;
-#X connect 11 0 12 1;
-#X connect 12 0 9 0;
-#X coords -1 -1 1 1 440 220 2 20 240;
-#X restore 122 208 pd nsynthui;
-#X obj 316 727 *~ 0.8;
-#X text 355 608 4-voice polyphony;
-#X text 120 64 load sounds in the NSynth format...;
-#X text 130 177 ...then play MIDI notes and move the X/Y pad position!
-;
-#X msg 478 115 44;
+#X obj 216 373 s \$0-in;
+#X obj 9 411 cnv 15 800 310 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 19 420 2 - Explore the sounds., f 79;
+#X text 19 440 Use the X/Y pad to move through interpolations between
+the four corner sounds. Play notes by using MIDI input \, or enable
+the virtual keyboard and play using A \, W \, S \, E \, D \, F \, T
+\, G \, Y \, H \, U \, J \, K on your computer keyboard., f 79;
+#X obj 531 628 stripnote;
+#X obj 463 549 notein 1;
+#X msg 531 649 note_on \$1;
 #N canvas 334 57 449 610 keys 0;
 #X floatatom 112 118 5 0 8 1 octave - -;
 #X obj 58 45 loadbang;
@@ -187,45 +172,99 @@
 #X connect 42 0 41 0;
 #X connect 43 0 0 0;
 #X coords 0 -1 1 1 140 96 1 100 100;
-#X restore 650 68 pd keys;
-#X obj 650 169 route note;
-#X obj 650 193 unpack f f;
+#X restore 586 476 pd keys;
+#X obj 586 577 route note;
+#X obj 586 601 unpack f f;
+#X text 19 208 NSynth is much too slow to run in real time \, so what
+this patch does is to load a grid of pregenerated sounds to play them.
+, f 79;
+#X obj 531 670 s \$0-note-in;
+#X obj 617 46 r \$0-out;
+#X obj 364 503 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 251 54 857 728 nsynthui 0;
+#X obj 18 42 inlet;
+#X obj 253 42 inlet;
+#X obj 62 125 print loader;
+#X msg 101 495 position_rel \$1 \$2;
+#X obj 30 251 grid grid2 140 0 1 140 0 1 0 0.01 0.01 10 10 170 677
+;
+#X obj 101 474 pack;
+#X obj 18 169 route loaded;
+#X obj 18 190 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 18 207 values 0 0;
+#X obj 254 575 outlet;
+#N canvas 357 244 450 278 (subpatch) 0;
+#X array \$0-audio 3.888e+07 float 0;
+#X coords 0 1 3.888e+07 -1 200 120 1 0 0;
+#X restore 179 268 graph;
+#X obj 18 100 pyext. sopimagenta.nsynth.pyext nsynth_loader @detach
+1;
+#X obj 227 547 pyext. sopimagenta.nsynth.pyext nsynth_controller @detach
+1;
+#X connect 0 0 11 1;
+#X connect 1 0 12 1;
+#X connect 3 0 12 1;
+#X connect 4 0 5 1;
+#X connect 4 1 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 4 0;
+#X connect 11 0 2 0;
+#X connect 11 0 6 0;
+#X connect 11 0 12 1;
+#X connect 12 0 9 0;
+#X coords -1 -1 1 1 370 160 2 20 240;
+#X restore 22 525 pd nsynthui;
+#X obj 22 505 r \$0-in;
+#X obj 385 482 r \$0-note-in;
+#X obj 278 503 print note in;
+#X obj 22 690 s \$0-out;
+#X text 487 761 We make use of the following open source projects:
+, f 53;
+#X text 487 781 - pyext/flext (GPL v2), f 53;
+#X text 487 730 This work is provided by SOPI research group (https://sopi.aalto.fi)
+under the ??? license (TBD)., f 53;
+#X text 487 801 - Magenta/Open NSynth Super (Apache 2.0), f 53;
 #X connect 0 0 1 0;
-#X connect 1 0 15 0;
-#X connect 1 0 13 0;
+#X connect 1 0 6 0;
+#X connect 1 0 4 0;
+#X connect 2 0 14 0;
 #X connect 3 0 5 0;
+#X connect 3 0 11 0;
 #X connect 4 0 3 0;
-#X connect 4 1 3 1;
-#X connect 5 0 2 0;
-#X connect 5 0 6 0;
-#X connect 5 0 23 1;
-#X connect 7 0 10 0;
-#X connect 8 0 7 0;
-#X connect 9 0 8 0;
-#X connect 10 0 23 0;
-#X connect 11 0 24 0;
-#X connect 12 0 14 0;
-#X connect 12 0 20 0;
-#X connect 13 0 12 0;
-#X connect 14 0 16 0;
-#X connect 15 0 16 1;
-#X connect 15 1 16 2;
-#X connect 15 2 16 3;
-#X connect 15 3 16 4;
-#X connect 16 0 21 0;
-#X connect 17 0 24 0;
-#X connect 18 0 24 0;
-#X connect 19 0 24 0;
-#X connect 20 0 12 1;
-#X connect 21 0 11 0;
-#X connect 21 1 17 0;
-#X connect 21 2 18 0;
-#X connect 21 3 19 0;
-#X connect 23 0 0 0;
-#X connect 24 0 22 0;
-#X connect 24 0 22 1;
-#X connect 28 0 5 0;
-#X connect 29 0 30 0;
-#X connect 30 0 31 0;
-#X connect 31 0 3 0;
-#X connect 31 1 3 1;
+#X connect 5 0 7 0;
+#X connect 6 0 7 1;
+#X connect 6 1 7 2;
+#X connect 6 2 7 3;
+#X connect 6 3 7 4;
+#X connect 7 0 12 0;
+#X connect 8 0 14 0;
+#X connect 9 0 14 0;
+#X connect 10 0 14 0;
+#X connect 11 0 3 1;
+#X connect 12 0 2 0;
+#X connect 12 1 8 0;
+#X connect 12 2 9 0;
+#X connect 12 3 10 0;
+#X connect 14 0 13 0;
+#X connect 14 0 13 1;
+#X connect 24 0 26 0;
+#X connect 25 0 24 0;
+#X connect 26 0 27 0;
+#X connect 31 0 33 0;
+#X connect 32 0 31 0;
+#X connect 32 1 31 1;
+#X connect 33 0 38 0;
+#X connect 34 0 35 0;
+#X connect 35 0 36 0;
+#X connect 36 0 31 0;
+#X connect 36 1 31 1;
+#X connect 39 0 0 0;
+#X connect 41 0 45 0;
+#X connect 42 0 41 0;
+#X connect 43 0 40 0;
+#X connect 43 0 41 1;
+#X connect 43 0 44 0;
