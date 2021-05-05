@@ -1,46 +1,41 @@
-#N canvas 306 75 1134 617 10;
-#X obj 668 26 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 0 23 1289 797 10;
+#X obj 7 636 cnv 15 640 150 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 489 26 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 7 404 cnv 15 640 150 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 10 24 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 7 92 cnv 15 640 110 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound 64000 float 0;
-#X coords 0 1 63999 -1 200 140 1;
-#X restore 426 282 graph;
-#X obj 12 78 loadbang;
-#X obj 703 429 dac~;
-#X obj 703 372 vline~;
-#X msg 703 353 1 \, 63998 4000;
-#X obj 703 391 tabread4~ \$0-sound;
+#X coords 0 1 63999 -1 120 60 1 0 0;
+#X restore 336 714 graph;
+#X obj 1098 273 dac~;
+#X obj 1098 216 vline~;
+#X msg 1098 197 1 \, 63998 4000;
+#X obj 1098 235 tabread4~ \$0-sound;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z 256 float 2;
-#X coords 0 5 256 -5 200 140 1;
-#X restore 9 282 graph;
-#X text 12 26 1 - load GANSynth model from a saved checkpoint, f 28
-;
+#X coords 0 5 256 -5 120 60 1 0 0;
+#X restore 362 476 graph;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 216 151 pd print_input;
-#X obj 703 331 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
+#X restore 828 179 pd print_input;
+#X obj 874 242 print gansynth output;
+#X obj 1098 254 *~ 0.5;
+#X obj 152 461 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
-#X obj 262 214 print gansynth output;
-#X obj 703 410 *~ 0.5;
-#X obj 491 58 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 152 485 f \$0;
+#X msg 152 505 randomize_z \$1-z;
+#X obj 97 702 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 491 80 f \$0;
-#X msg 520 101 randomize_z \$1-z;
-#X obj 670 58 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
--1;
-#X obj 670 80 f \$0;
+#X obj 97 724 f \$0;
 #N canvas 501 282 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-0 1;
+64000 1;
 #X obj 103 68 f 1;
 #X obj 101 43 route loaded unloaded;
 #X obj 127 68 f 0;
@@ -51,63 +46,115 @@
 #X connect 3 0 0 0;
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 114 64 pd loaded;
-#X obj 234 192 list trim;
-#X obj 703 302 route synthesized;
-#X obj 154 214 s \$0-gansynth_out;
-#X obj 703 284 r \$0-gansynth_out;
-#X obj 195 25 cnv 15 280 90 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 402 161 pd loaded;
+#X obj 846 220 list trim;
+#X obj 1098 146 route synthesized;
+#X obj 766 242 s \$0-gansynth_out;
+#X obj 1098 128 r \$0-gansynth_out;
+#X obj 7 213 cnv 15 640 180 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 197 57 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 52 279 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 197 79 f \$0;
-#X text 198 26 2 - load ganspace components from file, f 45;
+#X obj 52 303 f \$0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-amplitudes 8192 float 2;
-#X coords 0 -10 8192 10 200 140 1 0 0;
-#X restore 215 280 graph;
-#X text 491 28 3 - generate a random latent vector for timbre, f 28
+#X coords 0 -10 8192 10 120 60 1 0 0;
+#X restore 457 313 graph;
+#X msg 97 742 synthesize \$1-z \$1-sound 32;
+#X obj 732 201 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
-#X text 669 27 4 - synthesize from the vector and a given pitch, f
-28;
-#X obj 21 433 array-slider \$0-amplitudes 0;
-#X obj 21 475 array-slider \$0-amplitudes 1;
-#X obj 21 517 array-slider \$0-amplitudes 2;
-#X obj 21 559 array-slider \$0-amplitudes 3;
-#X obj 227 434 array-slider \$0-amplitudes 4;
-#X obj 227 476 array-slider \$0-amplitudes 5;
-#X obj 227 518 array-slider \$0-amplitudes 6;
-#X obj 227 560 array-slider \$0-amplitudes 7;
-#X obj 432 434 array-slider \$0-amplitudes 8;
-#X obj 432 476 array-slider \$0-amplitudes 9;
-#X obj 432 518 array-slider \$0-amplitudes 10;
-#X msg 670 98 synthesize \$1-z \$1-sound 32;
-#X msg 11 96 load all_instruments;
-#X msg 198 97 load_ganspace_components all_instruments_edits/all_instrument_conv0.pickle
-\$1-amplitudes;
-#X obj 120 173 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X obj 7 11 cnv 15 640 70 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 12 15 ---- GANSpaceSynth ----, f 104;
+#X text 12 35 We apply the GANSpace technique by Härkönen et al.
+to a GANSynth model \, allowing us to discover directions of significant
+change in the latent space using Principal Component Analysis (PCA).
+The found directions can be used to navigate the latent space in a
+more controlled manner., f 104;
+#X obj 828 151 r \$0-in;
+#X text 12 96 1 - Load a saved checkpoint., f 104;
+#X text 12 116 The "load <ckpt>" message loads a trained model from
+checkpoint folder <ckpt>. If the checkpoint folder is in the same folder
+as this patch \, you can simply give its name., f 104;
+#X obj 152 174 s \$0-in;
+#X text 12 214 2 - Load GANSpace PCA components., f 104;
+#X text 12 234 The PCA components are computed by the gansynth_ganspace
+script \, which produces a .pickle file. The "load_ganspace_components
+<pca_file> <edits_array>" message loads the components from <pca_file>
+and registers the array <edits_array> to hold coefficients for each
+component., f 104;
+#X obj 52 366 s \$0-in;
+#X obj 152 526 s \$0-in;
+#X text 12 428 The "randomize_z <z_array>" message randomly samples
+a latent timbre vector from a spherical Gaussian distribution and writes
+it to <z_array>., f 104;
+#X text 12 408 3 - Randomly generate a latent vector ("Z") for timbre.
+, f 104;
+#X obj 7 565 cnv 15 650 60 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 12 568 4 - Move along the PCA directions., f 104;
+#X obj 97 763 s \$0-in;
+#X text 12 640 5 - Synthesize., f 104;
+#X obj 658 435 cnv 15 620 190 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X obj 665 445 array-slider \$0-amplitudes 0;
+#X obj 868 445 array-slider \$0-amplitudes 1;
+#X obj 1071 445 array-slider \$0-amplitudes 2;
+#X obj 665 489 array-slider \$0-amplitudes 3;
+#X obj 868 489 array-slider \$0-amplitudes 4;
+#X obj 1071 489 array-slider \$0-amplitudes 5;
+#X obj 665 532 array-slider \$0-amplitudes 6;
+#X obj 868 532 array-slider \$0-amplitudes 7;
+#X obj 1071 532 array-slider \$0-amplitudes 8;
+#X obj 665 575 array-slider \$0-amplitudes 9;
+#X obj 868 575 array-slider \$0-amplitudes 10;
+#X obj 466 722 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
+-1 -1;
+#X obj 466 747 s \$0-play-in;
+#X obj 1116 176 r \$0-play-in;
+#X obj 1098 176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 814 700 We make use of the following open source projects:
+, f 53;
+#X text 814 720 - pyext/flext (GPL v2), f 53;
+#X text 814 669 This work is provided by SOPI research group (https://sopi.aalto.fi)
+under the ??? license (TBD)., f 53;
+#X text 814 740 - Magenta (Apache 2.0), f 53;
+#X text 12 660 The "synthesize <z_array> <out_array> <pitch>" message
+reads a timbre vector from <z_array> \, synthesizes a corresponding
+audio segment using pitch <pitch> and writes it to <out_array>. Coefficients
+are read from the array registered in step 2 \, causing a corresponding
+movement in the latent space., f 104;
+#X text 12 588 Use the sliders to edit the coefficients for each component
+and move in the latent space. The first few ones will produce the most
+audible changes. The movement is relative to the Z vector., f 104
 ;
-#X connect 4 0 44 0;
-#X connect 6 0 8 0;
-#X connect 7 0 6 0;
-#X connect 8 0 14 0;
-#X connect 11 0 46 1;
-#X connect 12 0 7 0;
-#X connect 14 0 5 0;
-#X connect 14 0 5 1;
+#X msg 152 153 load pruu;
+#X msg 52 323 load_ganspace_components pruu/pruu_conv0_ipca_4194304.pickle
+\$1-amplitudes, f 48;
+#X connect 5 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 11 0;
+#X connect 9 0 27 1;
+#X connect 11 0 4 0;
+#X connect 11 0 4 1;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 38 0;
 #X connect 15 0 16 0;
-#X connect 16 0 17 0;
-#X connect 17 0 11 0;
-#X connect 18 0 19 0;
-#X connect 19 0 43 0;
-#X connect 21 0 13 0;
-#X connect 21 0 23 0;
-#X connect 22 0 12 0;
-#X connect 24 0 22 0;
-#X connect 26 0 27 0;
-#X connect 27 0 45 0;
-#X connect 43 0 11 0;
-#X connect 44 0 11 0;
-#X connect 45 0 11 0;
-#X connect 46 0 21 0;
-#X coords 0 617 1 616 0 0 0;
+#X connect 16 0 26 0;
+#X connect 18 0 10 0;
+#X connect 18 0 20 0;
+#X connect 19 0 60 0;
+#X connect 21 0 19 0;
+#X connect 23 0 24 0;
+#X connect 24 0 68 0;
+#X connect 26 0 43 0;
+#X connect 27 0 18 0;
+#X connect 31 0 9 0;
+#X connect 57 0 58 0;
+#X connect 59 0 6 0;
+#X connect 60 0 6 0;
+#X connect 67 0 34 0;
+#X connect 68 0 37 0;
+#X coords 0 797 1 796 0 0 0;
