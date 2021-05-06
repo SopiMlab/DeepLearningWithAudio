@@ -1,32 +1,28 @@
-#N canvas 146 25 1134 617 10;
-#X obj 557 28 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 132 30 1289 649 10;
+#X obj 8 485 cnv 15 640 150 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 10 24 cnv 15 176 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 8 92 cnv 15 640 110 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound 64000 float 0;
-#X coords 0 1 63999 -1 200 140 1;
-#X restore 228 266 graph;
-#X obj 476 400 dac~;
-#X obj 476 343 vline~;
-#X msg 476 324 1 \, 63998 4000;
-#X obj 476 362 tabread4~ \$0-sound;
-#X text 12 26 1 - load GANSynth model from a saved checkpoint, f 28
-;
+#X coords 0 1 63999 -1 120 60 1 0 0;
+#X restore 337 563 graph;
+#X obj 1099 203 dac~;
+#X obj 1099 146 vline~;
+#X msg 1099 127 1 \, 63998 4000;
+#X obj 1099 165 tabread4~ \$0-sound;
 #N canvas 760 492 450 300 print_input 0;
 #X obj 139 24 inlet;
 #X obj 147 97 outlet;
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 216 151 pd print_input;
-#X obj 476 302 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
--1 -1;
-#X obj 262 214 print gansynth output;
-#X obj 476 381 *~ 0.5;
-#X obj 559 60 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X restore 829 109 pd print_input;
+#X obj 875 172 print gansynth output;
+#X obj 1099 184 *~ 0.5;
+#X obj 98 551 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 559 82 f \$0;
+#X obj 98 573 f \$0;
 #N canvas 501 282 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
 0 1;
@@ -40,62 +36,107 @@
 #X connect 3 0 0 0;
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
-#X restore 115 57 pd loaded;
-#X obj 234 192 list trim;
-#X obj 476 273 route synthesized;
-#X obj 154 214 s \$0-gansynth_out;
-#X obj 476 255 r \$0-gansynth_out;
-#X obj 195 25 cnv 15 280 90 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 403 161 pd loaded;
+#X obj 847 150 list trim;
+#X obj 1099 76 route synthesized;
+#X obj 767 172 s \$0-gansynth_out;
+#X obj 1099 58 r \$0-gansynth_out;
+#X obj 8 213 cnv 15 640 180 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 197 57 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
+#X obj 53 279 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
-#X obj 197 79 f \$0;
-#X text 198 26 2 - load ganspace components from file, f 45;
+#X obj 53 303 f \$0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-amplitudes 8192 float 2;
-#X coords 0 -10 8192 10 200 140 1 0 0;
-#X restore 22 266 graph;
-#X obj 21 433 array-slider \$0-amplitudes 0;
-#X obj 21 475 array-slider \$0-amplitudes 1;
-#X obj 21 517 array-slider \$0-amplitudes 2;
-#X obj 21 559 array-slider \$0-amplitudes 3;
-#X obj 227 433 array-slider \$0-amplitudes 4;
-#X obj 227 475 array-slider \$0-amplitudes 5;
-#X obj 227 517 array-slider \$0-amplitudes 6;
-#X obj 227 559 array-slider \$0-amplitudes 7;
-#X obj 433 433 array-slider \$0-amplitudes 8;
-#X obj 433 475 array-slider \$0-amplitudes 9;
-#X obj 433 517 array-slider \$0-amplitudes 10;
-#X text 558 29 3 - synthesize;
-#X obj 433 559 array-slider \$0-amplitudes 11;
-#X obj 647 433 array-slider \$0-amplitudes 12;
-#X obj 647 475 array-slider \$0-amplitudes 13;
-#X obj 647 517 array-slider \$0-amplitudes 14;
-#X obj 647 559 array-slider \$0-amplitudes 15;
-#X obj 161 171 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X coords 0 -10 8192 10 120 60 1 0 0;
+#X restore 458 313 graph;
+#X obj 733 131 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
-#X msg 18 86 load pruu;
-#X msg 197 97 load_ganspace_components pruu/pruu_conv0_ipca_4194304.pickle
-\$1-amplitudes;
-#X obj 794 260 tabread;
-#X msg 559 100 synthesize_noz \$1-sound 32 \$1-amplitudes;
+#X obj 8 11 cnv 15 640 70 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 13 35 We apply the GANSpace technique by Härkönen et al.
+to a GANSynth model \, allowing us to discover directions of significant
+change in the latent space using Principal Component Analysis (PCA).
+The found directions can be used to navigate the latent space in a
+more controlled manner., f 104;
+#X obj 829 81 r \$0-in;
+#X text 13 96 1 - Load a saved checkpoint., f 104;
+#X text 13 116 The "load <ckpt>" message loads a trained model from
+checkpoint folder <ckpt>. If the checkpoint folder is in the same folder
+as this patch \, you can simply give its name., f 104;
+#X obj 153 174 s \$0-in;
+#X text 13 214 2 - Load GANSpace PCA components., f 104;
+#X text 13 234 The PCA components are computed by the gansynth_ganspace
+script \, which produces a .pickle file. The "load_ganspace_components
+<pca_file> <edits_array>" message loads the components from <pca_file>
+and registers the array <edits_array> to hold coefficients for each
+component., f 104;
+#X obj 53 366 s \$0-in;
+#X obj 8 404 cnv 15 650 70 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 98 612 s \$0-in;
+#X obj 659 284 cnv 15 620 190 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X obj 666 294 array-slider \$0-amplitudes 0;
+#X obj 869 294 array-slider \$0-amplitudes 1;
+#X obj 1072 294 array-slider \$0-amplitudes 2;
+#X obj 666 338 array-slider \$0-amplitudes 3;
+#X obj 869 338 array-slider \$0-amplitudes 4;
+#X obj 1072 338 array-slider \$0-amplitudes 5;
+#X obj 666 381 array-slider \$0-amplitudes 6;
+#X obj 869 381 array-slider \$0-amplitudes 7;
+#X obj 1072 381 array-slider \$0-amplitudes 8;
+#X obj 666 424 array-slider \$0-amplitudes 9;
+#X obj 869 424 array-slider \$0-amplitudes 10;
+#X obj 467 571 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
+-1 -1;
+#X obj 467 596 s \$0-play-in;
+#X obj 1117 106 r \$0-play-in;
+#X obj 1099 106 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 815 550 We make use of the following open source projects:
+, f 53;
+#X text 815 570 - pyext/flext (GPL v2), f 53;
+#X text 815 519 This work is provided by SOPI research group (https://sopi.aalto.fi)
+under the ??? license (TBD)., f 53;
+#X text 815 590 - Magenta (Apache 2.0), f 53;
+#X msg 153 153 load pruu;
+#X msg 53 323 load_ganspace_components pruu/pruu_conv0_ipca_4194304.pickle
+\$1-amplitudes, f 48;
+#X text 13 427 Use the sliders to edit the coefficients for each component
+and move in the latent space. The first few ones will produce the most
+audible changes. The movement is relative to the to the "center" of
+the space \, defined as the mean value along each component., f 104
+;
+#X text 13 407 3 - Move along the PCA directions., f 104;
+#X text 13 15 ---- GANSpaceSynth without the random latent vector ----
+, f 104;
+#X text 13 489 4 - Synthesize., f 104;
+#X msg 98 591 synthesize_noz \$1-sound 32;
+#X text 13 509 The "synthesize_noz <out_array> <pitch>" message synthesizes
+an audio segment using pitch <pitch> and writes it to <out_array>.
+Coefficients are read from the array registered in step 2 \, causing
+a corresponding movement in the latent space., f 104;
 #X connect 4 0 6 0;
 #X connect 5 0 4 0;
-#X connect 6 0 11 0;
-#X connect 8 0 41 1;
-#X connect 9 0 5 0;
-#X connect 11 0 3 0;
-#X connect 11 0 3 1;
-#X connect 12 0 13 0;
-#X connect 13 0 45 0;
-#X connect 15 0 10 0;
-#X connect 15 0 17 0;
-#X connect 16 0 9 0;
-#X connect 18 0 16 0;
-#X connect 20 0 21 0;
-#X connect 21 0 43 0;
-#X connect 41 0 15 0;
-#X connect 42 0 8 0;
-#X connect 43 0 8 0;
-#X connect 45 0 8 0;
-#X coords 0 617 1 616 0 0 0;
+#X connect 6 0 9 0;
+#X connect 7 0 21 1;
+#X connect 9 0 3 0;
+#X connect 9 0 3 1;
+#X connect 10 0 11 0;
+#X connect 11 0 59 0;
+#X connect 13 0 8 0;
+#X connect 13 0 15 0;
+#X connect 14 0 48 0;
+#X connect 16 0 14 0;
+#X connect 18 0 19 0;
+#X connect 19 0 54 0;
+#X connect 21 0 13 0;
+#X connect 24 0 7 0;
+#X connect 45 0 46 0;
+#X connect 47 0 5 0;
+#X connect 48 0 5 0;
+#X connect 53 0 27 0;
+#X connect 54 0 30 0;
+#X connect 59 0 32 0;
+#X coords 0 649 1 648 0 0 0;
