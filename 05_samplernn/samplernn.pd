@@ -1,70 +1,60 @@
-#N canvas 228 23 902 801 12;
-#X obj 605 145 pyext samplernn_pd samplernn @detach 1;
-#X obj 686 174 print samplernn output;
+#N canvas 466 23 864 817 10;
+#X obj 552 73 pyext samplernn_pd samplernn @detach 1;
+#X obj 633 102 print samplernn output;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X array sound1 63936 float 2;
 #X coords 0 1 63936 -1 100 80 1 0 0;
-#X restore 637 282 graph;
-#X obj 605 169 list trim;
+#X restore 578 198 graph;
+#X obj 552 97 list trim;
 #N canvas 72 96 450 250 (subpatch) 0;
 #X array sound2 63936 float 2;
 #X coords 0 1 63936 -1 100 80 1 0 0;
-#X restore 739 282 graph;
-#X obj 706 205 s \$0-out;
-#X obj 707 112 r \$0-in;
-#X obj 9 6 cnv 15 570 200 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 680 198 graph;
+#X obj 653 133 s \$0-out;
+#X obj 654 40 r \$0-in;
+#X obj 9 111 cnv 15 500 170 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 20 174 s \$0-in;
-#X text 16 31 --python: path to the python executable of your SampleRNN
+#X obj 25 259 s \$0-in;
+#X text 21 136 --python: path to the python executable of your SampleRNN
 environment, f 78;
-#X text 16 51 --: all arguments after this are passed to the worker
+#X text 21 156 --: all arguments after this are passed to the worker
 script, f 78;
-#X text 16 71 --num_seqs: number of sequences to generate simultaneously
+#X text 21 176 --num_seqs: number of sequences to generate simultaneously
 , f 78;
-#X text 16 91 --ckpt_dir: path to checkpoint directory, f 78;
-#X msg 20 121 load --python /usr/local/Caskroom/miniconda/base/envs/samplernn/bin/python
+#X text 21 196 --ckpt_dir: path to checkpoint directory, f 78;
+#X msg 25 217 load --python /usr/local/Caskroom/miniconda/base/envs/samplernn/bin/python
 -- --num_seqs 2 --ckpt_dir pruu3_16k;
-#X text 16 11 1 - load a SampleRNN model, f 78;
-#X obj 9 217 cnv 15 570 220 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 9 292 cnv 15 500 200 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 20 404 s \$0-in;
-#X text 16 242 --out_sr: output sample rate, f 78;
-#X text 16 302 --out: name of output array, f 78;
-#X text 16 322 the number of --temp and --out arguments should match
-the --num_seqs given to load, f 78;
-#X text 16 222 2 - generate audio, f 78;
-#X text 16 262 --dur: output audio duration in (whole) seconds, f
+#X obj 25 463 s \$0-in;
+#X text 21 317 --out_sr: output sample rate, f 78;
+#X text 21 377 --out: name of output array, f 78;
+#X text 21 337 --dur: output audio duration in (whole) seconds, f
 78;
-#X obj 9 448 cnv 15 570 340 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 9 503 cnv 15 500 300 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 20 756 s \$0-in;
-#X text 16 453 3 - expressive temperature, f 78;
-#X text 16 507 Env(levels \, times \, curves), f 78;
-#X text 16 565 levels: temperature values that the envelope will move
+#X obj 25 781 s \$0-in;
+#X text 21 559 Env(levels \, times \, curves), f 78;
+#X text 21 610 levels: temperature values that the envelope will move
 through, f 78;
-#X text 16 605 curves: curve shapes of each segment. 0 is linear \,
+#X text 21 650 curves: curve shapes of each segment. 0 is linear \,
 >0 is exponential \, <0 is logarithmic, f 78;
-#X text 16 639 with N levels \, you should have N-1 times and curves.
+#X text 21 684 with N levels \, you should have N-1 times and curves.
 , f 78;
-#X msg 20 366 generate --out_sr 16000 --dur 4 --temp 0.8 --out sound1
+#X msg 25 432 generate --out_sr 16000 --dur 4 --temp 0.8 --out sound1
 --temp 1 --out sound2;
-#X text 16 473 you can vary the temperature over time by passing a
-SuperCollider-style envelope instead of a single number \, in the format
-, f 78;
-#X text 16 527 where each of levels \, times and curves is a list of
+#X text 21 579 where each of levels \, times and curves is a list of
 numbers enclosed by square brackets and separated by commas. (see example
 below), f 78;
-#X text 16 659 in Pd we also have to escape all the special characters
-with backslashes \, so the messages get a bit ugly..., f 78;
-#X text 16 585 times: durations in seconds of each segment (should
+#X text 21 630 times: durations in seconds of each segment (should
 add up to dur or less), f 78;
-#X msg 20 703 generate --out_sr 16000 --dur 4 --temp Env([0.7\\\,1.05]\\\,[4]\\\,[-2])
+#X msg 25 739 generate --out_sr 16000 --dur 4 --temp Env([0.7\\\,1.05]\\\,[4]\\\,[-2])
 --out sound1 --temp Env([0.8\\\,1\\\,0.7]\\\,[2\\\,2]\\\,[0\\\,0])
 --out sound2;
-#X obj 590 478 cnv 15 300 310 empty empty empty 20 12 0 14 -233017
+#X obj 520 503 cnv 15 330 300 empty empty empty 20 12 0 14 -233017
 -66577 0;
-#X msg 660 519 sound1;
-#X msg 763 519 sound2;
+#X msg 604 544 sound1;
+#X msg 707 544 sound2;
 #N canvas 990 494 450 300 play 0;
 #X obj 80 219 tabread4~;
 #X obj 51 18 inlet;
@@ -105,8 +95,8 @@ add up to dur or less), f 78;
 #X connect 16 0 15 0;
 #X connect 18 0 9 0;
 #X coords 0 -1 1 1 170 60 1 220 100;
-#X restore 654 554 pd play;
-#X obj 654 629 dac~;
+#X restore 598 579 pd play;
+#X obj 598 654 dac~;
 #N canvas 441 310 450 263 save 0;
 #X obj 51 18 inlet;
 #X obj 51 40 t b a;
@@ -134,22 +124,48 @@ add up to dur or less), f 78;
 #X connect 12 0 10 0;
 #X connect 12 0 7 0;
 #X coords 0 -1 1 1 170 60 1 220 100;
-#X restore 654 705 pd save;
-#X msg 662 667 sound1;
-#X msg 765 667 sound2;
-#X text 599 486 4 - play/save the sounds;
-#X text 16 282 --temp: sampling temperature (interesting range depends
+#X restore 598 730 pd save;
+#X msg 606 692 sound1;
+#X msg 709 692 sound2;
+#X text 21 357 --temp: sampling temperature (interesting range depends
 on model \, try 0.7-1.1), f 78;
+#X text 21 116 1 - Load a SampleRNN model., f 78;
+#X text 21 297 2 - Generate audio., f 78;
+#X text 21 397 The number of --temp and --out arguments should match
+the --num_seqs given to load!, f 78;
+#X text 21 508 3 - Generate audio with expressive temperature., f
+78;
+#X text 21 528 You can vary the temperature over time by passing a
+SuperCollider-style envelope instead of a single number \, in the format:
+, f 78;
+#X text 21 704 In Pd messages we have to escape commas with backslashes
+\, so the messages get a bit ugly..., f 78;
+#X obj 9 10 cnv 15 500 90 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 21 16 ---- SampleRNN ----, f 78;
+#X text 21 36 SampleRNN is another generative deep learning model for
+audio \, introduced in 2017 by Mehri et al. It trains on a dataset
+of unlabeled audio chunks and learns to generate sequences of similar
+audio. The architecture of SampleRNN is based on recurrent neural networks
+(RNNs) \, in which the output of each time step is fed back as input
+to the next one., f 78;
+#X text 529 511 4 - Play/save the sounds.;
+#X text 523 401 We make use of the following open source projects:
+, f 53;
+#X text 523 421 - pyext/flext (GPL v2), f 53;
+#X text 523 370 This work is provided by SOPI research group (https://sopi.aalto.fi)
+under the ??? license (TBD)., f 53;
+#X text 523 441 - PRISM SampleRNN (MIT), f 53;
 #X connect 0 0 3 0;
 #X connect 3 0 1 0;
 #X connect 3 0 5 0;
 #X connect 6 0 0 1;
 #X connect 13 0 8 0;
-#X connect 29 0 16 0;
-#X connect 34 0 23 0;
-#X connect 36 0 38 0;
-#X connect 37 0 38 0;
-#X connect 38 0 39 0;
-#X connect 38 0 39 1;
-#X connect 41 0 40 0;
-#X connect 42 0 40 0;
+#X connect 25 0 15 0;
+#X connect 28 0 20 0;
+#X connect 30 0 32 0;
+#X connect 31 0 32 0;
+#X connect 32 0 33 0;
+#X connect 32 0 33 1;
+#X connect 35 0 34 0;
+#X connect 36 0 34 0;
