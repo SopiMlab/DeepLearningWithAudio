@@ -144,12 +144,26 @@ magenta                            2.1.3
 ...
 ```
 
-## Install sopilib
+## Clone the SopiLib repository
 
-Enter the `sopilib` directory:
+This repository contains some support libraries. Go back to the course root:
 
 ```
-cd ../utilities/sopilib
+cd ..
+```
+
+Clone the repository:
+
+```
+git clone https://github.com/SopiMlab/SopiLib.git
+```
+
+## Install sopilib
+
+Enter the `sopilib` subdirectory:
+
+```
+cd SopiLib/sopilib
 ```
 
 Install:
@@ -160,7 +174,7 @@ pip install -e .
 
 ## Install sopimagenta
 
-Enter the `sopimagenta` directory:
+Enter the `sopimagenta` subdirectory:
 
 ```
 cd ../sopimagenta

@@ -68,10 +68,10 @@ Install SampleRNN:
 pip install -e .
 ```
 
-Install the sopilib support library from the course repository's root:
+Install the sopilib support library:
 
 ```
-pip install -e ../../utilities/sopilib
+pip install -e ../../SopiLib/sopilib
 ```
 
 Find out the path of your Python interpreter:

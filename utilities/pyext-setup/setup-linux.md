@@ -112,12 +112,26 @@ magenta                            2.1.3
 ...
 ```
 
+## Clone the SopiLib repository
+
+This repository contains some support libraries. Go back to the course root:
+
+```
+cd ..
+```
+
+Clone the repository:
+
+```
+git clone https://github.com/SopiMlab/SopiLib.git
+```
+
 ## Install sopilib
 
 Enter the `sopilib` directory:
 
 ```
-cd ../utilities/sopilib
+cd SopiLib/sopilib
 ```
 
 Install:

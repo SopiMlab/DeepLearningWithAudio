@@ -82,10 +82,10 @@ pip install google-colab
 
 (TODO: can we do without `google-colab`? It's unfortunate that we need to pull in such a big library for a few helper functions)
 
-Install the sopilib support library from the course repository's root:
+Install the sopilib support library:
 
 ```
-pip install -e ../../utilities/sopilib
+pip install -e ../../SopiLib/sopilib
 ```
 
 Find out the path of your Python interpreter:
