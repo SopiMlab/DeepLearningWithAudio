@@ -150,12 +150,20 @@ audio. The architecture of SampleRNN is based on recurrent neural networks
 (RNNs) \, in which the output of each time step is fed back as input
 to the next one., f 78;
 #X text 529 511 4 - Play/save the sounds.;
-#X text 523 401 We make use of the following open source projects:
-, f 53;
-#X text 523 421 - pyext/flext (GPL v2), f 53;
-#X text 523 370 This work is provided by SOPI research group (https://sopi.aalto.fi)
-under the ??? license (TBD)., f 53;
-#X text 523 441 - PRISM SampleRNN (MIT), f 53;
+#N canvas 499 360 400 198 copyright 0;
+#X text 17 100 We make use of the following open source projects:,
+f 59;
+#X text 17 120 - pyext/flext (GPL v2), f 59;
+#X text 17 159 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 17 140 - PRISM SampleRNN (MIT), f 59;
+#X text 17 14 gamplernn.pd \, which provides a template for generating
+audio with SampleRNN \, is provided by SOPI research group (https://sopi.aalto.fi)
+Aalto University \, School of Arts \, Design and Architecture 2021
+\, under the GPL license GNU General Public License version 2 | Open
+Source Initiative (https://opensource.org/licenses/gpl-2.0.php).,
+f 59;
+#X restore 641 381 pd copyright;
 #X connect 0 0 3 0;
 #X connect 3 0 1 0;
 #X connect 3 0 5 0;

@@ -371,13 +371,7 @@ and run: which python, f 97;
 #X connect 11 1 7 1;
 #X connect 13 0 8 0;
 #X restore 775 427 pd player;
-#X text 667 585 We make use of the following open source projects:
-, f 53;
-#X text 667 605 - pyext/flext (GPL v2), f 53;
-#X text 667 554 This work is provided by SOPI research group (https://sopi.aalto.fi)
-under the ??? license (TBD)., f 53;
 #X text 12 165 1 - Start the DDSP worker process., f 97;
-#X text 667 625 - DDSP (Apache 2.0), f 53;
 #X text 12 34 DDSP (Differentiable Digital Signal Processing) is a
 library for generating audio through a combination of standard DSP
 techniques and deep learning \, introduced by Magenta in January 2020
@@ -390,6 +384,20 @@ are trained with backpropagation and gradient descent., f 97;
 ;
 #X text 12 129 https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_
 , f 97;
+#N canvas 562 363 402 200 copyright 0;
+#X text 19 104 We make use of the following open source projects:,
+f 59;
+#X text 19 124 - pyext/flext (GPL v2), f 59;
+#X text 19 163 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 19 18 timbre_transfer.pd \, which provides a template for generating
+audio with DDSP timbre transfer \, is provided by SOPI research group
+(https://sopi.aalto.fi) Aalto University \, School of Arts \, Design
+and Architecture 2021 \, under the GPL license GNU General Public License
+version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+, f 59;
+#X text 19 144 - DDSP (Apache 2.0), f 59;
+#X restore 776 588 pd copyright;
 #X connect 1 0 4 1;
 #X connect 3 0 7 0;
 #X connect 3 0 12 0;

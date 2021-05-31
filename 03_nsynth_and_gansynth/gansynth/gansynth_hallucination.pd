@@ -226,14 +226,22 @@ generated sample (useful e.g. if you get some silence at the beginning)
 #X text 16 302 Attack/Sustain/Decay: length in seconds of attack/sustain/decay
 segments of the amplitude envelope applied to each generated sample
 , f 136;
-#X text 883 457 We make use of the following open source projects:
-, f 53;
-#X text 883 477 - pyext/flext (GPL v2), f 53;
-#X text 883 426 This work is provided by SOPI research group (https://sopi.aalto.fi)
-under the ??? license (TBD)., f 53;
-#X text 883 497 - Magenta (Apache 2.0), f 53;
 #X text 16 222 NoteCount: number of random latent space points to sample
 , f 136;
+#N canvas 499 360 400 198 copyright 0;
+#X text 17 100 We make use of the following open source projects:,
+f 59;
+#X text 17 120 - pyext/flext (GPL v2), f 59;
+#X text 17 159 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 17 140 - Magenta (Apache 2.0), f 59;
+#X text 17 14 gansynth_hallucination.pd \, which provides a template
+for generating audio hallucinations with GANSynth \, is provided by
+SOPI research group (https://sopi.aalto.fi) Aalto University \, School
+of Arts \, Design and Architecture 2021 \, under the GPL license GNU
+General Public License version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+, f 59;
+#X restore 1003 463 pd copyright;
 #X connect 4 0 5 0;
 #X connect 5 0 8 0;
 #X connect 6 0 21 1;

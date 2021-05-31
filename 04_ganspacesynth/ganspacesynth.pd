@@ -35,7 +35,7 @@
 #X obj 97 724 f \$0;
 #N canvas 501 282 450 300 loaded 0;
 #X obj 102 102 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-64000 1;
+0 1;
 #X obj 103 68 f 1;
 #X obj 101 43 route loaded unloaded;
 #X obj 127 68 f 0;
@@ -114,12 +114,6 @@ it to <z_array>., f 104;
 #X obj 1116 176 r \$0-play-in;
 #X obj 1098 176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X text 814 700 We make use of the following open source projects:
-, f 53;
-#X text 814 720 - pyext/flext (GPL v2), f 53;
-#X text 814 669 This work is provided by SOPI research group (https://sopi.aalto.fi)
-under the ??? license (TBD)., f 53;
-#X text 814 740 - Magenta (Apache 2.0), f 53;
 #X text 12 660 The "synthesize <z_array> <out_array> <pitch>" message
 reads a timbre vector from <z_array> \, synthesizes a corresponding
 audio segment using pitch <pitch> and writes it to <out_array>. Coefficients
@@ -132,6 +126,20 @@ audible changes. The movement is relative to the Z vector., f 104
 #X msg 152 153 load pruu;
 #X msg 52 323 load_ganspace_components pruu/pruu_conv0_ipca_4194304.pickle
 \$1-amplitudes, f 48;
+#N canvas 499 360 400 198 copyright 0;
+#X text 17 100 We make use of the following open source projects:,
+f 59;
+#X text 17 120 - pyext/flext (GPL v2), f 59;
+#X text 17 159 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 17 140 - Magenta (Apache 2.0), f 59;
+#X text 17 14 ganspacesynth.pd \, which provides a template for generating
+audio with GANSpaceSynth \, is provided by SOPI research group (https://sopi.aalto.fi)
+Aalto University \, School of Arts \, Design and Architecture 2021
+\, under the GPL license GNU General Public License version 2 | Open
+Source Initiative (https://opensource.org/licenses/gpl-2.0.php).,
+f 59;
+#X restore 930 706 pd copyright;
 #X connect 5 0 7 0;
 #X connect 6 0 5 0;
 #X connect 7 0 11 0;
@@ -148,13 +156,13 @@ audible changes. The movement is relative to the Z vector., f 104
 #X connect 19 0 60 0;
 #X connect 21 0 19 0;
 #X connect 23 0 24 0;
-#X connect 24 0 68 0;
+#X connect 24 0 64 0;
 #X connect 26 0 43 0;
 #X connect 27 0 18 0;
 #X connect 31 0 9 0;
 #X connect 57 0 58 0;
 #X connect 59 0 6 0;
 #X connect 60 0 6 0;
-#X connect 67 0 34 0;
-#X connect 68 0 37 0;
+#X connect 63 0 34 0;
+#X connect 64 0 37 0;
 #X coords 0 797 1 796 0 0 0;

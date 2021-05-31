@@ -208,12 +208,6 @@ RNN generate a sequence of new notes based on the recorded input. The
 duration of the sequence is given by the argument., f 79;
 #X text 26 611 "clear" will erase the recorded notes \, allowing you
 to start over., f 79;
-#X text 640 561 We make use of the following open source projects:
-, f 53;
-#X text 640 581 - pyext/flext (GPL v2), f 53;
-#X text 640 601 - Magenta (Apache 2.0), f 53;
-#X text 640 530 This work is provided by SOPI research group (https://sopi.aalto.fi)
-under the ??? license (TBD)., f 53;
 #X text 809 301 We provide two example output routings \, you can toggle
 between them here., f 25;
 #X text 609 378 Sine example - plays a simple monophonic sine wave
@@ -225,6 +219,20 @@ message., f 79;
 #X text 26 319 2 - Send note input to Melody RNN., f 79;
 #X text 26 549 3 - Operate on Melody RNN's recorded note data., f
 79;
+#N canvas 624 359 398 189 copyright 0;
+#X text 19 94 We make use of the following open source projects:,
+f 59;
+#X text 19 114 - pyext/flext (GPL v2), f 59;
+#X text 19 134 - Magenta (Apache 2.0), f 59;
+#X text 19 153 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 19 18 ai_duet.pd \, which provides a template for generating
+note sequences with Melody RNN \, is provided by SOPI research group
+(https://sopi.aalto.fi) Aalto University \, School of Arts \, Design
+and Architecture 2021 \, under the GPL license GNU General Public License
+version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+, f 59;
+#X restore 754 524 pd copyright;
 #X connect 1 0 9 1;
 #X connect 1 0 5 0;
 #X connect 2 0 10 0;
