@@ -210,7 +210,7 @@ supported_platform_cfgs = {
 }
 
 flext_url = "https://github.com/SopiMlab/flext/archive/master.zip"
-py_url = "https://github.com/SopiMlab/py/archive/python3.zip"
+py_url = "https://github.com/SopiMlab/py/archive/master.zip"
 
 def flatten_dir(path):
     items = os.listdir(path)
