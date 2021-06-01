@@ -1,4 +1,4 @@
-#N canvas 332 31 1074 724 10;
+#N canvas 1173 128 1074 724 10;
 #X obj 15 168 cnv 15 500 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 760 492 450 300 print_input 0;
@@ -57,7 +57,7 @@
 1;
 #X obj 137 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 154 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 154 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 171 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
@@ -65,7 +65,7 @@
 1;
 #X obj 205 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 222 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 222 178 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 111 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
 1;
@@ -73,7 +73,7 @@
 1;
 #X obj 162 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
 1;
-#X obj 179 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
+#X obj 179 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 1
 1;
 #X obj 196 161 tgl 15 0 empty empty empty 17 7 0 10 -162280 -1 -1 0
 1;
@@ -219,20 +219,36 @@ message., f 79;
 #X text 26 319 2 - Send note input to Melody RNN., f 79;
 #X text 26 549 3 - Operate on Melody RNN's recorded note data., f
 79;
-#N canvas 624 359 398 189 copyright 0;
-#X text 19 94 We make use of the following open source projects:,
-f 59;
-#X text 19 114 - pyext/flext (GPL v2), f 59;
-#X text 19 134 - Magenta (Apache 2.0), f 59;
-#X text 19 153 Copyright (C) 2021 SOPI Research Group \, Aalto University
+#X text 598 630 We make use of the following open source projects:
 , f 59;
-#X text 19 18 ai_duet.pd \, which provides a template for generating
-note sequences with Melody RNN \, is provided by SOPI research group
-(https://sopi.aalto.fi) Aalto University \, School of Arts \, Design
-and Architecture 2021 \, under the GPL license GNU General Public License
-version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+#X text 598 650 - pyext/flext (GPL v2), f 59;
+#X text 598 670 - Magenta (Apache 2.0), f 59;
+#X text 598 689 Copyright (C) 2021 SOPI Research Group \, Aalto University
 , f 59;
-#X restore 754 524 pd copyright;
+#X text 593 539 ai_duet.pd \, Deep Learning with Audio course material
+for generating note sequences with Melody RNN \, is provided by SOPI
+research group (https://sopi.aalto.fi) Aalto University \, School of
+Arts \, Design and Architecture 2021 \, under the GPL license GNU General
+Public License version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+;
+#N canvas 343 233 386 293 license 0;
+#X text 9 227 For further information please contact to Koray Tahiroglu
+\; email: koray.tahiroglu@aalto.fi \, mail: Aalto University School
+of Arts \, Design and Architecture \, Department of Media \, room J101
+\, Väre Otaniementie 14 \, 2150 Espoo \, Finland;
+#X text 11 12 This program is free software \; you can redistribute
+it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \; either version 2 of
+the License \, or (at your option) any later version.;
+#X text 11 89 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 10 161 You should have received a copy of the GNU General Public
+License along with this program \; if not \, write to the Free Software
+Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
+MA 02110-1301 \, USA.;
+#X restore 962 689 pd license;
 #X connect 1 0 9 1;
 #X connect 1 0 5 0;
 #X connect 2 0 10 0;
