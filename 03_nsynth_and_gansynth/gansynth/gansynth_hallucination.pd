@@ -234,12 +234,6 @@ segments of the amplitude envelope applied to each generated sample
 #X text 859 577 Copyright (C) 2021 SOPI Research Group \, Aalto University
 , f 59;
 #X text 859 558 - Magenta (Apache 2.0), f 59;
-#X text 859 432 gansynth_hallucination.pd \, Deep Learning with Audio
-course aterial for generating audio hallucinations with GANSynth \,
-is provided by SOPI research group (https://sopi.aalto.fi) Aalto University
-\, School of Arts \, Design and Architecture 2021 \, under the GPL
-license GNU General Public License version 2 | Open Source Initiative
-(https://opensource.org/licenses/gpl-2.0.php)., f 59;
 #N canvas 343 233 386 293 license 0;
 #X text 9 227 For further information please contact to Koray Tahiroglu
 \; email: koray.tahiroglu@aalto.fi \, mail: Aalto University School
@@ -258,6 +252,12 @@ License along with this program \; if not \, write to the Free Software
 Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
 MA 02110-1301 \, USA.;
 #X restore 1002 612 pd license;
+#X text 859 432 gansynth_hallucination.pd \, Deep Learning with Audio
+course material for generating audio hallucinations with GANSynth \,
+is provided by SOPI research group (https://sopi.aalto.fi) Aalto University
+\, School of Arts \, Design and Architecture 2021 \, under the GPL
+license GNU General Public License version 2 | Open Source Initiative
+(https://opensource.org/licenses/gpl-2.0.php).;
 #X connect 4 0 5 0;
 #X connect 5 0 8 0;
 #X connect 6 0 21 1;
