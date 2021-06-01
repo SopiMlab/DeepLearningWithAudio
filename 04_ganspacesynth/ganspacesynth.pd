@@ -9,10 +9,10 @@
 #X array \$0-sound 64000 float 0;
 #X coords 0 1 63999 -1 120 60 1 0 0;
 #X restore 336 714 graph;
-#X obj 1098 273 dac~;
-#X obj 1098 216 vline~;
-#X msg 1098 197 1 \, 63998 4000;
-#X obj 1098 235 tabread4~ \$0-sound;
+#X obj 716 341 dac~;
+#X obj 716 284 vline~;
+#X msg 716 265 1 \, 63998 4000;
+#X obj 716 303 tabread4~ \$0-sound;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-z 256 float 2;
 #X coords 0 5 256 -5 120 60 1 0 0;
@@ -23,9 +23,9 @@
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 828 179 pd print_input;
-#X obj 874 242 print gansynth output;
-#X obj 1098 254 *~ 0.5;
+#X restore 764 61 pd print_input;
+#X obj 810 124 print gansynth output;
+#X obj 716 322 *~ 0.5;
 #X obj 152 461 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
 #X obj 152 485 f \$0;
@@ -47,10 +47,10 @@
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
 #X restore 402 161 pd loaded;
-#X obj 846 220 list trim;
-#X obj 1098 146 route synthesized;
-#X obj 766 242 s \$0-gansynth_out;
-#X obj 1098 128 r \$0-gansynth_out;
+#X obj 782 102 list trim;
+#X obj 716 214 route synthesized;
+#X obj 702 124 s \$0-gansynth_out;
+#X obj 716 196 r \$0-gansynth_out;
 #X obj 7 213 cnv 15 640 180 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 52 279 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
@@ -61,7 +61,7 @@
 #X coords 0 -10 8192 10 120 60 1 0 0;
 #X restore 457 313 graph;
 #X msg 97 742 synthesize \$1-z \$1-sound 32;
-#X obj 732 201 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X obj 668 83 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
 #X obj 7 11 cnv 15 640 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -71,7 +71,7 @@ to a GANSynth model \, allowing us to discover directions of significant
 change in the latent space using Principal Component Analysis (PCA).
 The found directions can be used to navigate the latent space in a
 more controlled manner., f 104;
-#X obj 828 151 r \$0-in;
+#X obj 764 33 r \$0-in;
 #X text 12 96 1 - Load a saved checkpoint., f 104;
 #X text 12 116 The "load <ckpt>" message loads a trained model from
 checkpoint folder <ckpt>. If the checkpoint folder is in the same folder
@@ -111,8 +111,8 @@ it to <z_array>., f 104;
 #X obj 466 722 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
 -1 -1;
 #X obj 466 747 s \$0-play-in;
-#X obj 1116 176 r \$0-play-in;
-#X obj 1098 176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 734 244 r \$0-play-in;
+#X obj 716 244 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X text 12 660 The "synthesize <z_array> <out_array> <pitch>" message
 reads a timbre vector from <z_array> \, synthesizes a corresponding
@@ -126,20 +126,36 @@ audible changes. The movement is relative to the Z vector., f 104
 #X msg 152 153 load pruu;
 #X msg 52 323 load_ganspace_components pruu/pruu_conv0_ipca_4194304.pickle
 \$1-amplitudes, f 48;
-#N canvas 499 360 400 198 copyright 0;
-#X text 17 100 We make use of the following open source projects:,
-f 59;
-#X text 17 120 - pyext/flext (GPL v2), f 59;
-#X text 17 159 Copyright (C) 2021 SOPI Research Group \, Aalto University
+#X text 897 278 We make use of the following open source projects:
 , f 59;
-#X text 17 140 - Magenta (Apache 2.0), f 59;
-#X text 17 14 ganspacesynth.pd \, which provides a template for generating
-audio with GANSpaceSynth \, is provided by SOPI research group (https://sopi.aalto.fi)
-Aalto University \, School of Arts \, Design and Architecture 2021
-\, under the GPL license GNU General Public License version 2 | Open
-Source Initiative (https://opensource.org/licenses/gpl-2.0.php).,
-f 59;
-#X restore 930 706 pd copyright;
+#X text 897 298 - pyext/flext (GPL v2), f 59;
+#X text 897 337 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 897 318 - Magenta (Apache 2.0), f 59;
+#X text 897 192 ganspacesynth.pd \, Deep Learning with Audio course
+material for generating audio with GANSpaceSynth \, is provided by
+SOPI research group (https://sopi.aalto.fi) Aalto University \, School
+of Arts \, Design and Architecture 2021 \, under the GPL license GNU
+General Public License version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+, f 59;
+#N canvas 343 233 386 293 license 0;
+#X text 9 227 For further information please contact to Koray Tahiroglu
+\; email: koray.tahiroglu@aalto.fi \, mail: Aalto University School
+of Arts \, Design and Architecture \, Department of Media \, room J101
+\, Väre Otaniementie 14 \, 2150 Espoo \, Finland;
+#X text 11 12 This program is free software \; you can redistribute
+it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \; either version 2 of
+the License \, or (at your option) any later version.;
+#X text 11 89 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 10 161 You should have received a copy of the GNU General Public
+License along with this program \; if not \, write to the Free Software
+Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
+MA 02110-1301 \, USA.;
+#X restore 1038 376 pd license;
 #X connect 5 0 7 0;
 #X connect 6 0 5 0;
 #X connect 7 0 11 0;

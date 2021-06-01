@@ -1,4 +1,4 @@
-#N canvas 312 23 1040 834 10;
+#N canvas 327 23 1040 834 10;
 #X obj 8 160 cnv 15 600 150 empty empty empty 20 12 0 14 -228856 -66577
 0;
 #N canvas 760 492 450 300 print_input 0;
@@ -7,7 +7,7 @@
 #X obj 201 65 print ddsp input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 769 214 pd print_input;
+#X restore 769 144 pd print_input;
 #N canvas 261 142 450 300 loaded 0;
 #X obj 102 103 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
 0 1;
@@ -24,11 +24,11 @@
 #X connect 5 0 4 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
 #X restore 533 277 pd loaded;
-#X obj 779 286 list trim;
-#X obj 694 260 pyext ddsp_pd timbre_transfer @detach 1;
+#X obj 779 216 list trim;
+#X obj 694 190 pyext ddsp_pd timbre_transfer @detach 1;
 #X obj 264 277 s \$0-ddsp_in;
-#X obj 774 187 r \$0-ddsp_in;
-#X obj 709 321 print ddsp output;
+#X obj 774 117 r \$0-ddsp_in;
+#X obj 709 251 print ddsp output;
 #X obj 8 321 cnv 15 600 150 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 8 482 cnv 15 600 340 empty empty empty 20 12 0 14 -233017 -66577
@@ -324,10 +324,10 @@ input audio., f 97;
 #X connect 55 0 51 0;
 #X coords 0 -1 1 1 600 150 2 100 100;
 #X restore 8 321 pd input;
-#X obj 818 321 s \$0-ddsp_out;
-#X obj 775 468 dac~;
-#X obj 775 447 *~ 0.5;
-#X obj 775 406 r \$0-player;
+#X obj 818 251 s \$0-ddsp_out;
+#X obj 775 398 dac~;
+#X obj 775 377 *~ 0.5;
+#X obj 775 336 r \$0-player;
 #X obj 8 9 cnv 15 600 140 empty empty empty 20 12 0 14 -228856 -66577
 0;
 #X text 12 14 ---- Timbre transfer (DDSP) ----, f 97;
@@ -370,7 +370,7 @@ and run: which python, f 97;
 #X connect 11 0 7 0;
 #X connect 11 1 7 1;
 #X connect 13 0 8 0;
-#X restore 775 427 pd player;
+#X restore 775 357 pd player;
 #X text 12 165 1 - Start the DDSP worker process., f 97;
 #X text 12 34 DDSP (Differentiable Digital Signal Processing) is a
 library for generating audio through a combination of standard DSP
@@ -384,20 +384,36 @@ are trained with backpropagation and gradient descent., f 97;
 ;
 #X text 12 129 https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_
 , f 97;
-#N canvas 562 363 402 200 copyright 0;
-#X text 19 104 We make use of the following open source projects:,
-f 59;
-#X text 19 124 - pyext/flext (GPL v2), f 59;
-#X text 19 163 Copyright (C) 2021 SOPI Research Group \, Aalto University
+#X text 646 616 We make use of the following open source projects:
 , f 59;
-#X text 19 18 timbre_transfer.pd \, which provides a template for generating
-audio with DDSP timbre transfer \, is provided by SOPI research group
-(https://sopi.aalto.fi) Aalto University \, School of Arts \, Design
-and Architecture 2021 \, under the GPL license GNU General Public License
-version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+#X text 646 636 - pyext/flext (GPL v2), f 59;
+#X text 646 675 Copyright (C) 2021 SOPI Research Group \, Aalto University
 , f 59;
-#X text 19 144 - DDSP (Apache 2.0), f 59;
-#X restore 776 588 pd copyright;
+#X text 646 656 - DDSP (Apache 2.0), f 59;
+#X text 646 530 timbre_transfer.pd \, Deep Learning with Audio course
+material for generating audio with DDSP timbre transfer \, is provided
+by SOPI research group (https://sopi.aalto.fi) Aalto University \,
+School of Arts \, Design and Architecture 2021 \, under the GPL license
+GNU General Public License version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+, f 59;
+#N canvas 343 233 386 293 license 0;
+#X text 9 227 For further information please contact to Koray Tahiroglu
+\; email: koray.tahiroglu@aalto.fi \, mail: Aalto University School
+of Arts \, Design and Architecture \, Department of Media \, room J101
+\, Väre Otaniementie 14 \, 2150 Espoo \, Finland;
+#X text 11 12 This program is free software \; you can redistribute
+it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \; either version 2 of
+the License \, or (at your option) any later version.;
+#X text 11 89 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 10 161 You should have received a copy of the GNU General Public
+License along with this program \; if not \, write to the Free Software
+Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
+MA 02110-1301 \, USA.;
+#X restore 787 715 pd license;
 #X connect 1 0 4 1;
 #X connect 3 0 7 0;
 #X connect 3 0 12 0;

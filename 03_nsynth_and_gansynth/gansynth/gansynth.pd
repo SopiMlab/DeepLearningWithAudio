@@ -1,4 +1,4 @@
-#N canvas 284 87 888 607 10;
+#N canvas 284 87 1093 609 10;
 #X obj 11 435 cnv 15 500 160 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 11 284 cnv 15 500 140 empty empty empty 20 12 0 14 -233017 -66577
@@ -24,10 +24,10 @@
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 628 184 pd print_input;
+#X restore 628 144 pd print_input;
 #X obj 547 481 bng 20 250 50 0 empty empty play 22 10 0 10 -232576
 -1 -1;
-#X obj 654 244 print gansynth output;
+#X obj 654 204 print gansynth output;
 #X obj 547 560 *~ 0.5;
 #X obj 98 337 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
@@ -51,11 +51,11 @@
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
 #X restore 330 233 pd loaded;
-#X obj 545 224 list trim;
+#X obj 545 184 list trim;
 #X obj 547 452 route synthesized;
-#X obj 545 244 s \$0-gansynth_out;
+#X obj 545 204 s \$0-gansynth_out;
 #X obj 547 434 r \$0-gansynth_out;
-#X obj 545 204 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X obj 545 164 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
 #X obj 11 12 cnv 15 500 140 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -71,7 +71,7 @@ purposes \, potentially even near-real-time applications!, f 80;
 at:, f 80;
 #X text 19 131 https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_
 , f 80;
-#X obj 629 154 r \$0-in;
+#X obj 629 114 r \$0-in;
 #X obj 126 248 s \$0-in;
 #X text 19 165 1 - Load a saved checkpoint., f 80;
 #X text 19 185 The "load <ckpt>" message loads a trained model from
@@ -89,19 +89,36 @@ audio segment using pitch <pitch> and writes it to <out_array>., f
 #X text 18 306 The "randomize_z <z_array>" message randomly samples
 a latent timbre vector from a spherical Gaussian distribution and writes
 it to <z_array>., f 80;
-#N canvas 499 360 400 198 copyright 0;
-#X text 17 100 We make use of the following open source projects:,
-f 59;
-#X text 17 120 - pyext/flext (GPL v2), f 59;
-#X text 17 159 Copyright (C) 2021 SOPI Research Group \, Aalto University
+#X text 702 483 We make use of the following open source projects:
 , f 59;
-#X text 17 14 gansynth.pd \, which provides a template for generating
-audio with GANSynth \, is provided by SOPI research group (https://sopi.aalto.fi)
-Aalto University \, School of Arts \, Design and Architecture 2021
-\, under the GPL license GNU General Public License version 2 | Open
-Source Initiative (https://opensource.org/licenses/gpl-2.0.php).;
-#X text 17 140 - Magenta (Apache 2.0), f 59;
-#X restore 758 509 pd copyright;
+#X text 702 503 - pyext/flext (GPL v2), f 59;
+#X text 702 542 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 702 523 - Magenta (Apache 2.0), f 59;
+#N canvas 343 233 386 293 license 0;
+#X text 9 227 For further information please contact to Koray Tahiroglu
+\; email: koray.tahiroglu@aalto.fi \, mail: Aalto University School
+of Arts \, Design and Architecture \, Department of Media \, room J101
+\, Väre Otaniementie 14 \, 2150 Espoo \, Finland;
+#X text 11 12 This program is free software \; you can redistribute
+it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \; either version 2 of
+the License \, or (at your option) any later version.;
+#X text 11 89 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 10 161 You should have received a copy of the GNU General Public
+License along with this program \; if not \, write to the Free Software
+Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
+MA 02110-1301 \, USA.;
+#X restore 851 577 pd license;
+#X text 702 408 gansynth.pd \, Deep Learning with Audio course material
+for generating audio with GANSynth \, is provided by SOPI research
+group (https://sopi.aalto.fi) Aalto University \, School of Arts \,
+Design and Architecture 2021 \, under the GPL license GNU General Public
+License version 2 | Open Source Initiative (https://opensource.org/licenses/gpl-2.0.php).
+, f 59;
 #X connect 4 0 32 0;
 #X connect 6 0 8 0;
 #X connect 7 0 6 0;
@@ -122,4 +139,4 @@ Source Initiative (https://opensource.org/licenses/gpl-2.0.php).;
 #X connect 24 0 22 0;
 #X connect 25 0 21 0;
 #X connect 31 0 10 0;
-#X coords 0 607 1 606 0 0 0;
+#X coords 0 609 1 608 0 0 0;

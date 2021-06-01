@@ -1,4 +1,4 @@
-#N canvas 390 23 1050 785 10;
+#N canvas 390 23 1017 785 10;
 #X obj 11 593 cnv 15 600 180 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 11 292 cnv 15 600 290 empty empty empty 20 12 0 14 -233017 -66577
@@ -19,15 +19,15 @@
 #X obj 201 65 print gansynth input;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
-#X restore 766 110 pd print_input;
-#X obj 817 179 print gansynth output;
+#X restore 756 110 pd print_input;
+#X obj 807 179 print gansynth output;
 #X obj 63 352 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
 #X obj 63 374 f \$0;
 #X obj 49 663 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576 -1
 -1;
 #X obj 49 685 f \$0;
-#X obj 786 155 list trim;
+#X obj 776 155 list trim;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-sound2 64000 float 0;
 #X coords 0 1 63999 -1 60 60 1 0 0;
@@ -44,7 +44,7 @@
 #X array \$0-z3 256 float 2;
 #X coords 0 5 256 -5 60 60 1 0 0;
 #X restore 452 506 graph;
-#X obj 764 75 r \$0-gansynth_in;
+#X obj 754 75 r \$0-gansynth_in;
 #X obj 104 249 s \$0-gansynth_in;
 #X msg 104 230 load all_instruments 4;
 #X obj 63 412 s \$0-gansynth_in;
@@ -80,22 +80,22 @@
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 60 20 2 100 100;
 #X restore 399 237 pd loaded;
-#X obj 706 179 s \$0-gansynth_out;
-#X obj 746 335 cnv 15 130 30 empty empty empty 30 20 0 14 -232576 -66577
+#X obj 696 179 s \$0-gansynth_out;
+#X obj 740 341 cnv 15 130 30 empty empty empty 30 20 0 14 -232576 -66577
 0;
-#X obj 769 503 dac~;
-#X obj 795 440 vline~;
-#X obj 769 484 *~ 0.5;
-#X msg 784 342 2;
-#X obj 753 395 makefilename \$0-sound%d;
-#X msg 753 342 1;
-#X msg 815 342 3;
-#X msg 744 422 set \$1;
-#X msg 795 422 1 \, 63998 4000;
-#X obj 769 465 tabread4~;
-#X text 751 321 4 - play;
-#X msg 846 342 4;
-#X obj 666 134 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
+#X obj 763 509 dac~;
+#X obj 789 446 vline~;
+#X obj 763 490 *~ 0.5;
+#X msg 778 348 2;
+#X obj 747 401 makefilename \$0-sound%d;
+#X msg 747 348 1;
+#X msg 809 348 3;
+#X msg 738 428 set \$1;
+#X msg 789 428 1 \, 63998 4000;
+#X obj 763 471 tabread4~;
+#X text 745 327 4 - play;
+#X msg 840 348 4;
+#X obj 656 134 pyext. sopimagenta.gansynth.pyext gansynth @detach 1
 ;
 #X obj 11 10 cnv 15 600 130 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -133,20 +133,36 @@ vectors., f 97;
 writes them into <out_arrayN>., f 97;
 #X text 19 14 ---- GANSynth - timbre interpolation & batch synthesis
 ----, f 97;
-#N canvas 499 360 400 198 copyright 0;
-#X text 17 100 We make use of the following open source projects:,
-f 59;
-#X text 17 120 - pyext/flext (GPL v2), f 59;
-#X text 17 159 Copyright (C) 2021 SOPI Research Group \, Aalto University
+#X text 634 668 We make use of the following open source projects:
 , f 59;
-#X text 17 140 - Magenta (Apache 2.0), f 59;
-#X text 17 14 gansynth_multi.pd \, which provides a template for generating
-multiple audio samples and interpolating between timbres with GANSynth
-\, is provided by SOPI research group (https://sopi.aalto.fi) Aalto
-University \, School of Arts \, Design and Architecture 2021 \, under
-the GPL license GNU General Public License version 2 | Open Source
-Initiative (https://opensource.org/licenses/gpl-2.0.php).;
-#X restore 790 672 pd copyright;
+#X text 634 688 - pyext/flext (GPL v2), f 59;
+#X text 634 727 Copyright (C) 2021 SOPI Research Group \, Aalto University
+, f 59;
+#X text 634 708 - Magenta (Apache 2.0), f 59;
+#N canvas 343 233 386 293 license 0;
+#X text 9 227 For further information please contact to Koray Tahiroglu
+\; email: koray.tahiroglu@aalto.fi \, mail: Aalto University School
+of Arts \, Design and Architecture \, Department of Media \, room J101
+\, Väre Otaniementie 14 \, 2150 Espoo \, Finland;
+#X text 11 12 This program is free software \; you can redistribute
+it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \; either version 2 of
+the License \, or (at your option) any later version.;
+#X text 11 89 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 10 161 You should have received a copy of the GNU General Public
+License along with this program \; if not \, write to the Free Software
+Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
+MA 02110-1301 \, USA.;
+#X restore 780 757 pd license;
+#X text 634 582 gansynth_multi.pd \, Deep Learning with Audio course
+material for generating multiple audio samples and interpolating between
+timbres with GANSynth \, is provided by SOPI research group (https://sopi.aalto.fi)
+Aalto University \, School of Arts \, Design and Architecture 2021
+\, under the GPL license GNU General Public License version 2 | Open
+Source Initiative (https://opensource.org/licenses/gpl-2.0.php).;
 #X connect 5 0 45 1;
 #X connect 7 0 8 0;
 #X connect 8 0 23 0;
