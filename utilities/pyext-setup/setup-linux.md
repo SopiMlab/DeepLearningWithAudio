@@ -159,7 +159,7 @@ pip install -e .
 Enter the `pyext-setup` directory:
 
 ```
-cd ../pyext-setup
+cd ../../utilities/pyext-setup
 ```
 
 Run the `build.py` script with the `--info` flag to check your environment:
