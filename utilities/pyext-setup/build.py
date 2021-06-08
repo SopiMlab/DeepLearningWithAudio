@@ -90,8 +90,8 @@ class LinuxConfig:
     self.conda_root = os.path.dirname(os.path.dirname(self.common_cfg.python_exe))
 
     self.flext_build_env = {
-      "BUILDMODE": "debug",
-      "TARGETMODE": "debug",
+      # "BUILDMODE": "debug",
+      # "TARGETMODE": "debug",
       "PDPATH": self.pd_path,
       "PDINC": os.path.expanduser("~/usr/include"),
       "PDLIB": os.path.expanduser("~/usr/lib"),
