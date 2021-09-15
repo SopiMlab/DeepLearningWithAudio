@@ -147,11 +147,11 @@ class Runner:
             env_name_q = shlex.quote(env_name)
             yml_path = os.path.join(conda_env_specs_dir, f"{key}_{self.platform}.yml")
             yml_path_q = shlex.quote(yml_path)
-            
+
             conda_create_script = [
                 *self.conda_prep_script(),
                 f"""if [ "$(conda env list | grep -E '^'{env_name_q} | wc -l)" -eq 0 ]; then""",
-                f"  conda env create -n {env_name_q} -f {yml_path_q}",
+                f"  CONDA_PKGS_DIRS=~/.conda/pkgs conda env create -n {env_name_q} -f {yml_path_q}",
                 f"fi"
             ]
             return run_script(f"check for {key} conda environment, create if needed", conda_create_script, capture_output=False)
