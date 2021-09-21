@@ -1,14 +1,12 @@
+#!/usr/bin/env python3
 import argparse
 
 from lib import common
 import lib.ddsp
 import lib.gansynth
+import lib.util
 
 parser = argparse.ArgumentParser()
-subparsers = parser.add_subparsers(dest="command", required=True)
-
-lib.ddsp.add_parser(subparsers)
-lib.gansynth.add_parser(subparsers)
 
 import os
 import shlex
@@ -18,8 +16,13 @@ import traceback
 
 command_modules = {
     "ddsp": lib.ddsp,
-    "gansynth": lib.gansynth
+    "gansynth": lib.gansynth,
+    "util": lib.util
 }
+
+subparsers = parser.add_subparsers(dest="command", required=True)
+for key, mod in command_modules.items():
+    mod.add_parser(subparsers)
 
 args = parser.parse_args()
 

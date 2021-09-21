@@ -1,0 +1,4 @@
+startup_message off
+hardstatus alwayslastline
+hardstatus string "screen: %S@%H (ctrl-a, ctrl-d to detach)"
+logfile flush 1
