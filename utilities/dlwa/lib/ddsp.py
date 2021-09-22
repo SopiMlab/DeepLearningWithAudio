@@ -9,7 +9,6 @@ def add_parser(subparsers):
     ddsp_subparsers = ddsp_parser.add_subparsers(dest="subcommand", required=True)
     
     ddsp_setup_parser = ddsp_subparsers.add_parser("setup")
-    ddsp_setup_parser.add_argument("--repo")
 
     ddsp_make_dataset_parser = ddsp_subparsers.add_parser("make-dataset")
     ddsp_make_dataset_parser.add_argument("--input_name", required=True)

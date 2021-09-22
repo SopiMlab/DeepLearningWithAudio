@@ -26,8 +26,8 @@ def input_dir(name):
 def dataset_dir(key, name):
     return os.path.join(datasets_dir, key, name)
 
-def model_dir(key, name):
-    return os.path.join(models_dir, key, name)
+def model_dir(key, name=None):
+    return os.path.join(models_dir, key, *([name] if name else []))
 
 class DlwaAbort(Exception):
     pass
