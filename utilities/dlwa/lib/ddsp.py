@@ -13,6 +13,7 @@ def add_parser(subparsers):
     ddsp_make_dataset_parser = ddsp_subparsers.add_parser("make-dataset")
     ddsp_make_dataset_parser.add_argument("--input_name", required=True)
     ddsp_make_dataset_parser.add_argument("--dataset_name", required=True)
+    ddsp_make_dataset_parser.add_argument("--custom", action="store_true")
     ddsp_make_dataset_parser.add_argument("extra_args", nargs=argparse.REMAINDER)
 
     ddsp_train_parser = ddsp_subparsers.add_parser("train")
@@ -32,6 +33,7 @@ def make_dataset(args):
     runner.require_conda_env("ddsp")
     in_dir = common.input_dir(args.input_name)
     out_dir = common.dataset_dir("ddsp", args.dataset_name)
+    custom = args.custom
     if not os.path.exists(in_dir):
         raise common.DlwaAbort(f"input directory does not exist: {in_dir}")
     if not any(True for fn in os.listdir(in_dir) if fn.lower().endswith(".wav")):
@@ -41,9 +43,20 @@ def make_dataset(args):
     in_patterns = os.path.join(in_dir, "*.wav")
     out_path = os.path.join(out_dir, "data.tfrecord")
     extra_args = common.process_remainder(args.extra_args)
+    defaults = [
+        "--num_shards", "10",
+        "--sample_rate", "16000"
+    ] if not custom else []
     make_dataset_script = [
         *runner.conda_activate_script(runner.env_name("ddsp")),
-        ["ddsp_prepare_tfrecord", "--input_audio_filepatterns", in_patterns, "--output_tfrecord_path", out_path, *extra_args]
+        [
+            "ddsp_prepare_tfrecord",
+            "--alsologtostderr",
+            "--input_audio_filepatterns", in_patterns,
+            "--output_tfrecord_path", out_path,
+            *defaults,
+            *extra_args
+        ]
     ]
     runner.run_script(f"make ddsp dataset", make_dataset_script, capture_output=False)
 
