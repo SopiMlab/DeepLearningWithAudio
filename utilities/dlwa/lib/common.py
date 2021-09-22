@@ -255,22 +255,32 @@ class Runner:
         if screen_exists:
             msg = "\n".join([
                 f"you already have a {name} screen session running on this system. you can:",
-                f"  a) attach to it: screen -Dr {name_q}",
-                f"  b) kill it: screen -S {name_q} -X kill"
+                f"  a) attach it: dlwa.py util screen-attach",
+                f"  b) kill it: dlwa.py util screen-kill"
             ])
             raise DlwaAbort(msg)
 
-    def make_screen_script(self, script, log_path=None):
+    def make_screen_script(self, script, log_path=None, detach=False):
         name = self.screen_name
         log_args = [
             "-L", "-Logfile", log_path
         ] if log_path else []
-        return [[
-            "screen",
-            "-S", name,
-            "-c", os.path.join(misc_dir, "dlwa.screenrc"),
-            *log_args,
-            "-d",
-            "-m",
-            *self.make_script_command(self.flatten_script(script))
-        ]]
+        detach_args = [
+            "-d", "-m"
+        ] if detach else []
+        return [
+            [
+                "screen",
+                "-S", name,
+                "-c", os.path.join(misc_dir, "dlwa.screenrc"),
+                *log_args,
+                *detach_args,
+                *self.make_script_command(self.flatten_script(script))
+            ]
+        ]
+
+    def make_screen_attach_script(self, name):
+        return [["screen", "-Dr", name]]
+
+    def make_screen_kill_script(self, name):
+        return [["screen", "-S", name, "-X", "kill"]]

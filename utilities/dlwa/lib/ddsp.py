@@ -11,10 +11,10 @@ def add_parser(subparsers):
     ddsp_setup_parser = ddsp_subparsers.add_parser("setup")
     ddsp_setup_parser.add_argument("--repo")
 
-    ddsp_prepare_parser = ddsp_subparsers.add_parser("prepare")
-    ddsp_prepare_parser.add_argument("--input_name", required=True)
-    ddsp_prepare_parser.add_argument("--dataset_name", required=True)
-    ddsp_prepare_parser.add_argument("extra_args", nargs=argparse.REMAINDER)
+    ddsp_make_dataset_parser = ddsp_subparsers.add_parser("make-dataset")
+    ddsp_make_dataset_parser.add_argument("--input_name", required=True)
+    ddsp_make_dataset_parser.add_argument("--dataset_name", required=True)
+    ddsp_make_dataset_parser.add_argument("extra_args", nargs=argparse.REMAINDER)
 
     ddsp_train_parser = ddsp_subparsers.add_parser("train")
     ddsp_train_parser.add_argument("--dataset_name", required=True)
@@ -28,7 +28,7 @@ def setup(args):
     runner.ensure_conda_env("ddsp")
     runner.ensure_pip_install("ddsp", [], [common.repo_dir("ddsp")])
 
-def prepare(args):
+def make_dataset(args):
     runner = common.Runner()
     runner.require_conda_env("ddsp")
     in_dir = common.input_dir(args.input_name)
@@ -37,16 +37,16 @@ def prepare(args):
         raise common.DlwaAbort(f"input directory does not exist: {in_dir}")
     if not any(True for fn in os.listdir(in_dir) if fn.lower().endswith(".wav")):
         raise common.DlwaAbort(f"no .wav files found in input directory: {in_dir}")
-    if os.path.exists(out_dir) and os.path.listdir(out_dir):
+    if os.path.exists(out_dir) and os.listdir(out_dir):
         raise common.DlwaAbort(f"dataset output path already exists and is non-empty: {out_dir}")
     in_patterns = os.path.join(in_dir, "*.wav")
     out_path = os.path.join(out_dir, "data.tfrecord")
     extra_args = common.process_remainder(args.extra_args)
-    prepare_script = [
+    make_dataset_script = [
         *runner.conda_activate_script(runner.env_name("ddsp")),
         ["ddsp_prepare_tfrecord", "--input_audio_filepatterns", in_patterns, "--output_tfrecord_path", out_path, *extra_args]
     ]
-    runner.run_script(f"prepare ddsp dataset", prepare_script, capture_output=False)
+    runner.run_script(f"make ddsp dataset", make_dataset_script, capture_output=False)
 
 def train(args):
     runner = common.Runner()
@@ -82,13 +82,13 @@ def train(args):
             *extra_args
         ]
     ]
-    log_path = os.path.join(model_dir, "dlwa.log")
+    log_path = os.path.join(model_dir, "dlwa_train.log")
     train_screen_script = runner.make_screen_script(train_script, log_path)
     os.mkdir(model_dir)
     runner.run_script(f"train ddsp model in screen", train_screen_script, capture_output=False)
 
 subcommands = {
     "setup": setup,
-    "prepare": prepare,
+    "make-dataset": make_dataset,
     "train": train
 }
