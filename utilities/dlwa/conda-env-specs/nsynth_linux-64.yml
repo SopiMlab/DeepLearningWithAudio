@@ -1,0 +1,201 @@
+name: null
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # - _libgcc_mutex=0.1=main
+  # - _tflow_select=2.1.0=gpu
+  - absl-py=0.11.0=pyhd3eb1b0_1
+  - astor=0.8.0=py27_0
+  - backports=1.0=pyhd3eb1b0_2
+  - backports.weakref=1.0.post1=py_1
+  - blas=1.0=mkl
+  - c-ares=1.17.1=h27cfd23_0
+  # - ca-certificates=2020.12.5=ha878542_0
+  # - certifi=2016.9.26=py27_0
+  # - cudatoolkit=10.1.243=h6bb024c_0
+  # - cudnn=7.6.5=cuda10.1_0
+  # - cupti=10.1.168=0
+  - enum34=1.1.6=py27_1
+  - funcsigs=1.0.2=py27_0
+  - future=0.18.2=py27_0
+  - futures=3.3.0=py27_0
+  - google-pasta=0.2.0=py_0
+  - grpcio=1.16.1=py27hf8bcb03_1
+  - h5py=2.9.0=py27h7918eee_0
+  - hdf5=1.10.4=hb1b8bf9_0
+  # - intel-openmp=2021.2.0=h06a4308_610
+  - keras-applications=1.0.8=py_1
+  - keras-preprocessing=1.1.0=py_1
+  - lame=3.100=h14c3975_1001
+  # - libffi=3.3=he6710b0_2
+  # - libgcc-ng=9.1.0=hdf63c60_0
+  # - libgfortran-ng=7.3.0=hdf63c60_0
+  # - libpng=1.6.37=h21135ba_2
+  # - libprotobuf=3.9.2=hd408876_0
+  # - libstdcxx-ng=9.1.0=hdf63c60_0
+  - linecache2=1.0.0=py_1
+  - mad=0.15.1b=he1b5a44_0
+  - markdown=3.1.1=py27_0
+  - mkl=2019.4=243
+  - mkl-service=2.3.0=py27he904b0f_0
+  - mkl_fft=1.0.14=py27ha843d7b_0
+  - mkl_random=1.1.0=py27hd6b4f25_0
+  - ncurses=6.2=he6710b0_1
+  - numpy=1.16.5=py27h7e9f1db_0
+  - numpy-base=1.16.5=py27hde5b4d6_0
+  - openssl=1.1.1k=h27cfd23_0
+  - pip=19.2.3=py27_0
+  - protobuf=3.9.2=py27he6710b0_0
+  - python=2.7.18=h15b4118_1
+  - readline=8.1=h27cfd23_0
+  - scipy=1.2.1=py27h7c811a0_0
+  - setuptools=41.4.0=py27_0
+  - six=1.15.0=pyhd3eb1b0_0
+  - sqlite=3.35.4=hdfb4753_0
+  - tensorflow=1.14.0=gpu_py27h39f1c70_0
+  - tensorflow-base=1.14.0=gpu_py27he45bfe2_0
+  - termcolor=1.1.0=py27_1
+  - tk=8.6.10=hbc83047_0
+  - traceback2=1.4.0=py27_0
+  - unittest2=1.1.0=py27_0
+  - werkzeug=1.0.1=pyhd3eb1b0_0
+  - wrapt=1.11.2=py27h7b6447c_0
+  - xz=5.2.5=h516909a_1
+  - zlib=1.2.11=h7b6447c_3
+  - pip:
+    - apache-beam==2.16.0
+    - attrs==19.3.0
+    - audioread==2.1.9
+    - avro==1.9.1
+    - backports-abc==0.5
+    - backports-functools-lru-cache==1.5
+    - backports-shutil-get-terminal-size==1.0.0
+    - backports-tempfile==1.0
+    - bokeh==1.3.4
+    - bz2file==0.98
+    - cachetools==3.1.1
+    - cffi==1.13.0
+    - chardet==3.0.4
+    - click==7.0
+    - cloudpickle==1.2.2
+    - contextlib2==0.6.0.post1
+    - crcmod==1.7
+    - cycler==0.10.0
+    - decorator==4.4.0
+    - dill==0.3.0
+    - dm-sonnet==1.35
+    - docopt==0.6.2
+    - dopamine-rl==2.0.5
+    - fastavro==0.21.24
+    - fasteners==0.15
+    - flask==1.1.1
+    - functools32==3.2.3.post2
+    - gast==0.2.2
+    - gevent==1.4.0
+    - gin-config==0.2.1
+    - google-api-core==1.14.3
+    - google-api-python-client==1.7.11
+    - google-apitools==0.5.28
+    - google-auth==1.6.3
+    - google-auth-httplib2==0.0.3
+    - google-cloud-bigquery==1.17.1
+    - google-cloud-bigtable==1.0.0
+    - google-cloud-core==1.0.3
+    - google-cloud-datastore==1.7.4
+    - google-cloud-pubsub==1.0.2
+    - google-resumable-media==0.4.1
+    - googleapis-common-protos==1.6.0
+    - googledatastore==7.0.2
+    - greenlet==0.4.15
+    - grpc-google-iam-v1==0.12.3
+    - gunicorn==19.9.0
+    - gym==0.15.3
+    - hdfs==2.5.8
+    - httplib2==0.12.0
+    - idna==2.8
+    - intervaltree==3.0.2
+    - ipython==5.8.0
+    - ipython-genutils==0.2.0
+    - itsdangerous==1.1.0
+    - jinja2==2.10.3
+    - joblib==0.14.0
+    - kfac==0.2.0
+    - kiwisolver==1.1.0
+    - librosa==0.7.1
+    - llvmlite==0.30.0
+    # - magenta-gpu==1.1.7
+    - markupsafe==1.1.1
+    - matplotlib==2.2.4
+    - mesh-tensorflow==0.1.2
+    - mido==1.2.6
+    - mir-eval==0.5
+    - mock==2.0.0
+    - monotonic==1.5
+    - mpmath==1.1.0
+    - networkx==1.8.1
+    - numba==0.46.0
+    - oauth2client==3.0.0
+    - opencv-python==4.1.1.26
+    - opt-einsum==2.3.2
+    - ortools==7.3.7083
+    - packaging==19.2
+    - pandas==0.24.2
+    - pathlib2==2.3.5
+    - pbr==5.6.0
+    - pexpect==4.7.0
+    - pickleshare==0.7.5
+    - pillow==6.2.0
+    - pretty-midi==0.2.8
+    - promise==2.2.1
+    - prompt-toolkit==1.0.18
+    - proto-google-cloud-datastore-v1==0.90.4
+    - psutil==5.6.3
+    - ptyprocess==0.6.0
+    - pyarrow==0.14.1
+    - pyasn1==0.4.7
+    - pyasn1-modules==0.2.7
+    - pycparser==2.19
+    - pydot==1.4.1
+    - pyglet==1.3.2
+    - pygments==2.4.2
+    - pygtrie==2.3.2
+    - pymongo==3.9.0
+    - pyparsing==2.4.2
+    - pypng==0.0.20
+    - python-dateutil==2.8.0
+    - pytz==2019.3
+    - pyvcf==0.6.8
+    - pyyaml==3.13
+    - requests==2.22.0
+    - resampy==0.2.2
+    - rsa==4.0
+    - scandir==1.10.0
+    - scikit-learn==0.20.4
+    - semantic-version==2.8.2
+    - simplegeneric==0.8.1
+    - singledispatch==3.4.0.3
+    - sk-video==1.1.10
+    - sonnet==0.1.6
+    - sortedcontainers==2.1.0
+    - soundfile==0.10.2
+    - sox==1.3.7
+    - subprocess32==3.5.4
+    - sympy==1.4
+    - tensor2tensor==1.14.1
+    - tensorboard==1.14.0
+    - tensorflow-datasets==1.2.0
+    - tensorflow-estimator==1.14.0
+    - tensorflow-gan==1.0.0.dev0
+    - tensorflow-gpu==1.14.0
+    - tensorflow-metadata==0.15.0
+    - tensorflow-probability==0.7.0
+    - tornado==5.1.1
+    - tqdm==4.36.1
+    - traitlets==4.3.3
+    - typing==3.6.6
+    - uritemplate==3.0.0
+    - urllib3==1.25.6
+    - wcwidth==0.1.7
+    - wheel==0.36.2
+prefix: /dlwa-nsynth

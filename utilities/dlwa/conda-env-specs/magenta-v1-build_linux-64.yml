@@ -1,0 +1,7 @@
+name: null
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - tensorflow-gpu=1.14
+prefix: /dlwa-nsynth
