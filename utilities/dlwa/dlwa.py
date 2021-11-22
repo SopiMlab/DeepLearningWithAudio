@@ -4,6 +4,7 @@ import argparse
 from lib import common
 import lib.ddsp
 import lib.gansynth
+import lib.nsynth
 import lib.samplernn
 import lib.util
 
@@ -18,6 +19,7 @@ import traceback
 command_modules = {
     "ddsp": lib.ddsp,
     "gansynth": lib.gansynth,
+    "nsynth": lib.nsynth,
     "samplernn": lib.samplernn,
     "util": lib.util
 }

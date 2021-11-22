@@ -9,11 +9,17 @@ conda_env_specs_dir = os.path.join(root_dir, "conda-env-specs")
 inputs_dir = os.path.join(root_dir, "inputs")
 datasets_dir = os.path.join(root_dir, "datasets")
 models_dir = os.path.join(root_dir, "models")
+outputs_dir = os.path.join(root_dir, "outputs")
 misc_dir = os.path.join(root_dir, "misc")
 
 repos = {
     "magenta": "https://github.com/SopiMlab/magenta.git",
+    "magenta-v1": {
+        "url": "https://github.com/SopiMlab/magenta.git",
+        "tag": "nsynth"
+    },
     "ddsp": "https://github.com/SopiMlab/ddsp.git",
+    "open-nsynth-super": "https://github.com/SopiMlab/open-nsynth-super.git",
     "prism-samplernn": "https://github.com/SopiMlab/prism-samplernn.git"
 }
 
@@ -28,6 +34,9 @@ def dataset_dir(key, name):
 
 def model_dir(key, name=None):
     return os.path.join(models_dir, key, *([name] if name else []))
+
+def output_dir(key, name=None):
+    return os.path.join(outputs_dir, key, *([name] if name else []))
 
 class DlwaAbort(Exception):
     pass
@@ -125,13 +134,17 @@ class Runner:
         
         return self.cache[key]
 
-    def conda_prep_script(self):
+    def check_lmod(self):
         def _check_lmod():
             check_lmod_script = ["type -t module"]
             return self.run_script("check for lmod", check_lmod_script, self.validate_lmod)
             
-        have_lmod = self.check_cached("lmod", _check_lmod)
+        return self.check_cached("lmod", _check_lmod)
+    
+    def conda_prep_script(self):
+        have_lmod = self.check_lmod()
         script = []
+        # FIXME: Aalto-specific
         if have_lmod:
             script.append("module load miniconda")
 
@@ -160,13 +173,21 @@ class Runner:
 
     def ensure_repo(self, key):
         def _ensure_repo():
-            url = repos[key]
+            repo = repos[key]
+            if isinstance(repo, dict):
+                url = repo["url"]
+                tag = repo["tag"]
+                tag_q = shlex.quote(tag)
+                clone_args = f"--branch {tag_q} "
+            else:
+                url = repo
+                clone_args = ""
             url_q = shlex.quote(url)
             dstdir = repo_dir(key)
             dstdir_q = shlex.quote(dstdir)
             git_clone_script = [
                 f"if [ ! -d {dstdir_q} ]; then",
-                f"  git clone {url_q} {dstdir_q}",
+                f"  git clone {clone_args}{url_q} {dstdir_q}",
                 f"fi"
             ]
             return self.run_script(f"check for {key} git repository, download if needed", git_clone_script)
