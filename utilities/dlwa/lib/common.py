@@ -20,7 +20,11 @@ repos = {
     },
     "ddsp": "https://github.com/SopiMlab/ddsp.git",
     "open-nsynth-super": "https://github.com/SopiMlab/open-nsynth-super.git",
-    "prism-samplernn": "https://github.com/SopiMlab/prism-samplernn.git"
+    "prism-samplernn": "https://github.com/SopiMlab/prism-samplernn.git",
+    "protobuf": {
+        "url": "https://github.com/protocolbuffers/protobuf.git",
+        "tag": "v3.13.0"
+    }
 }
 
 def repo_dir(key):

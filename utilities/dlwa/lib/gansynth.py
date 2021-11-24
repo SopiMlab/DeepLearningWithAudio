@@ -41,6 +41,20 @@ def setup(args):
     runner.ensure_repo("magenta")
     runner.ensure_conda_env("gansynth")
     runner.ensure_pip_install("gansynth", [], [common.repo_dir("magenta")])
+    apply_protobuf_workaround = True
+    if apply_protobuf_workaround:
+        runner.ensure_repo("protobuf")
+        protobuf_workaround_script = [
+            *runner.conda_activate_script(runner.env_name("gansynth")),
+            ["cd", common.repo_dir("protobuf")],
+            "git submodule update --init --recursive",
+            "./autogen.sh",
+            "cd python",
+            "python setup.py build",
+            "conda remove --yes --force protobuf libprotobuf",
+            "python setup.py develop"
+        ]
+        runner.run_script(f"apply protobuf workaround", protobuf_workaround_script, capture_output=False)
 
 def chop_audio(args):
     runner = common.Runner()
@@ -117,7 +131,9 @@ def train(args):
             "train_data_path": os.path.join(dataset_dir, "data.tfrecord"),
             "train_meta_path": os.path.join(dataset_dir, "meta.json"),
             "train_root_dir": os.path.join(model_dir),
-            "dataset_name": "nsynth_tfrecord"
+            "dataset_name": "nsynth_tfrecord",
+            "save_graph_def": False,
+            "save_summaries_num_images": 0
         }
         hparams_json = json.dumps(hparams)
         defaults = [
