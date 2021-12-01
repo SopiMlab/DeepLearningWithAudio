@@ -51,7 +51,7 @@ def setup(args):
             "./autogen.sh",
             "cd python",
             "python setup.py build",
-            "conda remove --yes --force protobuf libprotobuf",
+            f"{runner.conda_envvars()} conda remove --yes --force protobuf libprotobuf",
             "python setup.py develop"
         ]
         runner.run_script(f"apply protobuf workaround", protobuf_workaround_script, capture_output=False)

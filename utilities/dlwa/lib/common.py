@@ -205,6 +205,9 @@ class Runner:
     def check_conda_env_cmd(self, env_name):
         env_name_q = shlex.quote(env_name)
         return f"""[ "$(conda env list | grep -E '^'{env_name_q} | wc -l)" -gt 0 ]"""
+
+    def conda_envvars(self):
+        return "CONDA_PKGS_DIRS=~/.conda/pkgs"
     
     def ensure_conda_env(self, key):
         def _ensure_conda_env():
@@ -217,7 +220,7 @@ class Runner:
             conda_create_script = [
                 *self.conda_prep_script(),
                 f"""if ! {check_cmd}; then""",
-                f"  CONDA_PKGS_DIRS=~/.conda/pkgs conda env create -n {env_name_q} -f {yml_path_q}",
+                f"  {self.conda_envvars()} conda env create -n {env_name_q} -f {yml_path_q}",
                 f"fi"
             ]
             return self.run_script(f"check for {key} conda environment, create if needed", conda_create_script, capture_output=False)
