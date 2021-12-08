@@ -6,6 +6,8 @@ dependencies:
   - aiohttp=3.7.4=py38h27cfd23_1
   - astunparse=1.6.3=py_0
   - async-timeout=3.0.1=py38h06a4308_0
+  - autoconf=2.69
+  - automake=1.16.2
   - attrs=21.2.0=pyhd3eb1b0_0
   - blas=1.0=mkl
   - blinker=1.4=py38h06a4308_0
@@ -36,6 +38,7 @@ dependencies:
   - ld_impl_linux-64=2.35.1=h7274673_9
   - libffi=3.3=he6710b0_2
   - libprotobuf=3.17.2=h4ff587b_1
+  - libtool=2.4.6
   - markdown=3.3.4=py38h06a4308_0
   - mkl=2020.2=256
   - mkl-service=2.3.0=py38he904b0f_0
