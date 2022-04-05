@@ -104,6 +104,14 @@ macOS 10.15 and later:
 conda init zsh
 ```
 
+macOS Big Sur:
+
+```
+source <path to miniconda.... /base/bin/activate> for example source /usr/local/Caskroom/miniconda/base/bin/activate
+
+conda init zsh
+```
+
 Then close and re-open the terminal, navigate to the `DeepLearningWithAudio` directory again and re-run the `conda activate` command above.
 
 ----
