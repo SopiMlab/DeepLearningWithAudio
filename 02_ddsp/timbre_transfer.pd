@@ -10,7 +10,7 @@
 #X restore 769 144 pd print_input;
 #N canvas 261 142 450 300 loaded 0;
 #X obj 102 103 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-1 1;
+0 1;
 #X obj 100 77 f 1;
 #X obj 124 77 f 0;
 #X obj 99 55 route on off;
@@ -54,7 +54,7 @@
 -1 -1 0 256;
 #X text 106 366 loudness db shift;
 #X obj 333 151 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -204786
--1 -1 1;
+-1 -1 0;
 #X obj 93 506 expr 16000*pow(2 \, $f1);
 #X text 352 151 16000;
 #X text 352 167 32000;
@@ -76,7 +76,7 @@
 0;
 #X symbolatom 107 174 32 0 0 0 - - -;
 #X obj 503 408 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 169024 256;
+-262144 -1 -1 0 256;
 #X obj 716 200 r \$0-out_len;
 #X obj 714 135 s \$0-out_len;
 #X obj 711 90 r \$0-ddsp_out;
@@ -121,7 +121,7 @@ confidence is below the given number), f 30;
 #X obj 298 293 nbx 5 14 0 100 0 1 empty empty empty 0 -8 0 10 -204786
 -1 -1 0 256;
 #X text 295 311 (quiet parts without notes detected (dB)), f 30;
-#X obj 298 213 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 298 213 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X text 316 212 auto adjust;
 #X text 295 231 (uses dataset_statistics.pkl file to automatically
@@ -222,9 +222,9 @@ input audio., f 97;
 #X obj 519 58 r \$0-in_len;
 #X text 162 143 select file...;
 #X obj 519 153 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 220544 256;
+-262144 -1 -1 0 256;
 #X obj 609 153 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 44100 256;
+-262144 -1 -1 0 256;
 #X text 517 135 length;
 #X text 607 135 sample rate;
 #X obj 519 178 bng 20 250 50 0 empty empty empty 34 14 0 10 -159808
@@ -337,7 +337,7 @@ input audio., f 97;
 #X text 12 185 The worker can be started with the "load <python>" message
 \, where <python> is the path to your DDSP Conda environment's Python
 executable., f 97;
-#X text 12 217 To find this path \, activate your DDSP Conda environment
+#X text 8 214 To find this path \, activate your DDSP Conda environment
 and run: which python, f 97;
 #X msg 118 246 load /usr/local/Caskroom/miniconda/base/envs/ddsp/bin/python
 ;
@@ -420,7 +420,6 @@ License along with this program \; if not \, write to the Free Software
 Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
 MA 02110-1301 \, USA.;
 #X restore 787 715 pd license;
-#X msg 318 200 load /Users/ktahirog/.conda/envs/ddsp/bin/python;
 #X connect 1 0 4 1;
 #X connect 3 0 7 0;
 #X connect 3 0 12 0;
@@ -428,5 +427,4 @@ MA 02110-1301 \, USA.;
 #X connect 6 0 1 0;
 #X connect 13 0 19 0;
 #X connect 18 0 5 0;
-#X connect 30 0 5 0;
 #X coords 0 834 1 833 0 0 0;
