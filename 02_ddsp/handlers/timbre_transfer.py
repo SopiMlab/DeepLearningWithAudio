@@ -15,8 +15,10 @@ import ddsp
 import ddsp.training
 from ddsp.colab import colab_utils
 from ddsp.colab.colab_utils import (
-    auto_tune, detect_notes, fit_quantile_transform, 
-    get_tuning_factor
+    auto_tune, get_tuning_factor
+)
+from ddsp.training.postprocessing import (
+    detect_notes, fit_quantile_transform, QuantileTransformer
 )
 import gin
 import librosa
