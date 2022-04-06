@@ -1,4 +1,4 @@
-#N canvas 327 23 1040 834 10;
+#N canvas 1211 573 1040 834 10;
 #X obj 8 160 cnv 15 600 150 empty empty empty 20 12 0 14 -228856 -66577
 0;
 #N canvas 760 492 450 300 print_input 0;
@@ -10,7 +10,7 @@
 #X restore 769 144 pd print_input;
 #N canvas 261 142 450 300 loaded 0;
 #X obj 102 103 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
-0 1;
+1 1;
 #X obj 100 77 f 1;
 #X obj 124 77 f 0;
 #X obj 99 55 route on off;
@@ -40,8 +40,8 @@
 #X obj 27 597 f \$0;
 #X obj 304 572 r \$0-in_sr;
 #N canvas 0 23 450 300 (subpatch) 0;
-#X array \$0-out 84480 float 0;
-#X coords 0 1 84479 -1 200 140 1 0 0;
+#X array \$0-out 169024 float 0;
+#X coords 0 1 169023 -1 200 140 1 0 0;
 #X restore 488 224 graph;
 #X text 540 161 run timbre transfer;
 #X obj 108 213 nbx 5 14 -20 20 0 1 empty empty empty 0 -8 0 10 -204786
@@ -54,7 +54,7 @@
 -1 -1 0 256;
 #X text 106 366 loudness db shift;
 #X obj 333 151 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -204786
--1 -1 0;
+-1 -1 1;
 #X obj 93 506 expr 16000*pow(2 \, $f1);
 #X text 352 151 16000;
 #X text 352 167 32000;
@@ -76,7 +76,7 @@
 0;
 #X symbolatom 107 174 32 0 0 0 - - -;
 #X obj 503 408 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
+-262144 -1 -1 169024 256;
 #X obj 716 200 r \$0-out_len;
 #X obj 714 135 s \$0-out_len;
 #X obj 711 90 r \$0-ddsp_out;
@@ -121,7 +121,7 @@ confidence is below the given number), f 30;
 #X obj 298 293 nbx 5 14 0 100 0 1 empty empty empty 0 -8 0 10 -204786
 -1 -1 0 256;
 #X text 295 311 (quiet parts without notes detected (dB)), f 30;
-#X obj 298 213 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 298 213 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X text 316 212 auto adjust;
 #X text 295 231 (uses dataset_statistics.pkl file to automatically
@@ -202,7 +202,7 @@ input audio., f 97;
 #X connect 83 0 31 0;
 #X coords 0 -1 1 1 600 340 2 100 100;
 #X restore 8 482 pd run;
-#N canvas 385 176 874 653 input 0;
+#N canvas 489 164 874 653 input 0;
 #X obj 141 140 bng 20 250 50 0 empty empty empty 34 14 0 10 -159808
 -1 -1;
 #N canvas 0 23 450 300 (subpatch) 0;
@@ -222,9 +222,9 @@ input audio., f 97;
 #X obj 519 58 r \$0-in_len;
 #X text 162 143 select file...;
 #X obj 519 153 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
+-262144 -1 -1 220544 256;
 #X obj 609 153 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
+-262144 -1 -1 44100 256;
 #X text 517 135 length;
 #X text 607 135 sample rate;
 #X obj 519 178 bng 20 250 50 0 empty empty empty 34 14 0 10 -159808
@@ -255,7 +255,7 @@ input audio., f 97;
 #X obj 473 434 pack s f;
 #X obj 351 395 delay 100;
 #X obj 489 375 delay 100;
-#X obj 592 320 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 598 320 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 434 349 symbol temp_recording.wav;
 #X obj 408 482 adc~ 1;
@@ -267,10 +267,13 @@ input audio., f 97;
 -1 -1;
 #X obj 658 409 s \$0-player;
 #X text 540 211 play;
-#X obj 659 343 symbol \$0-in;
 #X obj 658 365 pack s f;
 #X msg 658 387 \$1 \$2;
 #X text 106 106 2 - Load an input sound.;
+#X obj 775 350 symbol \$0-in;
+#X msg 658 320 \$1-in;
+#X obj 659 299 f \$0;
+#X obj 658 343 symbol;
 #X connect 0 0 2 0;
 #X connect 2 0 6 0;
 #X connect 3 0 11 0;
@@ -281,7 +284,7 @@ input audio., f 97;
 #X connect 7 0 3 0;
 #X connect 8 0 10 0;
 #X connect 9 0 15 0;
-#X connect 9 0 54 1;
+#X connect 9 0 53 1;
 #X connect 12 0 14 0;
 #X connect 18 0 20 0;
 #X connect 20 0 22 0;
@@ -318,15 +321,15 @@ input audio., f 97;
 #X connect 44 0 37 1;
 #X connect 45 0 46 0;
 #X connect 47 0 46 0;
-#X connect 50 0 53 0;
+#X connect 50 0 58 0;
 #X connect 53 0 54 0;
-#X connect 54 0 55 0;
-#X connect 55 0 51 0;
+#X connect 54 0 51 0;
+#X connect 57 0 59 0;
+#X connect 58 0 57 0;
+#X connect 59 0 53 0;
 #X coords 0 -1 1 1 600 150 2 100 100;
 #X restore 8 321 pd input;
 #X obj 818 251 s \$0-ddsp_out;
-#X obj 775 398 dac~;
-#X obj 775 377 *~ 0.5;
 #X obj 775 336 r \$0-player;
 #X obj 8 9 cnv 15 600 140 empty empty empty 20 12 0 14 -228856 -66577
 0;
@@ -338,38 +341,41 @@ executable., f 97;
 and run: which python, f 97;
 #X msg 118 246 load /usr/local/Caskroom/miniconda/base/envs/ddsp/bin/python
 ;
-#N canvas 298 214 450 300 player 0;
+#N canvas 536 966 458 344 player 0;
 #X obj 92 213 vline~;
 #X msg 232 161 set \$1;
-#X obj 142 245 tabread4~;
 #X obj 92 173 pack f f;
 #X msg 92 193 1 \, \$1 \$2;
 #X obj 105 151 expr $f1/$f2*1000;
 #X obj 39 151 expr $f1-2;
 #X obj 73 125 array size;
 #X obj 163 51 t a a;
-#X obj 232 139 unpack s f;
-#X obj 128 78 unpack s f;
-#X obj 128 101 t b s;
-#X obj 142 266 outlet;
+#X obj 230 108 unpack s f;
+#X obj 125 73 unpack s f;
+#X obj 64 89 t b s;
 #X obj 163 28 inlet;
-#X connect 0 0 2 0;
-#X connect 1 0 2 0;
-#X connect 2 0 12 0;
-#X connect 3 0 4 0;
-#X connect 4 0 0 0;
-#X connect 5 0 3 1;
-#X connect 6 0 3 0;
-#X connect 7 0 6 0;
-#X connect 7 0 5 0;
-#X connect 8 0 10 0;
-#X connect 8 1 9 0;
-#X connect 9 0 1 0;
-#X connect 10 0 11 0;
-#X connect 10 1 5 1;
+#X obj 142 246 tabread4~;
+#X obj 143 291 dac~;
+#X obj 143 270 *~ 0.5;
+#X connect 0 0 12 0;
+#X connect 1 0 12 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 2 1;
+#X connect 5 0 2 0;
+#X connect 6 0 5 0;
+#X connect 6 0 4 0;
+#X connect 7 0 9 0;
+#X connect 7 1 8 0;
+#X connect 8 0 1 0;
+#X connect 9 0 10 0;
+#X connect 9 1 4 1;
+#X connect 10 0 6 0;
+#X connect 10 1 6 1;
 #X connect 11 0 7 0;
-#X connect 11 1 7 1;
-#X connect 13 0 8 0;
+#X connect 12 0 14 0;
+#X connect 14 0 13 0;
+#X connect 14 0 13 1;
 #X restore 775 357 pd player;
 #X text 12 165 1 - Start the DDSP worker process., f 97;
 #X text 12 34 DDSP (Differentiable Digital Signal Processing) is a
@@ -414,14 +420,13 @@ License along with this program \; if not \, write to the Free Software
 Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
 MA 02110-1301 \, USA.;
 #X restore 787 715 pd license;
+#X msg 318 200 load /Users/ktahirog/.conda/envs/ddsp/bin/python;
 #X connect 1 0 4 1;
 #X connect 3 0 7 0;
 #X connect 3 0 12 0;
 #X connect 4 0 3 0;
 #X connect 6 0 1 0;
-#X connect 14 0 13 0;
-#X connect 14 0 13 1;
-#X connect 15 0 21 0;
-#X connect 20 0 5 0;
-#X connect 21 0 14 0;
+#X connect 13 0 19 0;
+#X connect 18 0 5 0;
+#X connect 30 0 5 0;
 #X coords 0 834 1 833 0 0 0;
