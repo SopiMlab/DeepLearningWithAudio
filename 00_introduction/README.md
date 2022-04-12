@@ -39,7 +39,8 @@ You will see a pop up with the ssh command line that you need to copy and paste 
 The command line looks like this : 
 **ssh -p 63635 e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com**
 
-Open a **Terminal window**, paste the she command line that you copied and click on enter
+Open a **Terminal window**, paste the command line that you copied and click on enter
 
+Now you are in the **Deep Learning with Audio VM**
 ```
 ```
