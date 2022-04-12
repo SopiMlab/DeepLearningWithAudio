@@ -101,6 +101,62 @@ We also have some of our own checkpoints available at the [SOPI Google Drive](ht
 
 ## Training
 
+## GANSynth Training in Azure My Virtual Machines
+
+Log in to  https://labs.azure.com
+(see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
+
+c/p the command line below into your ternimnal window to go to the dlwa directory
+
+```
+cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+
+```
+
+**Transfering your dataset**
+
+You can transfer your files from your own PC to the vm following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory
+
+transfering a folder
+```
+scp -P 63635 -r input_folder e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
+
+```
+transfering a file
+```
+scp -P 63635 input_name.wav e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
+
+```
+Please note that the text **"63635"** in the command line above should be changed with your personal info. You can find it in the ssh command line in the pop up connect window. (see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
+
+**input_folder** and should be replaced with your directory path in your own machine as well as the folder **your_name**. Please note that the name you give to **input_folder** will be used in below command lines as well.
+
+
+**Preparing your dataset**
+
+```
+./dlwa.py gansynth chop-audio --input_name your_name/input_folder_to_be_transferred --output_name your_name/mysounds_chopped
+```
+**your_name/input_folder** and  **your_name/mysounds_chopped** should be replaced with your own folder names. Saves chopped files into DeepLearningWithAudio/utilities/dlwa/inputs/mysounds_chopped (It will create the folder **mysounds_chopped**, don't need to create it before)
+
+
+```
+./dlwa.py gansynth make-dataset --input_name your_name/mysounds_chopped --dataset_name your_name/mysounds 
+```
+**your_name/mysounds_chopped ** and  **your_name/mysounds ** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/datasets/gansynth/**your_name/mysounds**
+
+**Starting the Training**
+
+```
+/dlwa.py gansynth train --dataset_name your_name/mysounds --model_name your_name/model
+```
+**your_name/mysounds** and  **your_name/model** should be replaced with your own folder names. This command line will start the GANSynth training and and it will save trained checkpoints into DeepLearningWithAudio/utilities/dlwa/models/gansynth/**your_name/mysound** folder
+
+
+
+
+## GANSynth training in other virtual machines
+
 See [Training GANSynth](training/README.md).
 
 ## Exercises
