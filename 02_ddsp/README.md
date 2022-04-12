@@ -138,7 +138,7 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 
 ```
 
-**Tranfering your dataset**
+**Transfering your dataset**
 
 You can transfer your files from your own PC to the vm following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory
 
