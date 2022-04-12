@@ -115,7 +115,7 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 
 
 
-**TRANSFERING YOUR DATASET**
+**TRANSFERING YOUR DATASET TO THE VIRTUAL MACHINE**
 
 You can transfer your files from your own PC to the vm following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory
 
@@ -157,6 +157,21 @@ Please note that the text **"63635"** in the command line above should be change
 ```
 **your_name/mysounds** and  **your_name/model** should be replaced with your own folder names. This command line will start the GANSynth training and and it will save trained checkpoints into DeepLearningWithAudio/utilities/dlwa/models/gansynth/**your_name/mysound** folder
 
+
+**TRANSFERING YOUR TRAINED MODEL TO YOUR OWN COMPUTER/LAPTOP**
+
+You can transfer your files, such as trained models from your the virtual machine to your on own PC  following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory.
+
+transfering a folder
+
+```
+scp -P 63635 -r e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mysound ~/Downloads
+
+```
+
+Please note that the text **"63635"** in the command line above should be changed with your personal info. You can find it in the ssh command line in the pop up connect window. (see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
+
+**your_name/mysound** and should be replaced with your directory path in your own machine. 
 
 
 
