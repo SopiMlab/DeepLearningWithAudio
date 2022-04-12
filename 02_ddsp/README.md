@@ -126,6 +126,7 @@ The timbre transfer is unfortunately quite slow without GPU acceleration (unsupp
 
 A few example checkpoints are provided by the DDSP authors, and we've trained some additional ones. You can find all of them in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
+
 ## DDSP Training in Azure My Virtual Machines
 
 Log in to  https://labs.azure.com
@@ -138,7 +139,8 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 
 ```
 
-**Transfering your dataset**
+
+**TRANSFERING YOUR DATASET**
 
 You can transfer your files from your own PC to the vm following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory
 
@@ -157,14 +159,17 @@ Please note that the text **"63635"** in the command line above should be change
 **input_folder** and should be replaced with your directory path in your own machine as well as the folder **your_name**. Please note that the name you give to **input_folder** will be used in below command lines as well.
 
 
-**Preparing your dataset**
+
+**PREPARING YOUR DATASET**
 
 ```
 ./dlwa.py ddsp make-dataset --input_name your_name/input_folder --dataset_name your_name/dataset_folder 
 ```
 **your_name/input_folder** and  **your_name/dataset_folder** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/dataset/ddsp/your_name/dataset_folder 
 
-**Starting the Training**
+
+
+**STARTING THE TRAINING**
 
 ```
 ./dlwa.py ddsp train --dataset_name your_name/input_folder_to_be_transferred --model_name your_name/name_model
@@ -172,8 +177,11 @@ Please note that the text **"63635"** in the command line above should be change
 **your_name/input_folder_to_be_transferred ** and  **your_name/name_model** should be replaced with your own folder names. This command line will  start the DDSP training and it will  saves trained checkpoints, log, summaries into DeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/name_model
 
 
+
 ## DDSP training in other virtual machines
 See [DDSP training](training.md).
+
+
 
 ## Exercises
 
