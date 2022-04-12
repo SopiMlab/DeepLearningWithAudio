@@ -129,7 +129,7 @@ A few example checkpoints are provided by the DDSP authors, and we've trained so
 ## DDSP Training in Azure My Virtual Machines
 
 Log in to  https://labs.azure.com
-(see the login instructions at https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/)
+(see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/)
 
 c/p the command line below into your ternimnal window to go to the dlwa directory
 
