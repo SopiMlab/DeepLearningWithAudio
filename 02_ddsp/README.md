@@ -169,7 +169,7 @@ Please note that the text **"63635"** in the command line above should be change
 ```
 ./dlwa.py ddsp train --dataset_name your_name/input_folder_to_be_transferred --model_name your_name/name_model
 ```
-**your_name/input_folder_to_be_transferred ** and  **your_name/name_model** should be replaced with your own folder names. This command line start the DDSP training and saves trained checkpoints, log, summaries into DeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/name_model
+**your_name/input_folder_to_be_transferred ** and  **your_name/name_model** should be replaced with your own folder names. This command line will  start the DDSP training and it will  saves trained checkpoints, log, summaries into DeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/name_model
 
 
 ## DDSP training in other virtual machines
