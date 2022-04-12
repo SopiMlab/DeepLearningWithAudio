@@ -160,9 +160,9 @@ Please note that the text **"63635"** in the command line above should be change
 **Preparing your dataset**
 
 ```
-./dlwa.py ddsp make-dataset --input_name your_name/input_folder_to_be_transferred  --dataset_name your_name/input_folder_to_be_transferred 
+./dlwa.py ddsp make-dataset --input_name your_name/input_folder --dataset_name your_name/dataset_folder 
 ```
-**your_name/input_folder_to_be_transferred ** and  **your_name/input_folder_to_be_transferred ** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/dataset/ddsp/your_name/input_folder_to_be_transferred 
+**your_name/input_folder** and  **your_name/dataset_folder** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/dataset/ddsp/your_name/dataset_folder 
 
 **Starting the Training**
 
