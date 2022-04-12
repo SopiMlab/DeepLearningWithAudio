@@ -99,7 +99,7 @@ Google provides two [pre-trained neural networks](https://github.com/tensorflow/
 
 We also have some of our own checkpoints available at the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
-## Training
+
 
 ## GANSynth Training in Azure My Virtual Machines
 
@@ -113,11 +113,14 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 
 ```
 
-**Transfering your dataset**
+
+
+**TRANSFERING YOUR DATASET**
 
 You can transfer your files from your own PC to the vm following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory
 
 transfering a folder
+
 ```
 scp -P 63635 -r input_folder e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
 
@@ -132,20 +135,22 @@ Please note that the text **"63635"** in the command line above should be change
 **input_folder** and should be replaced with your directory path in your own machine as well as the folder **your_name**. Please note that the name you give to **input_folder** will be used in below command lines as well.
 
 
-**Preparing your dataset**
+
+**PREPARING YOUR DATASET**
 
 ```
 ./dlwa.py gansynth chop-audio --input_name your_name/input_folder_to_be_transferred --output_name your_name/mysounds_chopped
 ```
 **your_name/input_folder** and  **your_name/mysounds_chopped** should be replaced with your own folder names. Saves chopped files into DeepLearningWithAudio/utilities/dlwa/inputs/mysounds_chopped (It will create the folder **mysounds_chopped**, don't need to create it before)
 
-
 ```
 ./dlwa.py gansynth make-dataset --input_name your_name/mysounds_chopped --dataset_name your_name/mysounds 
 ```
 **your_name/mysounds_chopped ** and  **your_name/mysounds ** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/datasets/gansynth/**your_name/mysounds**
 
-**Starting the Training**
+
+
+**STARTING THE TRAINING**
 
 ```
 /dlwa.py gansynth train --dataset_name your_name/mysounds --model_name your_name/model
