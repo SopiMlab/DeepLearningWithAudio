@@ -109,7 +109,8 @@ source <path to miniconda.... /base/bin/activate> for example
 
 ```
 source /usr/local/Caskroom/miniconda/base/bin/activate
-
+```
+```
 conda init zsh
 ```
 
