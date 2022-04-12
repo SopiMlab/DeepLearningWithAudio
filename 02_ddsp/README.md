@@ -129,7 +129,7 @@ A few example checkpoints are provided by the DDSP authors, and we've trained so
 ## DDSP Training in Azure My Virtual Machines
 
 Log in to  https://labs.azure.com
-(see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/)
+(see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
 
 c/p the command line below into your ternimnal window to go to the dlwa directory
 
@@ -152,7 +152,7 @@ transfering a file
 scp -P 63635 input_name.wav e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
 
 ```
-Please note that the text **"63635"** in the command line above should be changed with your personal info. You can find it in the ssh command line in the pop up connect window.
+Please note that the text **"63635"** in the command line above should be changed with your personal info. You can find it in the ssh command line in the pop up connect window. (see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
 
 **input_folder_to_be_transferred** and should be replaced with your directory path in your own machine as well as the folder **your_name**
 
