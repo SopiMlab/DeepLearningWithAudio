@@ -126,7 +126,7 @@ The timbre transfer is unfortunately quite slow without GPU acceleration (unsupp
 
 A few example checkpoints are provided by the DDSP authors, and we've trained some additional ones. You can find all of them in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
-## DDSP Training in VM
+## DDSP Training in Azure My Virtual Machines
 
 Log in to  https://labs.azure.com
 (see the login instructions at https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/)
@@ -144,25 +144,35 @@ You can transfer your files from your own PC to the vm following the below comma
 
 transfering a folder
 ```
-scp -P **63635** -r **input_folder_to_be_transferred** e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/**your_name** 
+scp -P 63635 -r input_folder_to_be_transferred e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
 
 ```
 transfering a file
 ```
-scp -P **63635** **input_name.wav** e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/**your_name** 
+scp -P 63635 input_name.wav e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
 
 ```
-Please note that the text in bold in the command line should be changed with your personal info- You can find it in the ssh command line in the pop up connect window.
+Please note that the text **"63635"** in the command line above should be changed with your personal info. You can find it in the ssh command line in the pop up connect window.
 
-input_folder_to_be_transferred should be replaced with your directory path in your own machine
+**input_folder_to_be_transferred** and should be replaced with your directory path in your own machine as well as the folder **your_name**
 
 
 **Preparing your dataset**
 
 ```
-./dlwa.py gansynth chop-audio --input_name **your_name/mysounds** --output_name **your_name/mysounds_chopped**
+./dlwa.py ddsp make-dataset --input_name your_name/input_folder_to_be_transferred  --dataset_name your_name/input_folder_to_be_transferred 
 ```
+**your_name/input_folder_to_be_transferred ** and  **your_name/input_folder_to_be_transferred ** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/dataset/ddsp/your_name/input_folder_to_be_transferred 
 
+**Starting the Training**
+
+```
+./dlwa.py ddsp train --dataset_name your_name/input_folder_to_be_transferred --model_name your_name/name_model
+```
+**your_name/input_folder_to_be_transferred ** and  **your_name/name_model** should be replaced with your own folder names. This command line start the DDSP training and saves trained checkpoints, log, summaries into DeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/name_model
+
+
+## DDSP training in other virtual machines
 See [DDSP training](training.md).
 
 ## Exercises
