@@ -92,9 +92,85 @@ Finally, open `samplernn.pd`. You will need to edit the `load` message to use yo
 
 We have some pre-trained checkpoints in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
-## Training
+
+## SampleRNN Training in Azure My Virtual Machines
+
+Log in to  https://labs.azure.com
+(see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
+
+c/p the command line below into your ternimnal window to go to the dlwa directory
+
+```
+cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+
+```
+
+
+
+**TRANSFERING YOUR DATASET TO THE VIRTUAL MACHINE**
+
+Please  before transferring your files and running chunk_audio, you should convert your audio to your desired sample rate (16000 Hz by default) and mono. The train script is supposed to handle this automatically, but it seems to be buggy at the moment.
+
+You can transfer your files from your own PC to the vm following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory
+
+transfering a folder
+
+```
+scp -P 63635 -r input_folder e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
+
+```
+transfering a file
+```
+scp -P 63635 input_name.wav e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
+
+```
+Please note that the text **"63635"** in the command line above should be changed with your personal info. You can find it in the ssh command line in the pop up connect window. (see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
+
+**input_folder** and should be replaced with your directory path in your own machine as well as the folder **your_name**. Please note that the name you give to **input_folder** will be used in below command lines as well.
+
+
+
+**PREPARING YOUR DATASET**
+
+```
+./dlwa.py samplernn chunk-audio --input_name your_name/myinputs --output_name your_name/myinputs_chunks
+```
+**your_name/myinputs** and  **your_name/myinputs_chunks** should be replaced with your own folder names. Saves chopped files into DeepLearningWithAudio/utilities/dlwa/inputs/your_name/myinputs_chunk (It will create the folder **myinputs_chun**, don't need to create it before)
+
+
+
+**STARTING THE TRAINING**
+
+```
+./dlwa.py samplernn train --input_name your_name/myinputs_chunks --model_name  your_name/model_name  --preset lstm-linear-skip
+```
+**your_name/myinputs_chunks** and  **your_name/model_name** should be replaced with your own folder names. This command line will start the SampleRNN training and it will save the trained checkpoints and logs into DeepLearningWithAudio/utilities/dlwa/models/samplernn/**your_name/model_name** and it will save the generated audio into DeepLearningWithAudio/utilities/dlwa/generated/**your_name/model_name**. Please also note that --preset lstm-linear-skip is the default choice with dlwa script.
+
+
+
+
+**TRANSFERING YOUR TRAINED MODEL TO YOUR OWN COMPUTER/LAPTOP**
+
+You can transfer your files, such as trained models from your the virtual machine to your on own PC  following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory.
+
+transfering a folder
+
+```
+scp -P 63635 -r e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/samplernn/your_name/model_name ~/Downloads
+
+```
+
+Please note that the text **"63635"** in the command line above should be changed with your personal info. You can find it in the ssh command line in the pop up connect window. (see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
+
+**your_name/mysound** and should be replaced with your directory path in your own machine. 
+
+
+
+
+## SampleRNN training in other virtual machines
 
 See [Training SampleRNN](training.md).
+
 
 ## Exercises
 
