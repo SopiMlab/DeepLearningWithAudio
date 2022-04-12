@@ -126,7 +126,42 @@ The timbre transfer is unfortunately quite slow without GPU acceleration (unsupp
 
 A few example checkpoints are provided by the DDSP authors, and we've trained some additional ones. You can find all of them in the [SOPI Google Drive](https://drive.google.com/drive/folders/1yoJhvr2UY0ID3AP6jumUItJJGSkiBEg_).
 
-## Training
+## DDSP Training in VM
+
+Log in to  https://labs.azure.com
+(see the login instructions at https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/)
+
+c/p the command line below into your ternimnal window to go to the dlwa directory
+
+```
+cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+
+```
+
+**Tranfering your dataset**
+
+You can transfer your files from your own PC to the vm following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory
+
+transfering a folder
+```
+scp -P **63635** -r **input_folder_to_be_transferred** e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/**your_name** 
+
+```
+transfering a file
+```
+scp -P **63635** **input_name.wav** e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/**your_name** 
+
+```
+Please note that the text in bold in the command line should be changed with your personal info- You can find it in the ssh command line in the pop up connect window.
+
+input_folder_to_be_transferred should be replaced with your directory path in your own machine
+
+
+**Preparing your dataset**
+
+```
+./dlwa.py gansynth chop-audio --input_name **your_name/mysounds** --output_name **your_name/mysounds_chopped**
+```
 
 See [DDSP training](training.md).
 
