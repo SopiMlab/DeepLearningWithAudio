@@ -9,3 +9,36 @@ Students will also learn and practice preparing data sets and traning deep learn
 ## Installation of the Required Tools (Pure Data, Python, Conda, Magenta, PyExt)
 
 First make sure you have [pyext](../utilities/pyext-setup/) set up.
+
+
+## Registering Azure Lab Service 
+
+click on the registration link that you received in your email
+
+after registering to the Azure Lab, **My virtual machines** page will apear on your browser
+
+click on the **Start** button
+
+Click ‘**Connect**’. When you log in for the first time you will be asked to set a password to connect to the VM. Set up your password.
+
+
+## Student Azure Lab VM Log in 
+
+Go to https://labs.azure.com
+
+'**Sign in**' with your aalto account
+
+‘**DeepLearning With Audio Lab**’ course environment will appear under '**My virtual machines**' section
+
+Click on the **Start** button, if the machine is already running you do not need to
+
+Click ‘**Connect**’
+
+You will see a pop up with the ssh command line that you need to copy and paste into your terminal to connect to the VM
+
+The command line looks like this : 
+**ssh -p 63635 e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com**
+
+
+```
+```
