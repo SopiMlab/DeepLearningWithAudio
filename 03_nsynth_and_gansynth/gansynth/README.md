@@ -179,10 +179,13 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 
 If your **traning still continues**, you will see similar output on your termninal window
 
-I0413 06:28:29.788176 140451635803968 train_util.py:306] step: 25825    spectral_loss: 5.92     total_loss: 5.92  
-I0413 06:28:31.960153 140451635803968 train_util.py:306] step: 25826    spectral_loss: 5.85     total_loss: 5.85  
-I0413 06:28:34.149478 140451635803968 train_util.py:306] step: 25827    spectral_loss: 5.64     total_loss: 5.64  
-I0413 06:28:36.336162 140451635803968 train_util.py:306] step: 25828    spectral_loss: 4.78     total_loss: 4.78 
+I0409 16:32:56.410543 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 184, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.123 sec)
+INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 192, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.105 sec)
+I0409 16:32:56.515631 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 192, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.105 sec)
+INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 200, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec)
+I0409 16:32:56.627448 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 200, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec)
+INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 208, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec)
+I0409 16:32:56.739801 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 208, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec) 
 
 
 if your **traning is completed**, you will see the below text on your terminal window
