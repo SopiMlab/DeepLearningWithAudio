@@ -150,7 +150,7 @@ Please note that the text **"63635"** in the command line above should be change
 
 **MONITORING THE TRAINING**
 
-It is most likley that SampleRNN treaning will take approximatley 38 hours, during which you can log in and monitor the status of your training. To do that;
+It is most likely that SampleRNN training will take approximatley 38 hours, during which you can log in and monitor the status of your training. To do that;
 
 Log in to  https://labs.azure.com
 (see the  [login instructions](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/00_introduction/))
