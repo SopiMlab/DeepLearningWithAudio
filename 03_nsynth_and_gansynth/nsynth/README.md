@@ -97,9 +97,6 @@ Please note that the text **"63635"** in the command line above should be change
 ```
 **your_name/nsynth** and  **your_name/nsynth** should be replaced with your own folder names. Saves the files into DeepLearningWithAudio/utilities/dlwa/inputs/your_name/nsynth (It will create the folder **your_name/nsynth**, don't need to create it before)
 
-```
-
-
 
 **STARTING GENERATING AUDIO SAMPLES**
 
