@@ -17,7 +17,7 @@ Click on the **registration link** that you received in your email,
 
 After registering to the Azure Lab, **My virtual machines** page will apear on your browser,
 
-click on the **Start** button,
+Click on the **Start** button,
 
 After the machine is started running, Click on the ‘**Connect**’ button (small computer icon). When you log in for the first time you will be asked to set a password to connect to the VM. Set up your password.
 
@@ -32,7 +32,7 @@ Go to https://labs.azure.com
 
 Click on the **Start** button, if the machine is already running you do not need to,
 
- Click on the ‘**Connect**’ button (small computer icon),
+Click on the ‘**Connect**’ button (small computer icon),
 
 You will see a pop up with the ssh command line that you need to copy and paste into your terminal to connect to the VM,
 
@@ -42,5 +42,3 @@ The command line looks like this :
 Open a **Terminal window**, paste the command line that you copied and click on enter
 
 Now you are in the **Deep Learning with Audio VM**
-```
-```
