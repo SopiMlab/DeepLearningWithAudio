@@ -110,7 +110,6 @@ c/p the command line below into your ternimnal window to go to the dlwa director
 
 ```
 cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
-
 ```
 
 
