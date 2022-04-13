@@ -205,9 +205,10 @@ I0413 06:28:34.149478 140451635803968 train_util.py:306] step: 25827    spectral
 I0413 06:28:36.336162 140451635803968 train_util.py:306] step: 25828    spectral_loss: 4.78     total_loss: 4.78 
 
 
-if your **traning is completed**, you will see the below text on your terminla window
+if your **traning is completed**, you will see the below text on your terminal window
 
-someting  -- 
+script failed: attach dlwa screen
+aborting
 
 
 
