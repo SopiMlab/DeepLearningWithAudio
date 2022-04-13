@@ -83,10 +83,10 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 
 If your **traning still continues**, you will see similar output on your termninal window
 
-I0413 06:28:29.788176 140451635803968 train_util.py:306] step: 25825    spectral_loss: 5.92     total_loss: 5.92  
-I0413 06:28:31.960153 140451635803968 train_util.py:306] step: 25826    spectral_loss: 5.85     total_loss: 5.85  
-I0413 06:28:34.149478 140451635803968 train_util.py:306] step: 25827    spectral_loss: 5.64     total_loss: 5.64  
-I0413 06:28:36.336162 140451635803968 train_util.py:306] step: 25828    spectral_loss: 4.78     total_loss: 4.78 
+I0412 14:37:21.286843 140283497939328 regression.py:49] regression batch 9/156
+I0412 14:37:57.083486 140283497939328 regression.py:49] regression batch 10/156
+I0412 14:38:32.043463 140283497939328 regression.py:49] regression batch 11/156
+I0412 14:39:07.392691 140283497939328 regression.py:49] regression batch 12/156
 
 
 if your **traning is completed**, you will see the below text on your terminal window
