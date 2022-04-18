@@ -192,7 +192,7 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 ./dlwa.py util screen-attach
 ```
 
-If your **traning still continues**, you will see similar output on your termninal window
+If your **traning still continues**, you will see similar output on your termninal window :
 ```
 I0413 06:28:29.788176 140451635803968 train_util.py:306] step: 25825    spectral_loss: 5.92     total_loss: 5.92  
 I0413 06:28:31.960153 140451635803968 train_util.py:306] step: 25826    spectral_loss: 5.85     total_loss: 5.85  
@@ -200,18 +200,19 @@ I0413 06:28:34.149478 140451635803968 train_util.py:306] step: 25827    spectral
 I0413 06:28:36.336162 140451635803968 train_util.py:306] step: 25828    spectral_loss: 4.78     total_loss: 4.78 
 ```
 
-if your **traning is completed**, you will see the below text on your terminal window
+If your **traning is completed**, you will see the below text on your terminal window :
 
+```
 script failed: attach dlwa screen
 aborting
-
+```
 
 
 **TRANSFERING YOUR TRAINED MODEL TO YOUR OWN COMPUTER/LAPTOP**
 
 You can transfer your files, such as trained models from your the virtual machine to your on own PC  following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory.
 
-transfering a folder
+* Transfering a folder
 
 ```
 scp -P 63635 -r e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/mysound ~/Downloads

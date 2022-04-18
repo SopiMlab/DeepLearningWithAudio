@@ -79,7 +79,8 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 ./dlwa.py util screen-attach
 ```
 
-If your **traning still continues**, you will see similar output on your termninal window
+If your **traning still continues**, you will see similar output on your termninal window :
+
 ```
 I0412 14:37:21.286843 140283497939328 regression.py:49] regression batch 9/156
 I0412 14:37:57.083486 140283497939328 regression.py:49] regression batch 10/156
@@ -87,10 +88,12 @@ I0412 14:38:32.043463 140283497939328 regression.py:49] regression batch 11/156
 I0412 14:39:07.392691 140283497939328 regression.py:49] regression batch 12/156
 ```
 
-If your **traning is completed**, you will see the below text on your terminal window
+If your **traning is completed**, you will see the below text on your terminal window :
 
+```
 script failed: attach dlwa screen
 aborting
+```
 
 
 

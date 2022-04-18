@@ -142,7 +142,7 @@ Please note that the text **"63635"** in the command line above should be change
 ```
 ./dlwa.py gansynth make-dataset --input_name your_name/mysounds_chopped --dataset_name your_name/mysounds 
 ```
-**your_name/mysounds_chopped ** and  **your_name/mysounds ** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/datasets/gansynth/**your_name/mysounds**
+**your_name/mysounds_chopped** and  **your_name/mysounds** should be replaced with your own folder names. Saves data.tfrecord files into DeepLearningWithAudio/utilities/dlwa/datasets/gansynth/**your_name/mysounds**
 
 
 
@@ -171,7 +171,7 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 ./dlwa.py util screen-attach
 ```
 
-If your **traning still continues**, you will see similar output on your termninal window
+If your **traning still continues**, you will see similar output on your termninal window :
 ```
 I0409 16:32:56.410543 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 184, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.123 sec)
 INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 192, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.105 sec)
@@ -182,18 +182,18 @@ INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting 
 I0409 16:32:56.739801 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 208, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec) 
 ```
 
-if your **traning is completed**, you will see the below text on your terminal window
-
+If your **traning is completed**, you will see the below text on your terminal window :
+```
 script failed: attach dlwa screen
 aborting
-
+```
 
 
 **TRANSFERING YOUR TRAINED MODEL TO YOUR OWN COMPUTER/LAPTOP**
 
 You can transfer your files, such as trained models from your the virtual machine to your on own PC  following the below command line structure. Open a new terminal window make sure that you are in your own computer/laptop directory.
 
-transfering a folder
+* Transfering a folder
 
 ```
 scp -P 63635 -r e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mysound ~/Downloads

@@ -162,7 +162,8 @@ cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
 ./dlwa.py util screen-attach
 ```
 
-If your **traning still continues**, you will see similar output on your termninal window
+If your **traning still continues**, you will see similar output on your termninal window :
+
 ```
 Epoch: 27/100, Step: 6/250, Loss: 1.355, Accuracy: 46.000, (4.365 sec/step)
 Epoch: 27/100, Step: 7/250, Loss: 1.352, Accuracy: 46.179, (4.377 sec/step)
@@ -170,11 +171,12 @@ Epoch: 27/100, Step: 8/250, Loss: 1.349, Accuracy: 46.208, (4.323 sec/step)
 Epoch: 27/100, Step: 9/250, Loss: 1.344, Accuracy: 46.309, (4.358 sec/step)
 ```
 
-If your **traning is completed**, you will see the below text on your terminal window
+If your **traning is completed**, you will see the below text on your terminal window :
 
+```
 script failed: attach dlwa screen
 aborting! 
-
+```
 
 
 **TRANSFERING YOUR TRAINED MODEL TO YOUR OWN COMPUTER/LAPTOP**
