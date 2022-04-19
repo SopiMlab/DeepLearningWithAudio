@@ -191,6 +191,15 @@ Conda root: /home/sopi/miniconda3/envs/magenta
 
 The output on your system will differ a bit according to your corresponding paths.
 
+if you have the following error "Make utility not found":
+
+make sure that you have gcc, g++ and make installed,  comment line example below shows how to install
+
+```
+sudo apt install gcc g++ make
+```
+
+
 Now build pyext by running the same command without `--info`:
 
 ```
@@ -198,6 +207,9 @@ python build.py
 ```
 
 This creates a binary called `py.pd_linux` in the `build/py` subdirectory. It is normal for some warnings to appear during the build.
+
+if you have the following error "Make utility not found": make sure that you have gcc, g++ and make installed, 
+
 
 ## Install pyext
 
