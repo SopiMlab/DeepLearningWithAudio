@@ -27,7 +27,7 @@ Often, the generator and discriminator network structures mirror each other. It 
 
 ## Architecture of GANSynth
 
-The GANSynth network learns to represent timbre as vectors in a 512-dimensional latent space. In practice this just means arrays containing 512 numbers. These vectors describe different sonic features found in the training dataset, though what exactly these features are can be difficult to analyze. The network is also conditioned on a one-hot representation of pitch, to allow independent control of pitch and timbre in the synthesis process.
+The GANSynth network learns to represent timbre as vectors in a 256-dimensional latent space. In practice this just means arrays containing 256 numbers. These vectors describe different sonic features found in the training dataset, though what exactly these features are can be difficult to analyze. The network is also conditioned on a one-hot representation of pitch, to allow independent control of pitch and timbre in the synthesis process.
 
 The generator synthesizes audio by sampling a random vector from the latent space according to a spherical Gaussian distribution, and running it through several layers of upsampling convolutions. The discriminator applies corresponding downsampling convolutions and produces an estimate of the divergence between the real and generated data. To encourage the network to make use of the pitch label, the discriminator also attempts to classify the pitch of the generated audio. The divergence estimate and pitch prediction error are combined to form the network's loss function, which is used for backpropagation during training.
 
