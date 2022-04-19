@@ -93,6 +93,19 @@ You can now run the patches:
 - `gansynth_multi.pd`
 - `gansynth_hallucination.pd`
 
+**Linux only:**
+when you load the GANSynth model in your pd patch, if you have the "notimplemented" error in Pd window;
+first make sure that you are in the magenta environment;
+
+you need to unistall tensorflow and numpy and then reinstall them again: 
+```
+pip uninstall tensorflow numpy
+pip install tensorflow numpy
+```
+
+
+
+
 ## Checkpoints
 
 Google provides two [pre-trained neural networks](https://github.com/tensorflow/magenta/tree/master/magenta/models/gansynth#generation), called checkpoints: `all_instruments` is trained on all instruments in the NSynth dataset, while `acoustic_only` is trained on the acoustic instruments only.
