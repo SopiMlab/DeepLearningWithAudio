@@ -39,6 +39,16 @@ This will download the repository into your current working directory, which in 
 ## Install Conda
 
 We will use the Conda package/environment manager to set up a Python environment. Install Miniconda following the [official Conda instructions](https://conda.io/projects/conda/en/latest/user-guide/install/linux.html). Note that you *only* need Miniconda! The instructions page is a bit confusing and makes it seem like you should install both Miniconda and Anaconda, but you can ignore the latter.
+Here you can c/p the below comments to install miniconda to your home directory:
+
+```
+mkdir -p ~/miniconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm -rf ~/miniconda3/miniconda.sh
+~/miniconda3/bin/conda init bash
+~/miniconda3/bin/conda init zsh
+```
 
 ## Download Magenta
 
@@ -216,7 +226,16 @@ Then go to File menu → Preferences → Startup and add `py` to the libraries l
 Click OK, save your preferences (File menu → Preferences → Save All Preferences) and restart Pure Data. There should now be a message about pyext in the main window, e.g.:
 
 ```
-------------------------------------------------py/pyext 0.2.2 - python script objects(C)2002-2019 Thomas Grill - http://grrrr.org/extusing Python 3.7.9 (default, Aug 31 2020, 12:46:46) [GCC 7.3.0]Python array support enabled------------------------------------------------```
+------------------------------------------------
+py/pyext 0.2.2 - python script objects
+(C)2002-2019 Thomas Grill - http://grrrr.org/ext
+
+using Python 3.7.9 (default, Aug 31 2020, 12:46:46) 
+[GCC 7.3.0]
+
+Python array support enabled
+------------------------------------------------
+```
 
 Congratulations, you've got it working! You're now ready to run our Pd patches.
 
