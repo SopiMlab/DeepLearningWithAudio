@@ -95,9 +95,10 @@ You can now run the patches:
 
 **Linux only:**
 when you load the GANSynth model in your pd patch, if you have the "notimplemented" error in Pd window;
+
 first make sure that you are in the magenta environment;
 
-you need to unistall tensorflow and numpy and then reinstall them again: 
+then, you need to unistall tensorflow and numpy and after that reinstall them again: 
 ```
 pip uninstall tensorflow numpy
 pip install tensorflow numpy
