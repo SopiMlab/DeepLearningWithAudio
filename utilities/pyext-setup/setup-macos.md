@@ -105,10 +105,12 @@ conda init zsh
 ```
 
 macOS Big Sur:
+source <path to miniconda.... /base/bin/activate> for example
 
 ```
-source <path to miniconda.... /base/bin/activate> for example source /usr/local/Caskroom/miniconda/base/bin/activate
-
+source /usr/local/Caskroom/miniconda/base/bin/activate
+```
+```
 conda init zsh
 ```
 
@@ -199,7 +201,7 @@ pip install -e .
 Enter the `pyext-setup` directory:
 
 ```
-cd ../utilities/pyext-setup
+cd ../../utilities/pyext-setup
 ```
 
 Run the `build.py` script with the `--info` flag to check your environment:
