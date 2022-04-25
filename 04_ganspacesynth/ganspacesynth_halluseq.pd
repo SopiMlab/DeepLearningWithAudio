@@ -1,5 +1,5 @@
-#N canvas 0 63 1440 743 10;
-#N canvas 257 23 1179 831 controls 0;
+#N canvas 955 201 1440 743 10;
+#N canvas 912 344 1522 1096 controls 0;
 #X obj 501 154 tgl 15 0 empty empty loaded 17 7 0 10 -262144 -1 -1
 0 1;
 #X obj 355 -3 f 1;
@@ -26,7 +26,7 @@
 #X obj 148 293 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
 #X text 133 313 previous;
-#X obj 381 292 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
+#X obj 382 292 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
 -1 -1;
 #X text 380 312 add;
 #X obj 436 292 bng 20 250 50 0 empty empty empty 17 7 0 10 -232576
@@ -68,7 +68,7 @@
 #X text 683 705 save;
 #X text 565 538 output;
 #X msg -65 539 interp_steps \$1;
-#X msg 95 -33 send_state;
+#X msg 37 -16 send_state;
 #X obj 34 -52 loadbang;
 #X msg -14 183 set \$1;
 #X msg 35 183 set \$1;
@@ -153,6 +153,7 @@ release;
 ;
 #X text 566 486 to avoid crashes \, turn dsp off when generating!,
 f 33;
+#X obj 25 265 s intrange;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 97 0;
@@ -192,6 +193,7 @@ f 33;
 #X connect 52 0 51 0;
 #X connect 53 0 14 0;
 #X connect 54 0 16 0;
+#X connect 54 0 121 0;
 #X connect 56 0 40 0;
 #X connect 58 0 57 0;
 #X connect 59 0 63 0;
@@ -269,54 +271,50 @@ f 33;
 #X restore 374 41 pd controls;
 #X obj 374 713 dac~;
 #X obj 374 694 *~ 0.5;
-#X msg 374 11 init pruu pruu/pruu_conv0_ipca_4194304.pickle;
-#X obj 11 11 cnv 15 350 70 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 11 cnv 15 350 80 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X text 19 17 ---- HALLU - GANSpaceSynth hallucination sequencer ----
 ;
-#X text 19 37 Using GANSpaceSynth \, we can make more controlled hallucinations
-by defining specific points in the latent space to move through.,
-f 55;
-#X obj 11 92 cnv 15 350 110 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 99 cnv 15 350 110 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 19 178 init <checkpoint dir> <pca file>, f 55;
-#X text 19 98 1 - Load a GANSynth checkpoint and a PCA file., f 55
+#X text 19 185 init <checkpoint dir> <pca file>, f 55;
+#X text 19 105 1 - Load a GANSynth checkpoint and a PCA file., f 55
 ;
-#X text 19 118 Use the "select directory/file" buttons to browse for
+#X text 19 125 Use the "select directory/file" buttons to browse for
 a checkpoint folder and a PCA file.;
-#X text 19 148 You can also automate this by sending into the inlet
+#X text 19 155 You can also automate this by sending into the inlet
 a message like:, f 55;
-#X obj 11 213 cnv 15 350 200 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 220 cnv 15 350 200 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 19 238 in the steps area \, create the principal steps through
+#X text 19 245 in the steps area \, create the principal steps through
 which the hallucination will move., f 55;
-#X text 19 268 previous/next - switch between steps, f 55;
-#X text 19 288 add - add a new step after the existing ones, f 55
+#X text 19 275 previous/next - switch between steps, f 55;
+#X text 19 295 add - add a new step after the existing ones, f 55
 ;
-#X text 19 308 remove - remove the current step, f 55;
-#X text 19 328 preview - generate and play the audio at the current
+#X text 19 315 remove - remove the current step, f 55;
+#X text 19 335 preview - generate and play the audio at the current
 step, f 55;
-#X text 19 358 sliders - set the current step's latent space position
+#X text 19 365 sliders - set the current step's latent space position
 along the axis corresponding to each principal component (often only
 the 2-3 first ones will have an audible effect), f 55;
-#X text 19 218 2 - Edit steps., f 55;
-#X obj 11 424 cnv 15 350 180 empty empty empty 20 12 0 14 -233017 -66577
+#X text 19 225 2 - Edit steps., f 55;
+#X obj 11 431 cnv 15 350 180 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 19 430 3 - Edit settings., f 55;
-#X text 19 450 In the settings area \, define how to build the hallucination
+#X text 19 437 3 - Edit settings., f 55;
+#X text 19 457 In the settings area \, define how to build the hallucination
 out of the principal steps., f 55;
-#X text 19 480 Interpolation steps - how many intermediate steps to
+#X text 19 487 Interpolation steps - how many intermediate steps to
 synthesize between each principal step, f 55;
-#X text 19 510 Sample spacing - time in seconds between starting playback
+#X text 19 517 Sample spacing - time in seconds between starting playback
 of each step, f 55;
-#X text 19 540 Start trim - time in seconds to trim from the start
+#X text 19 547 Start trim - time in seconds to trim from the start
 of each step, f 55;
-#X text 19 570 Attack/Sustain/Release - duration in seconds of each
+#X text 19 577 Attack/Sustain/Release - duration in seconds of each
 part of the amplitude envelope applied to each step, f 55;
-#X obj 11 615 cnv 15 350 70 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 11 622 cnv 15 350 70 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 19 620 4 - Generate!, f 55;
-#X text 19 639 After generating \, we resize the output array to fit
+#X text 19 627 4 - Generate!, f 55;
+#X text 19 646 After generating \, we resize the output array to fit
 the generated audio. This can cause Pd to crash if DSP is on \, so
 we recommend turning it off when generating!, f 55;
 #X text 1072 567 We make use of the following open source projects:
@@ -349,8 +347,14 @@ License along with this program \; if not \, write to the Free Software
 Foundation \, Inc. \, 51 Franklin Street \, Fifth Floor \, Boston \,
 MA 02110-1301 \, USA.;
 #X restore 1216 656 pd license;
+#X msg 374 1 init ct-conversations-model ct-conversations-model/ct-conversations-model_conv0_ipca_4194304.pickle
+;
+#X text 19 30 Using GANSpaceSynth \, we can make more controlled hallucinations
+by defining specific points in the latent space to move through. Total
+step size and the amount of interpolation steps adjusted to the maximum
+amount of generated audio samples ( 8 samples), f 55;
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X connect 2 0 1 1;
-#X connect 3 0 0 0;
+#X connect 34 0 0 0;
 #X coords 0 743 1 742 0 0 0;
