@@ -9,7 +9,7 @@ eval set -- "$GETOPTS_RESULT"
 
 LAYER=conv0
 ESTIMATOR=ipca
-RANDOM_Z_COUNT=$((8192*512))
+RANDOM_Z_COUNT=$((8192))
 while true; do
     case "$1" in
         --conda_env )
