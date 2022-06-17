@@ -1,4 +1,4 @@
-# dlwa
+# DLWA
 
 `dlwa.py` is a script that aims to simplify setup and usage of the models studied in the Deep Learning with Audio course by automating as much as possible and integrating some common workarounds for problems. It does not expose all the functionality of the underlying tools, but prints out the commands it executes so that the user may understand what is happening underneath and dive deeper if desired.
 
@@ -52,22 +52,113 @@ optional arguments:
 
 ## Usage
 
-### DDSP
-
-#### Setup
+### Setup
 
 ```
 ./dlwa.py ddsp setup
 ```
+Sets up a Conda environment for ddsp, installing all the necessary packages.  
+For the other models, replace ddsp by their name to set up the different Conda environment. (eg. `./dlwa.py gansynth setup`, same thing for samplernn and nsynth)
 
-Sets up a Conda environment for DDSP, installing all the necessary packages.
 
-TODO: document missing sections
+### Dataset, Training 
 
-#### Make dataset
+To go further in the use of the script, you can consult the Azure trainings, which show in detail how to use it:
+* [DDSP](../../02_ddsp/training/azure_training.md)
+* [GANSynth](../../03_nsynth_and_gansynth/gansynth/training/azure_training.md)
+* [SampleRNN](../../05_samplernn/training/azure_samplernn.md) 
 
-### GANSynth
 
-### NSynth
 
-### SampleRNN
+### Custom argument, extra argument
+
+To use a custom argument, add it to the end of the command line: 
+```
+./dlwa.py MODEL COMMAND [ARGUMENTS ...] \
+--custom \
+-- \ 
+--customArguments ...
+```
+
+To use extra argument, same thing: 
+```
+./dlwa.py MODEL COMMAND [ARGUMENTS ...] \
+-- \ 
+--extraArguments ...
+```
+-----
+#### DDSP:
+
+For the DDSP model, 2 different scripts can be used with custom arguments or extra arguments. If you want to use them, you will have to run it as follows:
+
+- ``` 
+  ./dlwa.py ddsp make-dataset --input_name input_folder --dataset_name dataset_folder \
+    --custom \
+    -- \
+    --num_shards 10 \
+    --sample_rate 16000 
+  ``` 
+- ``` 
+  ./dlwa.py ddsp train dataset_folder --model_name name_model\
+    --custom \
+    -- \
+    --gin_file models/solo_instrument.gin \
+    --gin_file datasets/tfrecord.gin \ 
+    --gin_param batch_size=16 \
+    --gin_param train_util.train.num_steps=30000 \
+    --gin_param train_util.train.steps_per_save=300 \
+    --gin_param train_util.Trainer.checkpoints_to_keep=10
+  ``` 
+  
+__Note__:
+- The values above are the ones that is used by default, without changing custom arguments.
+- All the custom arguments are required by the script. So, if you want to change any of them, you will have to use the full command line, with all the custom arguments.
+
+-----
+#### GANSynth:
+
+For the GANSynth model, 2 different scripts can be used with extra arguments. If you want to use them, you will have to run it as follows:
+
+- ``` 
+  ./dlwa.py gansynth chop-audio --input_name mytunes --output_name mysounds_chopped \
+    -- \
+    --step 64000 \
+    --sample_rate 16000 \
+    --len 64000 \
+    --pitch 32
+  ``` 
+  The --step parameter specifies how much to advance in the audio at a time — for example, the step size of 16000 frames used above will advance 1 second at a time, causing 3 seconds of overlap between successive output files. Using 64000 would produce non-overlapping files, etc.
+- ``` 
+  ./dlwa.py gansynth make-dataset --dataset_name mydataset --model_name mymodel \
+    -- \
+    --sample_rate 16000\
+    --length 64000
+  ``` 
+
+__Note__: The values above are the default ones.
+
+-----
+#### SampleRNN:
+
+For the SampleRNN model, 2 different scripts can be used with custom arguments or extra arguments. If you want to use them, you will have to run it as follows:
+
+- ``` 
+  ./dlwa.py samplernn chunk-audio --input_name myinputs --output_name myinputs_chunks \
+    --custom \
+    -- \
+    --chunk_length 8000 \
+    --overlap 1000
+  ``` 
+- ``` 
+  ./dlwa.py samplernn train --input_name myinputs_chunks --model_name  model_name  --preset lstm-linear-skip \
+    --custom \
+    -- \
+    --batch_size 128 \
+    --checkpoint_every 5 \
+    --sample_rate 16000 \
+    --config_file ./misc/samplernn/lstm-linear-skip.config.json
+  ``` 
+
+__Note__: 
+- The values above are the ones that is used by default, without changing custom arguments.
+- All the custom arguments are required by the script. So, if you want to change any of them, you will have to use the full command line, with all the custom arguments.

@@ -10,40 +10,42 @@ Students will also learn and practice preparing data sets and traning deep learn
 
 First make sure you have [pyext](../utilities/pyext-setup/) set up.
 
+----
 
 ## Registering Azure Lab Service 
 
-Click on the **registration link** that you received in your email,
+Click on the __registration link__ that you received in your email.  
+Once registered to the Azure Lab, you will be able to see the virtual machine for the lab you have access to.
 
-After registering to the Azure Lab, **My virtual machines** page will apear on your browser,
+To start/stop the VM:
 
-Click on the **Start** button,
+- Click on the __Start__ button. This process takes some time, especially for the first time. After that, the machine will be running.
+- Click on the __Connect__ button (small computer icon) to connect to the VM.  
+When you log in for the first time you will be asked to set a password. It is a personal password, that you will have to enter every time you want to connect to the machine.
 
-After the machine is started running, Click on the ‘**Connect**’ button (small computer icon). When you log in for the first time you will be asked to set a password to connect to the VM. Set up your password.
+__Note:__  
+To stop the VM, click on the same button as to start it.
 
 
 ## Student Azure Lab VM Log in 
 
-In order to log in to Azure Lab, you need to  [**remotely connect to Aalto University VPN network**](https://www.aalto.fi/en/services/establishing-a-remote-connection-vpn-to-an-aalto-network#6-remote-connection-to-students--and-employees--own-devices). Please follow the instructions in the [link](https://www.aalto.fi/en/services/establishing-a-remote-connection-vpn-to-an-aalto-network#6-remote-connection-to-students--and-employees--own-devices):
+In order to log in to Azure Lab, you need to [__remotely connect to Aalto University VPN network__](https://www.aalto.fi/en/services/establishing-a-remote-connection-vpn-to-an-aalto-network#6-remote-connection-to-students--and-employees--own-devices).
 
 
-After you establish a VPN connection to Aalto university;
+After you establish a VPN connection to Aalto university, you just need to go to https://labs.azure.com and __Log in__ with your aalto account.
 
-Go to https://labs.azure.com
+After that, the ‘__DeepLearning With Audio Lab__’ course environment will appear under '__My virtual machines__' section:
+- Click on the __Start__ button (if the machine is already running you do not need to).
+- Click on the __Connect__ button (small computer icon), you will see a pop up with the ssh command line that you need to copy and paste into your terminal to connect to the VM, it looks like: 
+```
+ssh -p 63635 e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com
+```
 
-'**Sign in**' with your aalto account,
+Open a __Terminal window__, paste the command line that you copied and click on enter.
 
-‘**DeepLearning With Audio Lab**’ course environment will appear under '**My virtual machines**' section,
+You are now in the __Deep Learning with Audio VM__.  
 
-Click on the **Start** button, if the machine is already running you do not need to,
-
-Click on the ‘**Connect**’ button (small computer icon),
-
-You will see a pop up with the ssh command line that you need to copy and paste into your terminal to connect to the VM,
-
-The command line looks like this : 
-**ssh -p 63635 e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com**
-
-Open a **Terminal window**, paste the command line that you copied and click on enter
-
-Now you are in the **Deep Learning with Audio VM**
+__Note:__  
+If you have any problem with our instructions to connect to the VM, take a look to the official instructions:
+- For registration [here](https://docs.microsoft.com/en-us/azure/lab-services/how-to-use-lab)
+- To Connect to a Linux lab VM [here](https://docs.microsoft.com/en-us/azure/lab-services/connect-virtual-machine)

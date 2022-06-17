@@ -6,13 +6,13 @@ See also [PRiSM SampleRNN - Training](https://github.com/SopiMlab/prism-samplern
 
 ## Using Aalto computers
 
-If you want to train on Aalto computers, see our [Using Aalto computers](../using-aalto-computers.md) document.
+If you want to train on Aalto computers, see our [Using Aalto computers](../../using-aalto-computers.md) document.
 
 ----
 
 ## Install SampleRNN
 
-Follow the [instructions](README.md) to install PRiSM SampleRNN. You don't need `sopilib` or anything else from the `DeepLearningWithAudio` repository for training.
+Follow the [instructions](../README.md) to install PRiSM SampleRNN. You don't need `sopilib` or anything else from the `DeepLearningWithAudio` repository for training.
 
 ## Split audio into chunks
 
