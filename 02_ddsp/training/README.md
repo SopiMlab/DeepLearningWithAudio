@@ -6,7 +6,9 @@ This guide describes how to train a DDSP timbre transfer model using your own so
 
 ## Using Aalto computers
 
-If you want to train on Aalto computers, see our [Using Aalto computers](../using-aalto-computers.md) document.
+If you want to train on Aalto computers, see our [Using Aalto computers](../../using-aalto-computers.md) document. After connecting to the Aalto computers, follow the instructions below (starting with `ffmpeg`).
+
+For training on the Triton computing cluster, see also [Training DDSP on Triton](triton/README.md).
 
 ----
 
@@ -26,7 +28,7 @@ sudo apt install ffmpeg
 
 ## Conda environment
 
-First make sure you have a Conda environment set up for DDSP — see our [main DDSP guide](README.md) (you can stop before the `sopilib` installation).
+First make sure you have a Conda environment set up for DDSP — see our [main DDSP guide](../README.md) (you can stop before the `sopilib` installation).
 
 The DDSP package seems to have some issues with installing dependencies, and when trying to run the training scripts you may encounter errors like:
 
@@ -101,48 +103,4 @@ Save dataset statistics (allows auto-adjusting parameters for better results whe
 python DeepLearningWithAudio/02_ddsp/training/save_dataset_statistics.py \
     --tfrecord_file_pattern 'traveller_organ_dataset/data.tfrecord*' \
     --save_dir 'traveller_organ_train'
-```
-
-## Triton
-
-(potentially outdated...)
-
-```
-module load teflon
-module load anaconda3
-module load ffmpeg
-conda create -p /scratch/other/sopi/conda/ddsp python=3.8 tensorflow-gpu=2 tensorflow-probability
-source activate /scratch/other/sopi/conda/ddsp
-cd /scratch/other/sopi
-git clone https://github.com/magenta/ddsp.git
-cd ddsp
-pip install -e .
-cd ../ddsp-train-miranda
-```
-
-```
-sbatch DeepLearningWithAudio/02_ddsp/training/triton/ddsp_prepare_tfrecord.slrm \
-    --conda_env /scratch/other/sopi/conda/ddsp \
-    -- \
-    --alsologtostderr \
-    --num_shards 10 \
-    --sample_rate 16000 \
-    --input_audio_filepatterns traveller_organ_16k.wav \
-    --output_tfrecord_path traveller_organ_dataset/data.tfrecord
-```
-
-```
-sbatch DeepLearningWithAudio/02_ddsp/training/triton/ddsp_run.slrm \
-    --conda_env /scratch/other/sopi/conda/ddsp \
-    -- \
-    --alsologtostderr \
-    --mode=train \
-    --save_dir=traveller_organ_train \
-    --gin_file=models/solo_instrument.gin \
-    --gin_file=datasets/tfrecord.gin \
-    --gin_param="TFRecordProvider.file_pattern='traveller_organ_dataset/data.tfrecord*'" \
-    --gin_param="batch_size=16" \
-    --gin_param="train_util.train.num_steps=30000" \
-    --gin_param="train_util.train.steps_per_save=300" \
-    --gin_param="trainers.Trainer.checkpoints_to_keep=10"
 ```
