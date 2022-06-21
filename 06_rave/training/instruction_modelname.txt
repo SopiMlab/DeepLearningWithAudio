@@ -1,0 +1,40 @@
+========================================================================================================================
+                                            MODELNAME: TRAINING INSTRUCTIONS
+========================================================================================================================
+
+
+TRAIN RAVE
+----------
+
+Train rave (both training stages are included)
+
+python ../train_rave.py -c default --name modelname --wav path/to/wav/files --preprocessed ./modelname/rave 
+
+You can follow the training using tensorboard
+
+tensorboard --logdir . --bind_all
+
+Once the training has reached a satisfactory state, kill it (ctrl + C)
+
+TRAIN PRIOR
+-----------
+
+Export the latent space trained on modelname.
+
+python export_rave.py --run triton/runs/modelname/rave --cached false --name modelname
+
+Train the prior model.
+
+python ../train_prior.py --pretrained-vae rave_modelname.ts --preprocessed ./modelname/prior --wav path/to/wav/files --name modelname
+
+Once the training has reached a satisfactory state, kill it (ctrl + C)
+
+========================================================================================================================
+                                            EXPORT TO MAX MSP (COMING SOON)
+========================================================================================================================
+
+In order to use both **rave** and the **prior** model inside max/msp, we have to export them using **cached convolutions**.
+
+python export_rave.py --run triton/runs/modelname/rave --cached true --name modelname_rt
+python export_prior.py --run triton/runs/modelname/prior --name modelname_rt
+python combine_models.py --prior prior_modelname_rt.ts --rave rave_modelname_rt.ts --name modelname
