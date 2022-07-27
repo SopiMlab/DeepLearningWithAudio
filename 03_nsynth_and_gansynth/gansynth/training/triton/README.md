@@ -115,6 +115,12 @@ And modify the parameters you want:
  + To save your changes, it is `:x` | to exit `:q` | to exit without saving changes `:q!`
 <br/><br/>
 
+__Note bis:__  
+If you want to change the length of the generated audio. You have to modify 2 scripts:  
++ [`dataset.py`](https://github.com/SopiMlab/magenta/blob/master/magenta/models/gansynth/lib/datasets.py#L98) in the magenta folder (`magenta/magenta/models/gansynth/lib/dataset.py`), to modify the audio length in the dataset (line 98)
++ [`train.slrm`](https://github.com/SopiMlab/DeepLearningWithAudio/blob/master/03_nsynth_and_gansynth/gansynth/training/triton/train.slrm#L72), to modify the audio length parameter (line 72)  
+<br/><br/>
+
 To train with a dataset that has extra labels (here `nsynth_qualities_tfrecord`):
 
 ```
