@@ -7,6 +7,10 @@ This guide is written for Ubuntu (version 20.04.1 LTS), but should be fairly sim
 Open a terminal and run:
 
 ```
+sudo apt-get update
+```
+
+```
 sudo apt install ubuntustudio-installer git libasound2-dev libjack-jackd2-dev
 ```
 
