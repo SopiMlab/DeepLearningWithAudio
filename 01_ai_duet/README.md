@@ -40,6 +40,12 @@ Download a pre-trained model (in this example, `attention_rnn`):
 curl -LO http://download.magenta.tensorflow.org/models/attention_rnn.mag
 ```
 
+if Command 'curl' not found, install it with'apt install' then download the pre-trained model
+
+```
+sudo apt install curl
+```
+
 You can now open `ai_duet.pd`! Note that it may take a while for the patch window to appear.
 
 `ai_duet.pd` loads `attention_rnn` by default; modify the load message to use another model.
