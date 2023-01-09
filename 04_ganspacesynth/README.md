@@ -50,7 +50,7 @@ More experimentation is needed with different trained models, sample counts, lay
 Make sure you have [pyext](../utilities/pyext-setup) and [GANSynth](../03_nsynth_and_gansynth/gansynth) set up. You can then open the `.pd` patches.
 
 
-## Computing GANSpaceSynth on AzureVM
+## !NOT FOR THE COURSE !! -- Computing GANSpaceSynth on AzureVM
 
 Follow the instructions for [training GANSynth](../03_nsynth_and_gansynth/gansynth/training/azure_training.md).
 
@@ -110,7 +110,7 @@ You can find your own number in the ssh command line that you use to connect to 
 
 
 
-## Computing GANSpaceSynth without dlwa
+## Computing GANSpaceSynth without dlwa for THE COURSE !!!
 
 Follow the instructions for [training GANSynth](../03_nsynth_and_gansynth/gansynth/training/README.md).
 
