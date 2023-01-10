@@ -21,14 +21,14 @@ Your training dataset should have about 10-20 minutes of audio from your chosen 
 ### Transfer your files to the VM 
 
 You can transfer your files from your own PC to the VM following the below command line structure.  
-Open a new terminal window and make sure you are in your own computer/laptop directory.
+Open a new terminal window and make sure you are **in your own computer/laptop directory.**
 
 * Transfer a folder
 
 Let's assume that the folder you want to transfer is called: `violin`. The command line will be:
 
 ```
-scp -P 63635 -r violin e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
+scp -P 63635 -r violin lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
 ```
 
 * Transfer a file
@@ -36,11 +36,12 @@ scp -P 63635 -r violin e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.w
 To transfert just a file, it is the same command line without the ```-r``` (-r = recursive).  
 For example, if you want to transfer a file called: `violin.wav`, the command will be:
 ```
-scp -P 63635 violin.wav e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
+scp -P 63635 violin.wav lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
 ```
 
 __Note__:
-- The number (*63635*) and *your_name* in the command line above should be changed with your personal info.  
+
+The number (**63635**) and **your_name** in the command line above should be changed with your personal info.
 You can find your own number in the ssh command line that you use to connect to the VM. (see the [login instructions](../../00_introduction/))
 
 
@@ -114,7 +115,7 @@ Open a new terminal window and make sure you are in your own laptop directory.
 * Transfer the folder of the trained model
 
 ```
-scp -P 63635 -r e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/myviolinmodel ~/Downloads
+scp -P 63635 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/myviolinmodel ~/Downloads
 ```
 
 __Note__:  
