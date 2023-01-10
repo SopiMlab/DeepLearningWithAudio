@@ -50,16 +50,25 @@ More experimentation is needed with different trained models, sample counts, lay
 Make sure you have [pyext](../utilities/pyext-setup) and [GANSynth](../03_nsynth_and_gansynth/gansynth) set up. You can then open the `.pd` patches.
 
 
-## !NOT FOR THE COURSE !! -- Computing GANSpaceSynth on AzureVM
+## Computing GANSpaceSynth for THE DLWA COURSE !!!
 
-Follow the instructions for [training GANSynth](../03_nsynth_and_gansynth/gansynth/training/azure_training.md).
+Follow the instructions for [training GANSynth](../03_nsynth_and_gansynth/gansynth/training/README.md).
 
-When you have a trained GANSynth model, you'll need to compute the PCA for GANSpaceSynth. To do this, use the below script: (replace `your_name/model` with your trained checkpoint folder)
+When you have a trained GANSynth model, you'll need to compute the PCA for GANSpaceSynth. To do this, use the `gansynth_ganspace` script: (replace `mymodel` with your trained checkpoint folder)
 
 ```
-cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
-./dlwa.py gansynth ganspace --model_name your_name/model
+conda activate dlwa-gansynth
+
+gansynth_ganspace \
+    --ckpt_dir mymodel \
+    --seed 0 \
+    --layer conv0 \
+    --random_z_count 8192 \
+    --estimator ipca \
+    --pca_out_file mymodel/mymodel_conv0_ipca_8192.pickle
 ```
+
+You can also experiment with `--layer conv1` and larger values of `--random_z_count` (though the latter will increase the computation time).
 
 
 ### Monitor
@@ -110,28 +119,22 @@ You can find your own number in the ssh command line that you use to connect to 
 
 
 
-## Computing GANSpaceSynth without dlwa for THE COURSE !!!
-
-Follow the instructions for [training GANSynth](../03_nsynth_and_gansynth/gansynth/training/README.md).
-
-When you have a trained GANSynth model, you'll need to compute the PCA for GANSpaceSynth. To do this, use the `gansynth_ganspace` script: (replace `mymodel` with your trained checkpoint folder)
-
-```
-conda activate dlwa-gansynth
-
-gansynth_ganspace \
-    --ckpt_dir mymodel \
-    --seed 0 \
-    --layer conv0 \
-    --random_z_count 8192 \
-    --estimator ipca \
-    --pca_out_file mymodel/mymodel_conv0_ipca_8192.pickle
-```
-
-You can also experiment with `--layer conv1` and larger values of `--random_z_count` (though the latter will increase the computation time).
-
 
 ## Exercises
 
 1. Try loading some models & components into `ganspacessynth_noz.pd` and generate sounds by varying one direction at a time. What effects do the directions have?
 2. Use HALLU (`ganspacesynth_halluseq.pd`) to create a hallucination composition moving through some parts of the latent space that you find interesting.
+
+
+## !!! NOT FOR THE COURSE !!! -- Computing GANSpaceSynth on AzureVM for the AI-terity setup --
+
+Follow the instructions for [training GANSynth](../03_nsynth_and_gansynth/gansynth/training/azure_training.md).
+
+When you have a trained GANSynth model, you'll need to compute the PCA for GANSpaceSynth. To do this, use the below script: (replace `your_name/model` with your trained checkpoint folder)
+
+```
+cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+./dlwa.py gansynth ganspace --model_name your_name/model
+```
+
+
