@@ -25,7 +25,7 @@ Open a new terminal window and make sure you are in your own computer/laptop dir
 Let's assume that the folder you want to transfer is called: `mytunes`. The command line will be:
 
 ```
-scp -P 63635 -r mytunes e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
+scp -P 63635 -r mytunes lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
 ```
 
 * Transfer a file
@@ -33,7 +33,7 @@ scp -P 63635 -r mytunes e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.
 To transfert just a file, it is the same command line without the ```-r``` (-r = recursive).  
 For example, if you want to transfer a file called: `myfile.wav`, the command will be:
 ```
-scp -P 63635 input_name.wav e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
+scp -P 63635 input_name.wav lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
 ```
 
 __Note__:
@@ -126,7 +126,7 @@ Open a new terminal window and make sure you are in your own laptop directory.
 
 * Transfer the folder of the trained model
 ```
-scp -P 63635 -r e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mymodel ~/Downloads
+scp -P 63635 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mymodel ~/Downloads
 ```
 
 __Note__:  
