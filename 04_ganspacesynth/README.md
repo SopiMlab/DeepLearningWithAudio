@@ -109,7 +109,7 @@ Open a new terminal window and make sure you are in your own computer/laptop dir
 - Transfer the ganspace.pickle file
 
 ```
-scp -P 63635 e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mymodel/ganspace.pickle ~/Downloads
+scp -P 63635 lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mymodel/ganspace.pickle ~/Downloads
 ```
 
 __Note__:  
