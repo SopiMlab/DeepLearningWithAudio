@@ -38,10 +38,10 @@ After that, the ‘__DeepLearning With Audio Lab__’ course environment will ap
 - Click on the __Start__ button (if the machine is already running you do not need to).
 - Click on the __Connect__ button (small computer icon), you will see a pop up with the ssh command line that you need to copy and paste into your terminal to connect to the VM, it looks like: 
 ```
-ssh -p 63635 e5132-admin@ml-lab-00cec95c-0f8d-40ef-96bb-8837822e93b6.westeurope.cloudapp.azure.com
+ssh -p 4981 lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com
 ```
 
-Open a __Terminal window__, paste the command line that you copied and click on enter.
+Open a __Terminal window__, paste the command line that you copied, click on enter and your password.
 
 You are now in the __Deep Learning with Audio VM__.  
 
