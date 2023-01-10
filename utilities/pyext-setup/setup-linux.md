@@ -68,7 +68,7 @@ Now clone our Magenta repository for the course only:
 git clone --branch v2 https://github.com/SopiMlab/magenta.git
 ```
 
--- NOT FOR THE COURSE ---- for AI-terity clone the master branch
+--- NOT FOR THE COURSE ---- for AI-terity clone the master branch
 ```
 git clone https://github.com/SopiMlab/magenta.git
 ```
@@ -82,7 +82,7 @@ Create a Conda environment. The `-n` argument specifies the name of the environm
 For CPU:
 
 ```
-conda create -n magenta python=3.7 tensorflow=2.2
+conda create -n magenta python=3.7
 ```
 
 For GPU:
