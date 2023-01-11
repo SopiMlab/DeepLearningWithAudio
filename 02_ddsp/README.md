@@ -24,55 +24,38 @@ Create the environment:
 
 ----
 
-### on macOS
+### on (Linux/macOS)
 
 ```
-conda create -n ddsp python=3.7 pandas=0.24
+cd ~/DeepLearningWithAudio/utilities/dlwa
 ```
 
-### on Linux
+### conda dlwa-ddsp setup
 
 ```
-conda create -n ddsp python=3.7 tensorflow=2.4.1 tensorflow-probability pandas=0.24
+./dlwa.py ddsp setup
+```
+
+Activate it:
+
+```
+conda activate dlwa-ddsp
+```
+
+pip install tensorflow:
+
+```
+pip install tensorflow==2.11.0
 ```
 
 If you have an NVIDIA GPU with CUDA support, you can use `tensorflow-gpu` instead for much better performance:
 
 ```
-conda create -n ddsp python=3.7 tensorflow-gpu=2.4.1 tensorflow-probability pandas=0.24
+pip install tensorflow-gpu==2.11.0
 ```
+(Do not worry about the ERRORs on the terminal window)
 
-----
 
-Activate it:
-
-```
-conda activate ddsp
-```
-
-Enter the ddsp directory in the course repository (in this example, located in the home directory):
-
-```
-cd ~/DeepLearningWithAudio/02_ddsp
-```
-
-Clone the DDSP repository:
-
-```
-git clone https://github.com/SopiMlab/ddsp.git
-```
-
-Enter the resulting directory:
-
-```
-cd ddsp
-```
-
-Install DDSP:
-
-```
-pip install -e .
-```
 
 Install Google Colab libraries:
 
@@ -80,7 +63,7 @@ Install Google Colab libraries:
 pip install google-colab
 ```
 
-(TODO: can we do without `google-colab`? It's unfortunate that we need to pull in such a big library for a few helper functions)
+(Do not worry about the ERRORs on the terminal window - TODO: can we do without `google-colab`? It's unfortunate that we need to pull in such a big library for a few helper functions)
 
 Install the sopilib support library:
 
