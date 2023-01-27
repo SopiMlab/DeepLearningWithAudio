@@ -64,7 +64,72 @@ __Note__:
 
 
 
-## Starting the training
+## Starting the training  --- DLWA course ONLY --- 
+
+Activate the dlwa-ddsp conda environemnt
+
+```
+conda activate dlwa-ddsp
+```
+Run the training with the `nohub` screening command:
+
+```
+nohup ddsp_run \
+    --alsologtostderr \
+    --mode=train \
+    --save_dir=models/ddsp/your_name/myviolin_model \
+    --gin_file=models/solo_instrument.gin \
+    --gin_file=datasets/tfrecord.gin \
+    --gin_param="TFRecordProvider.file_pattern='datasets/ddsp/your_name/myviolindataset/data.tfrecord*'" \
+    --gin_param="batch_size=16" \
+    --gin_param="train_util.train.num_steps=30000" \
+    --gin_param="train_util.train.steps_per_save=300" \
+    --gin_param="trainers.Trainer.checkpoints_to_keep=10" &
+```
+__Note__:
+- *your_name/myviolin* and  *your_name/myviolindataset* should be replaced with your own folder names.
+
+### Monitor the training --- DLWA course ONLY --- 
+
+It is most likely that DDSP training will take approximatley 7 hours, during which you can log in and monitor the status of your training. To do that:
+
+Log in to https://labs.azure.com
+(see the [login instructions](../../00_introduction/))
+
+Enter the DLWA directory:
+```
+cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+```
+
+run the command:
+```
+tail -f nohup.out
+```
+- If your **training still continues**, you will see similar output on your terminnal window:
+```
+I0413 06:28:29.788176 140451635803968 train_util.py:306] step: 25825    spectral_loss: 5.92     total_loss: 5.92  
+I0413 06:28:31.960153 140451635803968 train_util.py:306] step: 25826    spectral_loss: 5.85     total_loss: 5.85  
+I0413 06:28:34.149478 140451635803968 train_util.py:306] step: 25827    spectral_loss: 5.64     total_loss: 5.64  
+I0413 06:28:36.336162 140451635803968 train_util.py:306] step: 25828    spectral_loss: 4.78     total_loss: 4.78 
+```
+
+You can detach the scree with pressing
+**CTRL + C**
+
+
+- If your **training is completed or ended with an error**, you will see the below text:
+```
+script failed: attach dlwa screen
+aborting
+```
+
+and kill the process if necessary
+```
+kill & 1
+```
+
+
+## Starting the training  --- for other AZURE VW ONLY --- 
 
 Run the training with the `train` command:
 ```
@@ -79,7 +144,7 @@ __Note__:
 
 
 
-### Monitor the training
+### Monitor the training --- for other AZURE VM ONLY ---
 
 It is most likely that DDSP training will take approximatley 17 hours, during which you can log in and monitor the status of your training. To do that:
 
