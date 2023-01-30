@@ -118,7 +118,7 @@ You can detach the screen with pressing
 
 - If your **training is completed or ended with an error**, you will see the below text:
 ```
-script failed: attach dlwa screen
+script failed: 
 aborting
 ```
 
