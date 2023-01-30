@@ -62,7 +62,7 @@ Enter the root directory of the course repository. For example, if you cloned it
 cd ~/DeepLearningWithAudio
 ```
 
-Now clone our Magenta repository for the course only:
+Now clone our Magenta repository **for the DLWA course only**:
 
 ```
 git clone --branch v2 https://github.com/SopiMlab/magenta.git
