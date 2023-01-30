@@ -93,7 +93,7 @@ __Note__:
 - *mydataset* and  *mymodel* should be replaced with your own folder names.
 
 
-### Monitor the training --- DLWA course ONLY --- 
+## Monitor the training --- DLWA course ONLY --- 
 
 It is most likely that DDSP training will take approximatley 22 hours, during which you can log in and monitor the status of your training. To do that:
 
@@ -142,7 +142,7 @@ kill & 1
 ```
 
 
-## Starting the training  --- Azure VM ONLY ---
+### Starting the training  --- Azure VM ONLY ---
 
 Run the training with the `train` command:
 ```
