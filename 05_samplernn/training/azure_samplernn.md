@@ -125,7 +125,7 @@ kill & 1
 ```
 
 
-### **Starting the training  --- for other AZURE VM ONLY --- **
+### Starting the training  --- for other AZURE VM ONLY --- 
 
 ```
 ./dlwa.py samplernn train --input_name your_name/samplernn-inputs_chunks --model_name  your_name/mysamplernnmodel  --preset lstm-linear-skip
