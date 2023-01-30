@@ -10,7 +10,7 @@ Log in to https://labs.azure.com
 
 Enter the DLWA directory:
 ```
-cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+cd ~/DeepLearningWithAudio/utilities/dlwa
 ```
 
 ## Create a dataset
@@ -25,7 +25,7 @@ Open a new terminal window and make sure you are in your own computer/laptop dir
 Let's assume that the folder you want to transfer is called: `mytunes`. The command line will be:
 
 ```
-scp -P 63635 -r mytunes lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
+scp -P 4981 -r mytunes lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/inputs
 ```
 
 * Transfer a file
@@ -33,11 +33,11 @@ scp -P 63635 -r mytunes lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeu
 To transfert just a file, it is the same command line without the ```-r``` (-r = recursive).  
 For example, if you want to transfer a file called: `myfile.wav`, the command will be:
 ```
-scp -P 63635 input_name.wav lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
+scp -P 4981 input_name.wav lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/inputs
 ```
 
 __Note__:
-- The number (*63635*) and *your_name* in the command line above should be changed with your personal info.  
+- The number (*4981*) in the command line above should be changed with your personal info.  
 You can find your own number in the ssh command line that you use to connect to the VM. (see the [login instructions](../../../00_introduction/))
 
 
@@ -47,13 +47,13 @@ To chop up long files to the desired length and sampling rate (4s and 16000Hz fo
 
 Run it as follows:
 ```
-./dlwa.py gansynth chop-audio --input_name your_name/mytunes --output_name your_name/mysounds_chopped
+./dlwa.py gansynth chop-audio --input_name mytunes --output_name mysounds_chopped
 ```
 
-This will create suitable 4s chopped files in the `input/your_name/mysounds_chopped` directory (It will automaticaly create the folder `mysounds_chopped`, no need to create it before).
+This will create suitable 4s chopped files in the `input/mysounds_chopped` directory (It will automaticaly create the folder `mysounds_chopped`, no need to create it before).
 
 __Note__:
-- *your_name/mytunes* and *your_name/mysounds_chopped* should be replaced with your own folder names.
+- *mytunes* and *mysounds_chopped* should be replaced with your own folder names.
 - By default, this command line uses specific parameters. You can change them by adding extra arguments, see the documentation [here](../../../utilities/dlwa/README.md#custom-argument-extra-argument).
 
 
@@ -65,17 +65,84 @@ GANSynth expects input in the TFRecord format (a generic file format for TensorF
 Run it as follows:
 
 ```
-./dlwa.py gansynth make-dataset --input_name your_name/mysounds_chopped --dataset_name your_name/mydataset 
+./dlwa.py gansynth make-dataset --input_name mysounds_chopped --dataset_name mydataset 
 ```
 
-This command line will look into the directory `inputs/your_name/mysounds_chopped` and generate 2 files (`data.tfrecord` and `meta.json`) in the output directory `datasets/gansynth/your_name/mydataset`
+This command line will look into the directory `inputs/mysounds_chopped` and generate 2 files (`data.tfrecord` and `meta.json`) in the output directory `datasets/gansynth/mydataset`
 
 __Note__:
-- *your_name/mysounds_chopped* and  *your_name/mydataset* should be replaced with your own folder names. 
+- *mysounds_chopped* and  *mydataset* should be replaced with your own folder names. 
 - By default, this command line uses specific parameters. You can modify them by adding extra arguments, see the documentation [here](../../../utilities/dlwa/README.md#custom-argument-extra-argument)
 
 
-## Starting the training
+## Starting the training  --- DLWA course ONLY --- 
+
+Activate the dlwa-gansynth conda environemnt
+
+```
+conda activate dlwa-gansynth
+```
+Run the training with the `nohub` screening command:
+
+```
+nohup gansynth_train \
+    --config=mel_prog_hires \
+    --hparams='{"train_data_path":"datasets/gansynth/mydataset/data.tfrecord", "train_meta_path":"datasets/gansynth/mydataset/meta.json", "train_root_dir":"models/gansynth/mymodel", "dataset_name":"nsynth_tfrecord"}' &
+```
+__Note__:
+- *mydataset* and  *mymodel* should be replaced with your own folder names.
+
+
+### Monitor the training --- DLWA course ONLY --- 
+
+It is most likely that DDSP training will take approximatley 22 hours, during which you can log in and monitor the status of your training. To do that:
+
+Log in to https://labs.azure.com
+(see the [login instructions](../../00_introduction/))
+
+Enter the DLWA directory:
+```
+cd ~/DeepLearningWithAudio/utilities/dlwa
+```
+
+run the command:
+```
+tail -f nohup.out
+```
+- If your **training still continues**, you will see similar output on your terminal window:
+```
+I0409 16:32:56.410543 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 184, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.123 sec)
+INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 192, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.105 sec)
+I0409 16:32:56.515631 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 192, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.105 sec)
+INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 200, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec)
+I0409 16:32:56.627448 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 200, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec)
+INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 208, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec)
+I0409 16:32:56.739801 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 208, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec) 
+```
+
+- If your **traning is completed or ended with an error**, you will see the below text:
+```
+script failed: attach dlwa screen
+aborting
+```
+
+You can detach the screen with pressing
+**CTRL + C**
+
+
+- If your **training is completed or ended with an error**, you will see the below text:
+```
+script failed: attach dlwa screen
+aborting
+```
+
+and kill the process if necessary
+```
+kill & 1
+```
+
+
+## Starting the training  --- Azure VM ONLY ---
 
 Run the training with the `train` command:
 ```
@@ -88,7 +155,7 @@ __Note__:
 - *your_name/mydataset* and  *your_name/mymodel* should be replaced with your own folder names.
 
 
-### Monitor the training
+### Monitor the training  --- Azure VM ONLY ---
 
 It is most likely that GANSynth training will take approximatley 48 hours, during which you can log in and monitor the status of your training. To do that:
 
@@ -126,10 +193,10 @@ Open a new terminal window and make sure you are in your own laptop directory.
 
 * Transfer the folder of the trained model
 ```
-scp -P 63635 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mymodel ~/Downloads
+scp -P 4981 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/models/gansynth/mymodel ~/Downloads
 ```
 
 __Note__:  
-- The number (*63635*) in the command line above should be changed with your personal number.  
+- The number (*4981*) in the command line above should be changed with your personal number.  
 You can find your own number in the ssh command line that you use to connect to the VM. (see the  [login instructions](../../../00_introduction/))
-- *your_name/mymodel* and *~/Downloads* should be replaced with your directory path in your own machine. 
+- *mymodel* and *~/Downloads* should be replaced with your directory path in your own machine. 
