@@ -179,10 +179,10 @@ Open a new terminal window and make sure you are in your own laptop directory.
 * Transfer a folder
 
 ```
-scp -P 63635 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/samplernn/your_name/model_name ~/Downloads
+scp -P 4981 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/models/samplernn/mymodel_samplernn ~/Downloads
 ```
 
 __Note__:
-- The number (*63635*) in the command line above should be changed with your personal info.  
+- The number (*4981*) in the command line above should be changed with your personal info.  
 You can find your own number in the ssh command line that you use to connect to the VM. (see the [login instructions](../../00_introduction/))
-- *your_name/mysamplernnmodel* and *~/Downloads* should be replaced with your directory path in your own machine. 
+- *mymodel_samplernn* and *~/Downloads* should be replaced with your directory path in your own machine. 
