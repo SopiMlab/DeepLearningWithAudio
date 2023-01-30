@@ -129,7 +129,7 @@ kill & 1
 ```
 
 
-## Starting the training  --- for other AZURE VW ONLY --- 
+## Starting the training  --- for other AZURE VM ONLY --- 
 
 Run the training with the `train` command:
 ```
