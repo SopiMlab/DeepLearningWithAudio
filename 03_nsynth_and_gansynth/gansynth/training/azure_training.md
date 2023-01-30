@@ -122,7 +122,7 @@ I0409 16:32:56.739801 140269805838720 basic_session_run_hooks.py:260] Tensor("st
 
 - If your **traning is completed or ended with an error**, you will see the below text:
 ```
-script failed: attach dlwa screen
+script failed:
 aborting
 ```
 
