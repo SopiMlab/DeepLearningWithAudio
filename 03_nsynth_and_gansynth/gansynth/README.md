@@ -79,13 +79,6 @@ unzip all_instruments.zip
 
 Feel free to remove the zip file at this point.
 
-Verify that GANSynth is working by generating some random notes:
-
-```
-gansynth_generate --ckpt_dir=all_instruments --output_dir=output
-```
-
-This will print a bunch of warnings, but should eventually produce a few wav files in the `output` subdirectory.
 
 You can now run the patches:
 
