@@ -120,11 +120,6 @@ INFO:tensorflow:Tensor("status_message:0", shape=(), dtype=string) = b'Starting 
 I0409 16:32:56.739801 140269805838720 basic_session_run_hooks.py:260] Tensor("status_message:0", shape=(), dtype=string) = b'Starting train step: current_image_id: 208, progress: 0.000000, num_blocks: 1, batch_size: 8' (0.112 sec) 
 ```
 
-- If your **traning is completed or ended with an error**, you will see the below text:
-```
-script failed:
-aborting
-```
 
 You can detach the screen with pressing
 **CTRL + C**
@@ -132,7 +127,7 @@ You can detach the screen with pressing
 
 - If your **training is completed or ended with an error**, you will see the below text:
 ```
-script failed: attach dlwa screen
+script failed:
 aborting
 ```
 
