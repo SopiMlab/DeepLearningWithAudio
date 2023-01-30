@@ -86,10 +86,9 @@ nohup ddsp_run \
     --gin_param="train_util.train.steps_per_save=300" \
     --gin_param="trainers.Trainer.checkpoints_to_keep=10" &
 ```
-__Note__:
-- *myviolin* and  *myviolindataset* should be replaced with your own folder names.
+ 
 
-### Monitor the training --- DLWA course ONLY --- 
+## Monitor the training --- DLWA course ONLY --- 
 
 It is most likely that DDSP training will take approximatley 7 hours, during which you can log in and monitor the status of your training. To do that:
 
@@ -113,7 +112,7 @@ I0413 06:28:34.149478 140451635803968 train_util.py:306] step: 25827    spectral
 I0413 06:28:36.336162 140451635803968 train_util.py:306] step: 25828    spectral_loss: 4.78     total_loss: 4.78 
 ```
 
-You can detach the scree with pressing
+You can detach the screen with pressing
 **CTRL + C**
 
 
@@ -129,7 +128,7 @@ kill & 1
 ```
 
 
-## Starting the training  --- for other AZURE VM ONLY --- 
+### Starting the training  --- for other AZURE VM ONLY --- 
 
 Run the training with the `train` command:
 ```
