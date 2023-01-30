@@ -79,7 +79,7 @@ nohup python -m samplernn_scripts.train \
   --checkpoint_every 5 \
   --sample_rate 16000 \
   --config_file ./misc/samplernn/lstm-linear-skip.config.json &
-
+```
  __Note__:
 - *mymodel_samplernn* and *samplernn-inputs_chunks* should be replaced with your own folder names.
 
