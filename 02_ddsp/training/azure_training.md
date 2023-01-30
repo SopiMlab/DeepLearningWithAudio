@@ -10,11 +10,11 @@ Log in to https://labs.azure.com
 
 Enter the DLWA directory:
 ```
-cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+cd ~/DeepLearningWithAudio/utilities/dlwa
 ```
 
 ## Create a dataset
-
+   
 Your training dataset should have about 10-20 minutes of audio from your chosen instrument (violin, guitar...). The timbre transfer technique is designed for monophonic audio, but polyphonic recordings can also produce interesting results. Experiment!
 
 
@@ -28,7 +28,7 @@ Open a new terminal window and make sure you are **in your own computer/laptop d
 Let's assume that the folder you want to transfer is called: `violin`. The command line will be:
 
 ```
-scp -P 63635 -r violin lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name 
+scp -P 4981 -r violin lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/inputs 
 ```
 
 * Transfer a file
@@ -36,12 +36,12 @@ scp -P 63635 -r violin lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeur
 To transfert just a file, it is the same command line without the ```-r``` (-r = recursive).  
 For example, if you want to transfer a file called: `violin.wav`, the command will be:
 ```
-scp -P 63635 violin.wav lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/inputs/your_name
+scp -P 4981 violin.wav lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/inputs
 ```
 
 __Note__:
 
-The number (**63635**) and **your_name** in the command line above should be changed with your personal info.
+The number (**4981**) in the command line above should be changed with your personal info.
 You can find your own number in the ssh command line that you use to connect to the VM. (see the [login instructions](../../00_introduction/))
 
 
@@ -53,13 +53,13 @@ To make the conversion, you can use the `make-dataset` command.
 
 Run it as follows:
 ```
-./dlwa.py ddsp make-dataset --input_name your_name/violin --dataset_name your_name/myviolindataset 
+./dlwa.py ddsp make-dataset --input_name violin --dataset_name myviolindataset 
 ```
 
-It will look into the input directory `input/your_name/violin` and save the corresponding data.tfrecord files in the output directory `dataset/ddsp/your_name/myviolindataset`.
+It will look into the input directory `input/violin` and save the corresponding data.tfrecord files in the output directory `dataset/ddsp/myviolindataset`.
 
 __Note__:
-- *your_name/violin* and  *your_name/myviolindataset* should be replaced with your own folder names.
+- *violin* and  *myviolindataset* should be replaced with your own folder names.
 - By default, this command uses specific parameters. To modify these parameters, you can use the [custom and extra arguments](../../utilities/dlwa/README.md#custom-argument-extra-argument).  
 
 
@@ -77,17 +77,17 @@ Run the training with the `nohub` screening command:
 nohup ddsp_run \
     --alsologtostderr \
     --mode=train \
-    --save_dir=models/ddsp/your_name/myviolin_model \
+    --save_dir=models/ddsp/myviolin_model \
     --gin_file=models/solo_instrument.gin \
     --gin_file=datasets/tfrecord.gin \
-    --gin_param="TFRecordProvider.file_pattern='datasets/ddsp/your_name/myviolindataset/data.tfrecord*'" \
+    --gin_param="TFRecordProvider.file_pattern='datasets/ddsp/myviolindataset/data.tfrecord*'" \
     --gin_param="batch_size=16" \
     --gin_param="train_util.train.num_steps=30000" \
     --gin_param="train_util.train.steps_per_save=300" \
     --gin_param="trainers.Trainer.checkpoints_to_keep=10" &
 ```
 __Note__:
-- *your_name/myviolin* and  *your_name/myviolindataset* should be replaced with your own folder names.
+- *myviolin* and  *myviolindataset* should be replaced with your own folder names.
 
 ### Monitor the training --- DLWA course ONLY --- 
 
@@ -98,7 +98,7 @@ Log in to https://labs.azure.com
 
 Enter the DLWA directory:
 ```
-cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
+cd ~/DeepLearningWithAudio/utilities/dlwa
 ```
 
 run the command:
@@ -175,15 +175,15 @@ aborting
 ## Transfer your trained model to your own laptop
 
 You can transfer your files, such as trained models from the VM to your own laptop following the below command line structure.  
-Open a new terminal window and make sure you are in your own laptop directory.  
+Open a new terminal window and **make sure you are in your own laptop directory**.  
 
 * Transfer the folder of the trained model
 
 ```
-scp -P 63635 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa/models/ddsp/your_name/myviolinmodel ~/Downloads
+scp -P 4981 -r lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/models/ddsp/myviolinmodel ~/Downloads
 ```
 
 __Note__:  
-- The number (*63635*) in the command line above should be replaced with your personal number.  
+- The number (*4981*) in the command line above should be replaced with your personal number.  
 You can find your own number in the ssh command line that you use to connect to the VM. (see the [login instructions](../../00_introduction/))
-- *your_name/myviolinmodel* and *~/Downloads* should be replaced with your directory path in your own machine. 
+- *myviolinmodel* and *~/Downloads* should be replaced with your directory path in your own machine. 
