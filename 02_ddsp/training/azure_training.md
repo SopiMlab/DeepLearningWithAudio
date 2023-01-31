@@ -60,6 +60,7 @@ It will look into the input directory `input/violin` and save the corresponding 
 
 __Note__:
 - *violin* and  *myviolindataset* should be replaced with your own folder names.
+
 - By default, this command uses specific parameters. To modify these parameters, you can use the [custom and extra arguments](../../utilities/dlwa/README.md#custom-argument-extra-argument).  
 
 
@@ -87,6 +88,9 @@ nohup ddsp_run \
     --gin_param="trainers.Trainer.checkpoints_to_keep=10" &
 ```
  
+__Note__:
+- *myviolin_model* and  *myviolindataset* should be replaced with your own folder names.
+
 
 ## Monitor the training --- DLWA course ONLY --- 
 
