@@ -68,7 +68,7 @@ Now clone our Magenta repository
 git clone https://github.com/SopiMlab/magenta.git
 ```
 
---- NOT FOR THE COURSE ---- for AI-terity clone the master branch
+--- NOT FOR THE COURSE ---- only for the traning setup dimensionality reduction
 ```
 git clone --branch v2 https://github.com/SopiMlab/magenta.git
 ```
