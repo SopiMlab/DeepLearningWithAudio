@@ -109,6 +109,13 @@ Enter the previously created Magenta directory:
 cd magenta
 ```
 
+```
+,
+'rtmidi': [
+       'python-rtmidi >= 1.1, < 1.2',
+      ]
+```
+
 Install Magenta into the Conda environment from the current directory using pip, Python's package manager:
 
 ```
