@@ -133,7 +133,7 @@ aborting
 
 and kill the process if necessary
 ```
-kill & 1
+sudo pkill -9 gansynth
 ```
 
 
