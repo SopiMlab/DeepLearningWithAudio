@@ -58,7 +58,8 @@ When you have a trained GANSynth model, you'll need to compute the PCA for GANSp
 
 ```
 conda activate dlwa-gansynth
-
+```
+```
 gansynth_ganspace \
     --ckpt_dir mymodel \
     --seed 0 \
