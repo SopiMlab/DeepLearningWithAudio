@@ -60,13 +60,13 @@ When you have a trained GANSynth model, you'll need to compute the PCA for GANSp
 conda activate dlwa-gansynth
 ```
 ```
-gansynth_ganspace \
-    --ckpt_dir mymodel \
+nohup gansynth_ganspace \
+    --ckpt_dir models/gansynth/mymodel \
     --seed 0 \
     --layer conv0 \
     --random_z_count 8192 \
     --estimator ipca \
-    --pca_out_file mymodel/mymodel_conv0_ipca_8192.pickle
+    --pca_out_file models/gansynth/mymodel/mymodel_conv0_ipca_8192.pickle &
 ```
 
 You can also experiment with `--layer conv1` and larger values of `--random_z_count` (though the latter will increase the computation time).
