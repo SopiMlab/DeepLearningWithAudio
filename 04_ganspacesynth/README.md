@@ -81,8 +81,12 @@ Log in to https://labs.azure.com
 
 Enter the DLWA directory:
 ```
-cd /data/dome5132fileshare/DeepLearningWithAudio/utilities/dlwa
-./dlwa.py util screen-attach
+cd ~/DeepLearningWithAudio/utilities/dlwa
+```
+
+run the command:
+```
+tail -f nohup.out
 ```
 
 - If your **training still continues**, you will see similar output on your termninal window :
@@ -94,11 +98,67 @@ I0412 14:38:32.043463 140283497939328 regression.py:49] regression batch 11/156
 I0412 14:39:07.392691 140283497939328 regression.py:49] regression batch 12/156
 ```
 
-- If your **training is completed or ended with an error**, you will see the below text on your terminal window :
+- If your **training is completed, you will see the below text on your terminal window :
 
 ```
-script failed: attach dlwa screen
-aborting
+I0208 16:01:34.505822 139682987573632 gansynth_ganspace.py:244] saving PCA result to models/gansynth/Core23_model/Core23_model_conv0_ipca_8192.pickle
+	adam_beta1: 0.0
+	adam_beta2: 0.99
+	audio_length: 64000
+	batch_size_schedule: [8]
+	d_fn: specgram
+	data_normalizer: specgrams_prespecified_normalizer
+	data_type: mel
+	dataset_name: nsynth_tfrecord
+	debug_hook: False
+	discriminator_ac_loss_weight: 10.0
+	discriminator_learning_rate: 0.0008
+	fake_batch_size: 61
+	fmap_base: 4096
+	fmap_decay: 1.0
+	fmap_max: 256
+	g_fn: specgram
+	gen_gl_consistency_loss_weight: 0.0
+	generator_ac_loss_weight: 10.0
+	generator_learning_rate: 0.0008
+	gradient_penalty_target: 1.0
+	gradient_penalty_weight: 10.0
+	kernel_size: 3
+	latent_vector_size: 256
+	mag_normalizer_a: 0.0661371661726
+	mag_normalizer_b: 0.113718730221
+	master: 
+	normalizer_margin: 0.8
+	normalizer_num_examples: 1000
+	num_resolutions: 7
+	p_normalizer_a: 0.8
+	p_normalizer_b: 0.0
+	ps_tasks: 0
+	real_score_penalty_weight: 0.001
+	sample_rate: 16000
+	save_graph_def: True
+	save_summaries_num_images: 10000
+	scale_base: 2
+	scale_mode: ALL
+	simple_arch: False
+	stable_stage_num_images: 800000
+	start_height: 2
+	start_width: 16
+	task: 0
+	to_rgb_activation: tanh
+	total_num_images: 11000000
+	train_data_path: datasets/gansynth/Core23_dataset/data.tfrecord
+	train_instrument_sources: [0]
+	train_max_pitch: 84
+	train_meta_path: datasets/gansynth/Core23_dataset/meta.json
+	train_min_pitch: 24
+	train_progressive: True
+	train_root_dir: /home/lab-user/DeepLearningWithAudio/utilities/dlwa/models/gansynth/Core23_model
+	train_time_limit: None
+	train_time_stage_multiplier: 1.0
+	transition_stage_num_images: 800000
+Load model from /home/lab-user/DeepLearningWithAudio/utilities/dlwa/models/gansynth/Core23_model/stage_00012/model.ckpt-10346312
+WARNING: Computed basis is not orthonormal (determinant=1.0031795825411387)
 ```
 
 
@@ -110,13 +170,13 @@ Open a new terminal window and make sure you are in your own computer/laptop dir
 - Transfer the ganspace.pickle file
 
 ```
-scp -P 63635 lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:/data/dome5132fileshareDeepLearningWithAudio/utilities/dlwa/models/gansynth/your_name/mymodel/ganspace.pickle ~/Downloads
+scp -P 4981 lab-user@lab-6e62099c-33a4-4d6c-951e-12c66dba5f9e.westeurope.cloudapp.azure.com:~/DeepLearningWithAudio/utilities/dlwa/models/gansynth/mymodel/mymodel_conv0_ipca_8192.pickle ~/Downloads
 ```
 
 __Note__:  
-- The number (*63635*) in the command line above should be replaced with your personal number.  
+- The number (*4981*) in the command line above should be replaced with your personal number.  
 You can find your own number in the ssh command line that you use to connect to the VM. (see the [login instructions](../00_introduction/))
-- *your_name/mymodel* and *~/Downloads* should be replaced with your directory path in your own machine. 
+- *mymodel* and *~/Downloads* should be replaced with your directory path in your own machine. 
 
 
 
