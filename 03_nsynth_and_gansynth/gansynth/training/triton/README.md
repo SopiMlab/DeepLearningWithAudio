@@ -23,7 +23,7 @@ pip install -e .
 cd $WRKDIR/DeepLearningWithAudio/03_nsynth_and_gansynth/gansynth/training
 mkdir repos 
 cd repos
-git clone --branch v3.13.0 https://github.com/protocolbuffers/protobuf.git
+git clone --branch v3.19.0 https://github.com/protocolbuffers/protobuf.git
 cd protobuf
 git submodule update --init --recursive
 ./autogen.sh
